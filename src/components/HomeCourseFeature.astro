@@ -16,6 +16,7 @@ import { AREA_SIGNS, AREA_TONE } from '../lib/area-signs';
 import { resourceImages } from '../lib/resource-images';
 import { OBJECTIVES, SUBJECTS } from '../lib/taxonomy';
 import { pt as t } from '../i18n/pt';
+import { priceDisplay } from '../lib/resource-display';
 
 interface Props { card: CourseCardData }
 const { card } = Astro.props;
@@ -30,7 +31,7 @@ const chip = r.duration ? `${r.duration.value} ${l.units[r.duration.unit]}` : nu
 const facts = [
   card.paths.map((path) => OBJECTIVES[path].label).join(', '),
   l.formats[r.format],
-  l.accessModes[r.accessMode ?? 'free'],
+  priceDisplay(r, l),
   r.language === 'pt' ? null : l.languages[r.language],
 ].filter((fact): fact is string => Boolean(fact));
 ---
