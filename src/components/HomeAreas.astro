@@ -1,12 +1,15 @@
 ---
-// "O que você quer estudar?" on the Home (V2), after the Prolingo reference: the six areas of the taxonomy as
-// tall cards, slightly turned in turn, each over a field of the area's own signs (an original typographic
-// drawing: no photograph, no person), with a frosted panel at its foot holding the area's name and its
-// subjects as links to their real pages, in order. The paths above are wide cards that are links; these are
+// "O que você quer estudar?" on the Home (V2.3), after the Prolingo reference: the six areas of the taxonomy as
+// tall cards, slightly turned in turn, each over the picture the owner chose for its area (src/lib/area-images.ts),
+// with a frosted panel at its foot holding the area's name and its subjects as links to their real pages, in
+// order. The pictures are prepared tone on tone with their card (src/assets/areas/manifest.json), so six styles
+// read as one system and the picture never competes with the panel: decorative, hidden from assistive tech. The paths above are wide cards that are links; these are
 // tall cards that hold links, so the two never read alike. /materias/ keeps its full list (AreaList.astro).
 // verify-dist reads each [data-area] element (an article): nothing inside it may be an article.
 import { routes } from '../lib/routes';
-import { AREA_SIGNS as SIGNS, AREA_TONE as TONE } from '../lib/area-signs';
+import { Image } from 'astro:assets';
+import { AREA_TONE as TONE } from '../lib/area-signs';
+import { areaImages } from '../lib/area-images';
 import { AREA_ORDER, AREAS, SUBJECTS, subjectsOf } from '../lib/taxonomy';
 import { pt as t } from '../i18n/pt';
 const areas = AREA_ORDER.map((id) => ({ id, label: AREAS[id].label, subjects: subjectsOf(id) }));
@@ -15,8 +18,8 @@ const areas = AREA_ORDER.map((id) => ({ id, label: AREAS[id].label, subjects: su
   {areas.map((area, i) => (
     <li class:list={[`turn-${i % 3}`]}>
       <article class:list={['area', `tone-${TONE[area.id]}`]} data-area={area.id}>
-        <div class="signs" aria-hidden="true">
-          {SIGNS[area.id].map((sign) => <span data-sign={sign}></span>)}
+        <div class="art" aria-hidden="true">
+          <Image src={areaImages[area.id]} alt="" widths={[420, 640, 860]} sizes="(min-width: 1152px) 372px, (min-width: 640px) 33vw, 70vw" loading="lazy" decoding="async" data-area-image />
         </div>
         <div class="panel">
           <h3 class="name">{area.label}</h3>
@@ -68,22 +71,20 @@ const areas = AREA_ORDER.map((id) => ({ id, label: AREAS[id].label, subjects: su
     .turn-2 .area { rotate: 0.6deg; }
     .area:hover, .area:focus-within { rotate: 0deg; translate: 0 -3px; }
   }
-  /* The field of signs: large serif glyphs in the paper colour, loosely scattered. */
-  /* The signs fill what the panel leaves above it, so a taller panel never covers them. */
-  .signs { flex: 1; min-height: 8rem; display: grid; grid-template-columns: repeat(3, 1fr); place-items: center; padding: var(--space-4) var(--space-5); font-family: var(--serif); font-size: clamp(1.625rem, 1.3rem + 1vw, 2.25rem); line-height: 1; color: var(--raised); opacity: 0.72; }
-  /* Drawn as generated content: pure decoration, never text of the page. */
-  .signs span::before { content: attr(data-sign); }
-  .signs span:nth-child(3n + 2) { translate: 0 0.5em; }
-  .signs span:nth-child(even) { font-style: italic; opacity: 0.8; }
+  /* The picture fills the card behind the panel (it paints first, the panel is positioned after it); the card's own
+     ground shows while it loads, since the picture is tone on tone with it. The subject sits in the upper part,
+     which the panel leaves free, so the focus of the crop is high. */
+  .art { position: absolute; inset: 0; }
+  .art :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 10%; }
   /* The frosted panel at the foot: the name, then the subjects. */
   .panel {
     position: relative;
     display: grid;
     gap: var(--space-2);
-    margin: var(--space-3);
+    margin: auto var(--space-3) var(--space-3);
     padding: var(--space-4) var(--space-4) var(--space-3) var(--space-5);
     border-radius: 18px;
-    background: rgb(255 253 249 / 0.9);
+    background: rgb(255 253 249 / 0.94);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
   }

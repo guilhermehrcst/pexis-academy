@@ -1,0 +1,80 @@
+{
+  "about": "The six pictures of the Home's area cards (src/components/HomeAreas.astro), chosen by the owner and prepared once, here, so that six different styles read as one system.",
+  "recipe": "Per picture: square crop (crop = [left, top, side] in the original's pixels, the subject placed in the part of the card the panel leaves free), scaled to 1000x1000 (Lanczos), a light blur (0.8px; 1.5px for the atom) to take the grain out; luminance (Rec. 709) stretched between its 2nd and 98th percentile, lifted by a gamma so that its mean is 0.5, compressed to 0.18-0.92 (0.26-0.84 for Matemática and Tecnologia, the two densest textures); then mapped on a gradient from the area's deep tone shaded to 60%, through the deep tone itself (--<tone>-deep, the card's ground), to its pale tone (--<tone>) lightened by 35%. The picture is therefore tone on tone with its card: the same mean colour as the ground, a quiet range of light and shade. The atom (a glow on black) has its black flattened to the ground first (65th percentile), so the grain of the dark never shows. Idiomas: the frame of the original cuts both heads off, so its flat cream ground is extended below (20px above) to a square, rather than cropping them out. Saved as progressive JPEG, quality 88; astro:assets serves the sizes.",
+  "tones": {
+    "matematica": "sky",
+    "linguagens": "blush",
+    "natureza": "sage",
+    "humanas": "cream",
+    "idiomas": "peach",
+    "tecnologia": "sand"
+  },
+  "files": {
+    "matematica": {
+      "source": "padrão_de_quadro_negro_com_fórmulas_matemáticas.png",
+      "sourceSha256": "90a2d00deb14bdde933ae3f296f3b67e34b898fe5f2f750b5a20432664c88879",
+      "crop": [
+        0,
+        0,
+        1254
+      ],
+      "sha256": "f8b6358524ba64dffeee95988c485142b28cf3b20735f06bfd83101a30da9449",
+      "bytes": 119041
+    },
+    "linguagens": {
+      "source": "mosaico_aconchegante_de_livros_abertos.png",
+      "sourceSha256": "37cf6f2546562f7d74c8614eff0178bfcdca25478cfb3bb3cfa72a7f810dcd1f",
+      "crop": [
+        0,
+        181,
+        1086
+      ],
+      "sha256": "2c139f855b4e06e4efab5575c71ce28b51c8f0c891fcabc24d7c994f2a5ca86c",
+      "bytes": 151946
+    },
+    "natureza": {
+      "source": "átomo_neon_em_fundo_negro.png",
+      "sourceSha256": "6e9914dd5ad82f6bb5057e4e3b79ee8ae0141b62898ed7db340579afe820f267",
+      "crop": [
+        0,
+        572,
+        941
+      ],
+      "sha256": "7201eed67600dbb5c99b3d831bb6f60157ba3cb025fb5b43536f243cdfce62b9",
+      "bytes": 20746
+    },
+    "humanas": {
+      "source": "globo_antigo_sobre_mesa_de_estudos.png",
+      "sourceSha256": "9214e4d10c7cc1cb3c6dd850d063be04c7fc13b154ac89b2a47651ffb005392e",
+      "crop": [
+        0,
+        259,
+        1086
+      ],
+      "sha256": "6828091f8139428a0e5b7a88595965f5a1a33dd8a5e2333132e01151275f144d",
+      "bytes": 147293
+    },
+    "idiomas": {
+      "source": "silhuetas_em_conversa_colorida.png",
+      "sourceSha256": "e9ac38d6598e6a5a2bd38af540bcbf85bacab48b81160696148ed54679430e02",
+      "crop": [
+        256,
+        0,
+        1024
+      ],
+      "sha256": "1a10ddcb3cfdd8a5701b043ab615fec3f5d46b207ce7adf1c1452337b74d8b71",
+      "bytes": 42649
+    },
+    "tecnologia": {
+      "source": "editor_de_código_com_terminal_em_destaque.png",
+      "sourceSha256": "36c69b62ee2c0b9c1203dece4e55282746a87c80d8be8c899db39d2c2f152a1f",
+      "crop": [
+        0,
+        0,
+        1246
+      ],
+      "sha256": "5eafd711f6c869fda039ebb395766cbd62a3288967d225419453e9a49336aaff",
+      "bytes": 96543
+    }
+  }
+}
