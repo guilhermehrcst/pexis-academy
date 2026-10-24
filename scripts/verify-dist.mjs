@@ -555,7 +555,7 @@ function checkHome(path, html, resources) {
   }
   const areas = sectionOf(html, /<section\b[^>]*\sid="areas"/);
   if (!areas) fail(path, 'section#areas missing');
-  else checkAreaGroups(path, areas);
+  else checkHomeAreaCards(path, areas);
   // Commitments: the verification date and the rules (/sobre/).
   const curation = sectionOf(html, /<section\b[^>]*\sid="curadoria"/) ?? '';
   if (!hrefsIn(curation).includes('/sobre/')) fail(path, '#curadoria must lead to /sobre/');
@@ -609,7 +609,7 @@ function checkHome(path, html, resources) {
   }
 }
 
-/** The six areas, in order, each linking exactly its subjects (spec §5.2, item 3; §6.1). */
+/** The six areas, in order. The /materias/ index retains each subject link. */
 const AREA_GROUPS = [
   ['matematica', ['/materias/matematica/']],
   ['linguagens', ['/materias/portugues/', '/materias/redacao/']],
@@ -621,6 +621,15 @@ const AREA_GROUPS = [
 function checkAreaGroups(path, fragment) {
   const groups = [...fragment.matchAll(/<(\w+)\b[^>]*\sdata-area="([^"]+)"[^>]*>([\s\S]*?)<\/\1>/g)].map((m) => [m[2], hrefsIn(m[3])]);
   if (JSON.stringify(groups) !== JSON.stringify(AREA_GROUPS)) fail(path, `area groups ${JSON.stringify(groups)}`);
+}
+
+/** The Home shows only linked area titles. The /materias/ index retains all subject links. */
+function checkHomeAreaCards(path, fragment) {
+  const cards = [...fragment.matchAll(/<article\b[^>]*\sdata-area="([^"]+)"[^>]*>([\s\S]*?)<\/article>/g)]
+    .map((m) => [m[1], hrefsIn(m[2])]);
+  const expected = AREA_GROUPS.map(([id]) => [id, [`/materias/#area-${id}`]]);
+  if (JSON.stringify(cards) !== JSON.stringify(expected)) fail(path, `area card destinations ${JSON.stringify(cards)}`);
+  if (/<ul\b[^>]*\sclass="subjects"/.test(fragment)) fail(path, '#areas should not list individual subjects');
 }
 
 /** /sobre/: the curation policy, how verification works (with the same date as the footer), and
