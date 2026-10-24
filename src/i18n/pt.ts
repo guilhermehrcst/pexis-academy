@@ -290,7 +290,7 @@ export const pt: Dict = {
       searchSubmit: 'Buscar',
       primary: 'Explorar cursos',
       secondary: 'Escolher meu caminho',
-      facts: ['Gratuito para estudar', 'Sem criar conta', 'Seis caminhos organizados'],
+      facts: ['Gratuito para estudar', 'Sem cadastro na Paulex Edu', 'Seis caminhos organizados'],
       compositionCaption: 'Foto do curso',
       compositionLink: 'Ver todos os cursos',
     },

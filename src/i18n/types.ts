@@ -135,7 +135,8 @@ export interface Dict {
       searchSubmit: string;
       primary: string;
       secondary: string;
-      /** Three short facts true of the product as built: free to study, no account here, six paths. */
+      /** Three short facts true of the product as built: free to study, no account on Paulex Edu (a provider may
+       *  ask for one, and the resource says so), six paths. */
       facts: readonly [string, string, string];
       compositionCaption: string;
       compositionLink: string;
