@@ -1,13 +1,13 @@
 ---
 // The top of every internal page (V0.3): a quiet band under the wine header, with a breadcrumb (where the
-// page sits: Início, then its section if it has one), an eyebrow (what the page is), the page's one H1 and
-// a lead. A slot follows for an action. The 404 has no breadcrumb (crumbs={false}).
+// page sits: Início, then its section if it has one), the page's one H1 and a lead.
+// A slot follows for an action. The 404 has no breadcrumb (crumbs={false}).
 import { routes } from '../lib/routes';
 import { pt as t } from '../i18n/pt';
 
 interface Crumb { label: string; href: string }
 interface Props { eyebrow?: string | undefined; heading: string; lead: string; crumbs?: readonly Crumb[] | false }
-const { eyebrow, heading, lead, crumbs = [] } = Astro.props;
+const { heading, lead, crumbs = [] } = Astro.props;
 const trail = crumbs === false ? [] : [{ label: t.breadcrumb.home, href: routes.home }, ...crumbs];
 ---
 <div class="band">
@@ -20,7 +20,6 @@ const trail = crumbs === false ? [] : [{ label: t.breadcrumb.home, href: routes.
         </ol>
       </nav>
     )}
-    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
     <h1>{heading}</h1>
     <p class="lead">{lead}</p>
     <slot />
@@ -36,7 +35,6 @@ const trail = crumbs === false ? [] : [{ label: t.breadcrumb.home, href: routes.
   .crumbs a { display: inline-flex; align-items: center; min-height: 32px; color: var(--muted); text-decoration-color: var(--rule-strong); }
   .crumbs a:hover { color: var(--action); text-decoration-color: currentColor; }
   .crumbs [aria-current] { color: var(--ink); font-weight: 500; }
-  .eyebrow { margin-bottom: var(--space-3); color: var(--action); }
   h1 { font-size: var(--fs-h1); font-weight: 460; letter-spacing: -0.03em; line-height: 1.02; max-width: 16ch; }
   .lead { margin-top: var(--space-4); max-width: 46ch; font-size: var(--fs-lead); line-height: 1.45; color: var(--muted); }
 </style>
