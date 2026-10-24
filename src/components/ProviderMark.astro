@@ -8,9 +8,9 @@ import { Image } from 'astro:assets';
 import { providerMarks } from '../lib/providers';
 import type { Mark } from '../lib/providers';
 
-interface Props { name: string }
-const { name } = Astro.props;
-const list = providerMarks[name];
+interface Props { name: string; /** The marks to show instead of the catalogue's (the Home's row of companies: brandMarks). */ marks?: Mark[] }
+const { name, marks } = Astro.props;
+const list = marks ?? providerMarks[name];
 
 const geometry = (m: Mark) => {
   const [x0, y0, x1, y1] = m.bbox;

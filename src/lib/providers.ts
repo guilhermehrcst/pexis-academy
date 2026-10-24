@@ -9,6 +9,12 @@ import fgv from '../assets/providers/fgv.png';
 import cisco from '../assets/providers/cisco-networking-academy.png';
 import bradesco from '../assets/providers/fundacao-bradesco.png';
 import microsoft from '../assets/providers/microsoft.png';
+import anthropic from '../assets/providers/anthropic.png';
+import google from '../assets/providers/google.png';
+import openai from '../assets/providers/openai.png';
+import nvidia from '../assets/providers/nvidia.png';
+import apple from '../assets/providers/apple.png';
+import meta from '../assets/providers/meta.png';
 
 export interface Mark {
   src: ImageMetadata;
@@ -41,7 +47,28 @@ export const marks = {
   // transparent around the artwork. The box is the visible area (alpha > 8); the height is that of
   // the squares, which is what sits beside Fundação Bradesco's mark in the partnership.
   microsoft: { src: microsoft, alt: 'Microsoft', bbox: [64, 147, 2110, 579], h: 22 },
+  // The six technology companies of the Home's row (src/assets/providers/brands.json: supplied PNGs, origin and
+  // brand guidelines not verified). The box is the visible artwork (alpha > 8); the height is optical, set so that,
+  // side by side on white, a wide wordmark, a rounded logotype and the Apple mark weigh alike.
+  anthropic: { src: anthropic, alt: 'Anthropic', bbox: [76, 78, 1884, 286], h: 17 },
+  google: { src: google, alt: 'Google', bbox: [72, 72, 1704, 616], h: 36 },
+  openai: { src: openai, alt: 'OpenAI', bbox: [78, 74, 1886, 532], h: 32 },
+  nvidia: { src: nvidia, alt: 'NVIDIA', bbox: [70, 82, 1928, 448], h: 28 },
+  apple: { src: apple, alt: 'Apple', bbox: [38, 38, 750, 916], h: 50 },
+  meta: { src: meta, alt: 'Meta', bbox: [32, 38, 876, 222], h: 28 },
 } satisfies Record<string, Mark>;
+
+/** The marks of the Home's row of technology companies, by brand id (lib/home-brands.ts). Apart from providerMarks
+ *  on purpose: the course cards and avatars read that one, and how these wordmarks look there is decided with the
+ *  first course of theirs that is published, not before. */
+export const brandMarks: Record<string, Mark[]> = {
+  anthropic: [marks.anthropic],
+  google: [marks.google],
+  openai: [marks.openai],
+  nvidia: [marks.nvidia],
+  apple: [marks.apple],
+  meta: [marks.meta],
+};
 
 /** The marks that stand for provider names used in the catalogue, in reading order. */
 export const providerMarks: Record<string, Mark[]> = {

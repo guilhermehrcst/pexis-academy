@@ -14,7 +14,9 @@ import FeaturedPaths from '../components/FeaturedPaths.astro';
 import { courseCards } from '../lib/course-library';
 import { featuredCourses } from '../lib/home-featured';
 import { routes } from '../lib/routes';
-import { VERIFIED_ON } from '../lib/learning-resources';
+import { VERIFIED_ON, publishedResources } from '../lib/learning-resources';
+import { HOME_BRANDS, homeBrands } from '../lib/home-brands';
+import { publishedTracks } from '../lib/tech-tracks';
 import { formatDate } from '../lib/dates';
 import { pt as t } from '../i18n/pt';
 
@@ -22,6 +24,11 @@ const c = t.pages.home;
 const cur = t.home.curation;
 const cards = courseCards();
 const featured = featuredCourses().map((r) => cards.find((card) => card.resource.id === r.id)!);
+// The row of technology companies, with what the catalogue publishes for each (none today). The heading and the line
+// are the owner's while at least one has a published course; until then they say the courses are being checked,
+// because "the sources of our courses" would name companies none of whose courses is published.
+const brands = homeBrands(HOME_BRANDS, publishedResources, publishedTracks());
+const sourcesCopy = brands.some((brand) => brand.source) ? t.home.sources : t.home.sources.pending;
 ---
 <Base title={c.title} description={c.description}>
   <HomeHero />
@@ -65,10 +72,10 @@ const featured = featuredCourses().map((r) => cards.find((card) => card.resource
 
   <section class="wrap block" id="fontes" aria-labelledby="fontes-title">
     <div class="head head-center">
-      <div><h2 id="fontes-title">{t.home.sources.heading}</h2></div>
-      <p class="lead">{t.home.sources.lead}</p>
+      <div><h2 id="fontes-title">{sourcesCopy.heading}</h2></div>
+      <p class="lead">{sourcesCopy.lead}</p>
     </div>
-    <OfficialSources />
+    <OfficialSources brands={brands} />
   </section>
 
   <section class="wrap block" id="curadoria" aria-labelledby="curadoria-title">

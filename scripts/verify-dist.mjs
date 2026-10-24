@@ -560,17 +560,29 @@ function checkHome(path, html, resources) {
   const curation = sectionOf(html, /<section\b[^>]*\sid="curadoria"/) ?? '';
   if (!hrefsIn(curation).includes('/sobre/')) fail(path, '#curadoria must lead to /sobre/');
   if (!/<time datetime="\d{4}-\d{2}-\d{2}"/.test(curation)) fail(path, '#curadoria states the verification date');
-  // Institutions (Home V2, its own section again): each leading to its courses on this site. Never a partner,
-  // a sponsor or an endorsement (docs/superpowers/research/2026-10-11-official-brands.md).
+  // The row of technology companies (Home V2.5, #fontes): their six marks in the owner's order, nothing around them.
+  // A company with a published course leads to it on this site and says how many; one without any is its mark alone,
+  // with no link and no count (nothing is available from it). Never a partner, a sponsor or an endorsement
+  // (docs/superpowers/research/2026-10-11-official-brands.md).
   const sources = sectionOf(html, /<section\b[^>]*\sid="fontes"/) ?? '';
   const cells = [...sources.matchAll(/<li\b[^>]*\sdata-institution="([^"]+)"[^>]*>([\s\S]*?)<\/li>/g)];
-  if (cells.length < 3) fail(path, `#fontes shows ${cells.length} institutions`);
+  const BRAND_ROW = ['Anthropic', 'Google', 'OpenAI', 'NVIDIA', 'Apple', 'Meta'];
+  if (JSON.stringify(cells.map((cell) => cell[1])) !== JSON.stringify(BRAND_ROW)) fail(path, `#fontes shows ${cells.map((cell) => cell[1]).join(',')}`);
   for (const [, name, body] of cells) {
     const links = hrefsIn(body);
+    const counted = /<span class="count"/.test(body) || /\b\d+\s+cursos?\b/.test(body.replace(/<[^>]+>/g, ' '));
+    if (!new RegExp(`<img\\b[^>]*\\salt="${name}"`).test(body)) fail(path, `#fontes ${name} shows its mark`);
+    if (links.length === 0) {
+      if (counted) fail(path, `#fontes ${name} states a count of courses but links to none`);
+      continue;
+    }
     const filtered = /^\/buscar\/\?instituicao=([a-z0-9-]+)$/.exec(links[0] ?? '');
     if (filtered) HOME_SEARCH_FILTERS.add(filtered[1]);
     if (links.length !== 1 || !(/^\/[^#]*#[\w-]+$/.test(links[0]) || filtered)) fail(path, `#fontes ${name} links ${links.join(',') || 'nowhere'}`);
+    if (!counted) fail(path, `#fontes ${name} links to courses without saying how many`);
   }
+  // While no company in the row has a published course, the heading must not call them the sources of "our courses".
+  if (cells.every(([, , body]) => hrefsIn(body).length === 0) && /Conheça as fontes dos nossos cursos/.test(sources)) fail(path, '#fontes names as sources of our courses companies none of whose courses is published');
   const plain = main.replace(/<[^>]+>/g, ' ');
   // Nor a feature the product does not have (V0.2 brief): no tutor, no saved progress, no Academy certificate.
   const claim = /parceir|patroc[ií]n|apoiad|endoss|oficial da pexis|tutor|progresso salvo|salvamos|certificado da (pexis|academy)/i.exec(plain);

@@ -1,0 +1,84 @@
+{
+  "about": "The marks of the six technology companies in the Home's row (src/components/OfficialSources.astro, src/lib/home-brands.ts): the owner's files, byte for byte as supplied (logos_transparentes.zip). They are not in providerMarks: the course cards do not use them (a decision for when a course of theirs is published).",
+  "treatment": "None. The files are not cropped, resized, recoloured or recompressed here, and the page applies no filter, opacity, blend or layer to them. Only astro:assets, at build time, serves them in smaller sizes. bbox is the visible artwork inside each transparent canvas (alpha > 8), measured.",
+  "provenance": {
+    "status": "owner-supplied-origin-unverified",
+    "note": "Raster PNGs with transparency, no vector (SVG) and no embedded metadata (no C2PA, no author, no source, no licence). They look like the companies' real marks, but that they are the official files was not and cannot be verified from the files. Whether the companies' brand guidelines allow showing their marks on this page (one row of logos, no link, before a course of theirs is published) was not checked: the guidelines were not consulted (no network access to the companies' sites). The PR that stages their courses (#78) lists the providers and their marks as a gate before publication. The owner is to confirm both before the site is published.",
+    "guidelinesChecked": false,
+    "ownerConfirmed": false
+  },
+  "files": {
+    "anthropic": {
+      "source": "Anthropic.png",
+      "sha256": "d4e4e31ff1e44a4ed6ae39874e4ec0c9b3df55ea760c2d92b31430b3784b1c93",
+      "width": 1960,
+      "height": 362,
+      "bbox": [
+        76,
+        78,
+        1884,
+        286
+      ]
+    },
+    "google": {
+      "source": "Google.png",
+      "sha256": "d9b35e6933fdee5062563fe413a69f90d48ff7b66de28a5104026494e23190a6",
+      "width": 1776,
+      "height": 686,
+      "bbox": [
+        72,
+        72,
+        1704,
+        616
+      ]
+    },
+    "openai": {
+      "source": "OpenAI.png",
+      "sha256": "4dd9683df1350db0ff8e0a73efba24a9d40226afde5c6e8eab4284ef799ad2af",
+      "width": 1966,
+      "height": 608,
+      "bbox": [
+        78,
+        74,
+        1886,
+        532
+      ]
+    },
+    "nvidia": {
+      "source": "NVIDIA.png",
+      "sha256": "0bff15bdb4ba52769758693fd351593dbb3f4c8466ff702b171cc43149aae3f4",
+      "width": 2000,
+      "height": 530,
+      "bbox": [
+        70,
+        82,
+        1928,
+        448
+      ]
+    },
+    "apple": {
+      "source": "Apple.png",
+      "sha256": "7de31693ba0a74524ed409728d0432a48f5dbff23a537555c5f4fba798dbc34c",
+      "width": 788,
+      "height": 952,
+      "bbox": [
+        38,
+        38,
+        750,
+        916
+      ]
+    },
+    "meta": {
+      "source": "Meta.png",
+      "sha256": "8f8f365b7788a57525494adcb8ca3eb7515be776f0e0941a0b35df2d4dc7aaca",
+      "width": 912,
+      "height": 256,
+      "bbox": [
+        32,
+        38,
+        876,
+        222
+      ]
+    }
+  }
+}
