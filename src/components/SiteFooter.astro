@@ -1,11 +1,12 @@
 ---
 // The footer (Paulex Edu): white and wide, closing every page. On the left the wordmark and, well below it,
 // an editorial quote in the serif with its historical attribution (Apple, 1977: a source, never a sponsor;
-// the legal area says so). On the right four groups: Caminhos (the six paths, the one in preparation says
-// so), Biblioteca (the two libraries, the subjects, search), Objetivos (ENEM, UERJ, programming, Pré-Militar)
-// and Institucional (about, curation, verification, the FAQ). Then one quiet area: copyright, when the
-// catalogue was last verified, what the Paulex Edu is, its editorial independence, attributions and the real
-// licences. Every link is a real page or anchor (verify-dist checks the map, and that every anchor exists).
+// /sobre/ says so). On the right four groups: Caminhos (the six paths, the one in preparation says so),
+// Biblioteca (the two libraries, the subjects, search), Objetivos (ENEM, UERJ, programming, Pré-Militar) and
+// Institucional (about, curation, verification, the FAQ). Then one quiet area (V1.1, compact): copyright, when
+// the catalogue was last verified, the real licences, and one short line on free third-party resources,
+// independent curation and their owners' marks. What Paulex is and the note on the quotation live in /sobre/.
+// Every link is a real page or anchor (verify-dist checks the map, and that every anchor exists).
 // On a phone the brand and the quote come first, then the groups two by two. No legal policy is invented.
 import BrandMark from './BrandMark.astro';
 import { routes } from '../lib/routes';
@@ -52,23 +53,25 @@ const groups = [
   </div>
   <div class="wrap"><div class="legal">
     <p class="line"><span>{f.copyright}</span><time datetime={VERIFIED_ON} data-verified-on>{f.verified(date)}</time></p>
-    <p>{f.institution} {f.independence}</p>
-    <p>{f.quoteNote} {f.marks}</p>
-    <p>
+    <p class="licenses">
       {f.licenses}:{' '}<a href="/licenses/GoogleSansFlex-OFL.txt">Google Sans Flex (OFL)</a>,{' '}<a href="/licenses/Newsreader-OFL.txt">Newsreader (OFL)</a>,{' '}<a href="/licenses/RadixIcons-MIT.txt">Radix Icons (MIT)</a>.
     </p>
+    <p class="statement">{f.statement}</p>
   </div></div>
 </footer>
 
 <style>
-  .site-footer { margin-top: var(--space-8); background: var(--paper); color: var(--ink); border-top: 1px solid var(--rule); }
+  /* V1.1: the same composition, about 40% shorter. Paddings, the gap under the wordmark and the rows of the
+     groups are tighter; the bottom area is two quiet lines. A row stays a 32px target with a pointer (WCAG
+     2.5.8 asks 24px) and 40px on touch. */
+  .site-footer { margin-top: var(--space-7); background: var(--paper); color: var(--ink); border-top: 1px solid var(--rule); }
   .grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-6) var(--space-5);
-    padding-block: var(--space-8) var(--space-7);
+    gap: var(--space-5) var(--space-5);
+    padding-block: var(--space-7) var(--space-5);
   }
-  .identity { grid-column: 1 / -1; display: grid; align-content: start; gap: var(--space-6); }
+  .identity { grid-column: 1 / -1; display: grid; align-content: start; gap: var(--space-4); }
   /* The narrowest phones: one column, so a path's name and its state keep their line. */
   @media (max-width: 359px) { .grid { grid-template-columns: minmax(0, 1fr); } }
   /* A tablet: the brand on its own row, the four groups side by side under it. */
@@ -76,27 +79,29 @@ const groups = [
   /* A laptop and up: the brand on the left, the four groups on the right (the reference's proportions). */
   @media (min-width: 1180px) {
     .grid { grid-template-columns: minmax(0, 5fr) repeat(4, minmax(0, 3fr)); column-gap: var(--space-6); }
-    .identity { grid-column: auto; gap: var(--space-8); }
+    .identity { grid-column: auto; gap: var(--space-5); }
   }
 
   .brand { line-height: 0; }
   .quote { max-width: 26ch; }
-  .quote blockquote p { font-family: var(--serif); font-size: clamp(1.1875rem, 1.1rem + 0.35vw, 1.375rem); line-height: 1.4; letter-spacing: -0.005em; color: var(--ink); }
+  .quote blockquote p { font-family: var(--serif); font-size: clamp(1.125rem, 1.05rem + 0.3vw, 1.3125rem); line-height: 1.38; letter-spacing: -0.005em; color: var(--ink); }
   /* The opening mark hangs in the margin, so the words align with the wordmark. */
   .open { margin-left: -0.42em; }
-  .quote figcaption { margin-top: var(--space-3); font-size: var(--fs-small); color: var(--muted); }
+  .quote figcaption { margin-top: var(--space-2); font-size: var(--fs-small); color: var(--muted); }
 
-  .label { margin-bottom: var(--space-3); font-size: var(--fs-small); color: var(--muted); }
+  .label { margin-bottom: var(--space-2); font-size: var(--fs-small); color: var(--muted); }
   ul { display: grid; }
   li { display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--space-2); }
-  li a { display: inline-flex; align-items: center; min-height: 40px; color: var(--ink); font-size: 1rem; text-decoration: none; }
+  li a { display: inline-flex; align-items: center; min-height: 32px; color: var(--ink); font-size: 0.9375rem; text-decoration: none; }
+  @media (pointer: coarse) { li a { min-height: 40px; } }
   li a:hover { color: var(--action); }
   /* A path in preparation says so here too, outside the link so its name stays the path's. */
   .state { white-space: nowrap; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
 
-  .legal { display: grid; gap: var(--space-2); padding-block: var(--space-5) var(--space-7); border-top: 1px solid var(--rule); font-size: var(--fs-small); line-height: 1.55; color: var(--muted); }
-  .line { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-5); margin-bottom: var(--space-2); color: var(--ink-soft); }
-  .legal p:not(.line) { max-width: 92ch; }
-  .legal a { color: var(--ink-soft); text-decoration: underline; text-underline-offset: 0.2em; text-decoration-color: var(--rule-strong); }
+  /* The bottom area: copyright and date, the licences, then one short statement; small, two or three lines. */
+  .legal { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-5); padding-block: var(--space-4) var(--space-5); border-top: 1px solid var(--rule); font-size: 0.8125rem; line-height: 1.5; color: var(--muted); }
+  .line { display: flex; flex-wrap: wrap; gap: 0 var(--space-4); color: var(--ink-soft); }
+  .statement { flex-basis: 100%; max-width: 92ch; }
+  .legal a { display: inline-block; padding-block: 2px; color: var(--ink-soft); text-decoration: underline; text-underline-offset: 0.2em; text-decoration-color: var(--rule-strong); }
   .legal a:hover { color: var(--action); text-decoration-color: currentColor; }
 </style>

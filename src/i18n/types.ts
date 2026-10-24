@@ -57,10 +57,8 @@ export interface Dict {
     };
     verified: (date: string) => string;
     copyright: string;
-    institution: string;
-    independence: string;
-    quoteNote: string;
-    marks: string;
+    /** One short line: free resources by third parties, independent curation, names and marks are their owners'. */
+    statement: string;
     licenses: string;
   };
   pages: Record<Exclude<PageKey, GatedPageKey>, PageCopy> & Record<GatedPageKey, Omit<PageCopy, 'description' | 'lead'>>;
