@@ -11,6 +11,7 @@ import { presentationOf } from '../lib/course-presentations';
 import { routes } from '../lib/routes';
 import { OBJECTIVES } from '../lib/taxonomy';
 import { pt as t } from '../i18n/pt';
+import { priceDisplay } from '../lib/resource-display';
 
 interface Props { card: CourseCardData; headingLevel?: 2 | 3; eager?: boolean }
 const { card, headingLevel = 3, eager = false } = Astro.props;
@@ -21,7 +22,7 @@ const page = presentationOf(r.id) ? routes.course(r.id) : null;
 const facts = [
   card.paths.map((path) => OBJECTIVES[path].label).join(', '),
   l.formats[r.format],
-  l.accessModes[r.accessMode ?? 'free'],
+  priceDisplay(r, l),
   r.language === 'pt' ? null : l.languages[r.language],
 ].filter((fact): fact is string => Boolean(fact));
 ---
