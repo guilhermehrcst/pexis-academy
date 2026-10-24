@@ -30,11 +30,20 @@ test('the heading and line: the owner\'s once a company has a published course; 
   assert.match(page, /<OfficialSources brands=\{brands\} \/>/);
 });
 
-test('no copy of the row presents a company as a partner, sponsor or endorser, or its mark as a tie', () => {
-  const said = [s.heading, s.lead, s.pending.heading, s.pending.lead, s.note, s.exams].join(' ');
+test('no copy of the row presents a company as a partner, sponsor or endorser', () => {
+  const said = [s.heading, s.lead, s.pending.heading, s.pending.lead].join(' ');
   assert.doesNotMatch(said, /parceir|patroc[ií]n|apoiad|endoss|confia\b|oficiais? da|leva à página oficial/i);
-  assert.match(s.note, /nomes e as marcas pertencem às respectivas empresas/);
-  assert.match(s.note, /presença de um logotipo não significa vínculo com a Paulex Edu/);
+});
+
+test('the section is its heading, its line and the row of marks: no text under the row', () => {
+  // The notice about names and marks and the line about the exams' sources were taken off the Home.
+  assert.deepEqual(Object.keys(s).sort(), ['count', 'countAreas', 'eyebrow', 'heading', 'lead', 'pending']);
+  assert.doesNotMatch(markup, /class="note"|class="exams"|<p\b/, 'no paragraph in the component');
+  assert.doesNotMatch(style, /\.note|\.exams/);
+  assert.doesNotMatch(sources, /routes\./, 'it links nowhere but to the courses of a company');
+  // Straight after the row comes the commitments section, in the page's own order.
+  const fontes = page.slice(page.indexOf('<section class="wrap block" id="fontes"'), page.indexOf('<section class="wrap block" id="curadoria"'));
+  assert.match(fontes, /<OfficialSources brands=\{brands\} \/>\s*<\/section>\s*$/);
 });
 
 test('the three commitments, with the verification date and the rules kept', () => {
@@ -58,7 +67,7 @@ test('a mark is its logo alone; a company with a published course is a link with
   assert.match(markup, /<li data-institution=\{brand\.name\}>\s*\{brand\.source \? \(\s*<a href=\{brand\.source\.href\}>\s*<span class="mark"><ProviderMark name=\{brand\.name\} marks=\{markOf\(brand\.id\)\} \/><\/span>\s*<span class="count">\{label\(brand\.source\)\}/);
   // The other branch is the mark alone: no link, no count, no text.
   assert.match(markup, /\) : \(\s*<span class="mark"><ProviderMark name=\{brand\.name\} marks=\{markOf\(brand\.id\)\} \/><\/span>\s*\)\}/);
-  assert.equal((markup.match(/<a href=/g) ?? []).length, 3, 'a link for the courses of a company, and the two exam guides');
+  assert.equal((markup.match(/<a href=/g) ?? []).length, 1, 'one link, for the courses of a company that has published some');
   assert.doesNotMatch(markup, /https?:\/\//, 'no external address');
   assert.doesNotMatch(sources, /<script\b/, 'no script');
 });

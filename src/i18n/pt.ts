@@ -359,11 +359,8 @@ export const pt: Dict = {
         heading: 'Fontes que estamos conferindo',
         lead: 'Estamos avaliando cursos gratuitos de empresas de tecnologia. Eles só entram no catálogo depois de conferidos na página de quem os publica.',
       },
-      note: 'Os nomes e as marcas pertencem às respectivas empresas, e a presença de um logotipo não significa vínculo com a Paulex Edu.',
       count: (resources, page) => `${resources} ${resources === 1 ? 'curso' : 'cursos'} em ${page}`,
       countAreas: (resources, areas) => `${resources} ${resources === 1 ? 'curso' : 'cursos'} em ${areas.length > 1 ? `${areas.slice(0, -1).join(', ')} e ${areas.at(-1)}` : areas[0]}`,
-      exams: 'Para as provas, a fonte é quem as aplica:',
-      examLinks: { enem: 'INEP, no guia do ENEM', uerj: 'Vestibular Estadual UERJ, no guia da UERJ' },
     },
     courses: {
       eyebrow: 'Cursos em destaque',

@@ -6,17 +6,16 @@
 // A company that has published courses (read from the catalogue by lib/home-brands.ts, never typed) is a link to them,
 // the track that holds its first course or the search filtered by it, with the real count of its courses under the
 // mark. A company with none published is its mark alone: no link, no count, nothing that suggests a resource is
-// available; the page's heading and line say they are being checked (while none has a course) and the note says a mark
-// is no tie with the Paulex Edu. These are sources, never partners or sponsors, and verify-dist rejects any claim of
-// association. The institutions that publish today stay in the catalogue and on their pages; this row is not their
-// list.
+// available; the page's heading and line say they are being checked (while none has a course). The section is its
+// heading, its line and this row, with no text under it. These are sources, never partners or sponsors, and verify-dist
+// rejects any claim of association. The institutions that publish today stay in the catalogue and on their pages; this
+// row is not their list.
 // One row from 1024px. Below it the same marks wrap (three a row on a tablet, two on a phone) instead of scrolling or
 // shrinking: nothing is hidden, a mark is never smaller than its slot allows, and no scrolling region without anything to
 // focus is left to a keyboard. Only a link takes focus, and its ring is the site's own.
 import ProviderMark from './ProviderMark.astro';
 import type { HomeBrandCell } from '../lib/home-brands';
 import { brandMarks } from '../lib/providers';
-import { routes } from '../lib/routes';
 import { pt as t } from '../i18n/pt';
 
 interface Props { brands: HomeBrandCell[] }
@@ -46,13 +45,6 @@ const label = (source: NonNullable<HomeBrandCell['source']>) =>
       </li>
     ))}
   </ul>
-  <p class="note">{s.note}</p>
-  <p class="exams">
-    {s.exams}{' '}
-    <a href={`${routes.objective('enem')}#pratique`}>{s.examLinks.enem}</a>
-    {' · '}
-    <a href={routes.objective('uerj')}>{s.examLinks.uerj}</a>
-  </p>
 </div>
 
 <style>
@@ -68,7 +60,7 @@ const label = (source: NonNullable<HomeBrandCell['source']>) =>
     padding-block: var(--space-4);
   }
   @media (min-width: 600px) { .marks { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  @media (min-width: 1024px) { .marks { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--space-5) var(--space-3); } }
+  @media (min-width: 1024px) { .marks { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--space-5) var(--space-3); padding-bottom: 0; } }
 
   /* One slot for every mark, so they sit on one line whatever their shape (a count under a mark hangs below the line and
      moves nothing); --bs scales them with the width. */
@@ -87,9 +79,4 @@ const label = (source: NonNullable<HomeBrandCell['source']>) =>
   .go { display: inline-block; transition: transform var(--t-ui) var(--ease); }
   .marks a:hover .count { color: var(--action); }
   .marks a:hover .go { transform: translateX(2px); }
-
-  .note, .exams { margin-inline: auto; text-align: center; font-size: var(--fs-small); color: var(--muted); text-wrap: balance; }
-  .note { max-width: 64ch; }
-  .exams { max-width: 90ch; }
-  .exams a { font-weight: 500; }
 </style>
