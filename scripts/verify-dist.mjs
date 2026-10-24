@@ -324,7 +324,10 @@ function checkShell(path, html) {
   // The editorial quote keeps its historical attribution, and the legal area says the citation is no tie.
   if (!/<blockquote\b[\s\S]*A simplicidade é o último grau da sofisticação\.[\s\S]*<\/blockquote>\s*<figcaption\b[^>]*>Apple, 1977<\/figcaption>/.test(footer)) fail(path, 'the footer quote and its attribution');
   if (/Steve Jobs|Leonardo|da Vinci/.test(footer)) fail(path, 'the quote is not attributed to a person');
-  if (!/não indica vínculo nem apoio/.test(footer)) fail(path, 'the footer says the quotation implies no tie');
+  // V1.1: the footer keeps one short line (free third-party resources, independent curation, owners' marks);
+  // the note on the quotation and what Paulex is live in /sobre/ (checkAbout).
+  const statement = /<p class="statement"[^>]*>([^<]*)<\/p>/.exec(footer)?.[1] ?? '';
+  if (!/gratuitos/.test(statement) || !/terceiros/.test(statement) || !/independente/.test(statement) || !/titulares/.test(statement)) fail(path, 'the footer states free third-party resources, independent curation and owners\' marks');
   // The header is the institutional wine (checked in the stylesheet below): the six paths in order, each a
   // button that opens its menu (a native popover: no JavaScript), then search; and a compact Menu (a native
   // <details>) that reaches the same places, then the two libraries.
@@ -618,6 +621,11 @@ function checkAbout(path, html) {
   const footerDate = /<time datetime="([^"]+)" data-verified-on/.exec(html)?.[1];
   const pageDate = /<time datetime="([^"]+)"/.exec(verification)?.[1];
   if (!footerDate || pageDate !== footerDate) fail(path, `verification date ${pageDate} must match the footer's ${footerDate}`);
+  // Moved from the footer (V1.1): who runs Paulex Edu, and that quoting Apple implies no tie.
+  const main = /<main\b[\s\S]*<\/main>/.exec(html)?.[0] ?? '';
+  if (!/plataforma de educação gratuita da Paulex, empresa fundada em 1984 no Rio de Janeiro/.test(main)) fail(path, 'the about page says what Paulex Edu is');
+  const independence = sectionOf(html, /<section\b[^>]*\sid="afiliacao"/) ?? '';
+  if (!/Apple em 1977/.test(independence) || !/não indica vínculo nem apoio/.test(independence)) fail(path, 'the about page says the footer quotation implies no tie');
 }
 
 const OBJECTIVE_PATHS = ['/enem/', '/uerj/', '/ensino-medio/', '/vestibulares/', '/ensino-superior/', '/tecnologia/'];
