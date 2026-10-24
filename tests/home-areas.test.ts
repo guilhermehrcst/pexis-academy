@@ -67,7 +67,8 @@ test('the card keeps its structure: a decorative picture and a linked area title
   // The picture: empty alt, in a field hidden from assistive tech, behind the panel in the order of the document.
   assert.match(component, /<div class="art" aria-hidden="true"[^>]*>\s*<Image src=\{areaImages\[area\.id\]\.src\} alt=""/);
   assert.ok(component.indexOf('class="art"') < component.indexOf('class="panel"'), 'the picture comes before the panel');
-  assert.ok(component.includes('<h3 class="name"><a href={`${routes.subjectIndex}#area-${area.id}`}>{area.label}</a></h3>'));
+  assert.ok(component.includes('<h3 class="name"><a href={area.id === \'tecnologia\' ? routes.subject(\'tecnologia\') : `${routes.subjectIndex}#area-${area.id}`}>{area.label}</a></h3>'));
+  assert.ok(component.includes("routes.subject('tecnologia')"), 'Technology keeps the same destination across the homepage');
   assert.doesNotMatch(component, /class="subjects"|area\.subjects\.map|routes\.subject\(id\)/);
   assert.doesNotMatch(component, /data-sign|AREA_SIGNS/, 'the typographic signs gave way to the pictures');
   // Decorative pictures are never what loads first: the section is below the fold.
