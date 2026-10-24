@@ -1,4 +1,4 @@
-// The header (Global Navigation V1, Paulex Edu), read from its source: the identity (the wordmark linked home,
+// The header (Global Navigation V1.3, Paulex Edu), read from its source: the identity (the mascot alone, linked home,
 // a white sticky bar with a hairline, sans navigation, the paths centred), the six paths as buttons that open native popovers, a compact Menu of native
 // <details>, search as a named icon, and one small progressive script that only places the popovers under their
 // buttons. The built HTML is checked by scripts/verify-dist.mjs.
@@ -9,9 +9,10 @@ import { readFileSync } from 'node:fs';
 const header = readFileSync(new URL('../src/components/SiteHeader.astro', import.meta.url), 'utf8');
 const css = header.slice(header.indexOf('<style>'));
 
-test('the identity: the wordmark linked home, on a white sticky bar with a hairline; the paths centred', () => {
+test('the identity: the mascot alone linked home, on a white sticky bar with a hairline; the paths centred', () => {
   assert.match(header, /import BrandMark from '\.\/BrandMark\.astro'/);
-  assert.match(header, /<a class="brand" href=\{routes\.home\}[^>]*data-brand>\s*<BrandMark \/>/);
+  // No visible name: the link's own label names it for assistive tech ("Paulex Edu, página inicial").
+  assert.match(header, /<a class="brand" href=\{routes\.home\} aria-label=\{n\.home\}[^>]*data-brand>\s*<BrandMark iconOnly \/>/);
   assert.doesNotMatch(header, /assets\/brand\/|lockup/, 'no former artwork');
   assert.match(css, /\.site-header \{[^}]*position: sticky;[^}]*background: var\(--paper\);[^}]*border-bottom: 1px solid var\(--rule\);/);
   // Wide screens: the six in the centre of the bar, search (the last item of the same list) at its right edge.
@@ -76,4 +77,12 @@ test('one line from 1024px where popovers exist; else the Menu button (the safe 
 test('the bottom navigation and the header never offer the same place twice', () => {
   assert.match(css, /@media \(max-width: 1023px\) \{[^}]*html\[data-bottom-nav\]\) \.compact > \.search,\s*:global\(html\[data-bottom-nav\]\) \.sheet-libraries \{ display: none; \}/);
   assert.match(readFileSync(new URL('../src/components/BottomNav.astro', import.meta.url), 'utf8'), /@media \(min-width: 1024px\) \{\s*\.bottom-nav \{ display: none; \}/);
+});
+
+test('the mascot stands alone only while it exists: the brand link is never empty', () => {
+  const mark = readFileSync(new URL('../src/components/BrandMark.astro', import.meta.url), 'utf8');
+  assert.match(mark, /\{!\(iconOnly && mascot\) && <span class="name">/);
+  assert.match(mark, /<Image class="mascot" src=\{mascot\} alt="" /, 'decorative: the link carries the name');
+  assert.match(readFileSync(new URL('../src/i18n/pt.ts', import.meta.url), 'utf8'), /home: 'Paulex Edu, página inicial'/);
+  assert.match(readFileSync(new URL('../src/components/SiteFooter.astro', import.meta.url), 'utf8'), /<BrandMark size="footer" \/>/, 'the footer keeps the wordmark');
 });

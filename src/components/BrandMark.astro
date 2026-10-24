@@ -4,21 +4,23 @@
 // The official mascot (a minimal character in a navy circle) stands beside it: src/assets/brand/paulex-mascot.png,
 // the owner's file as supplied (see src/assets/brand/manifest.json). The glob finds it at build time; without
 // the file the wordmark stands alone. The PNG keeps its transparent surround (the circle fills about 82% of
-// the square), so the header's box is 40px for a circle of about 33px, level with the type.
+// the square), so the header's box is 40px for a circle of about 33px.
+// The header shows the mascot alone (iconOnly), as Notion shows its mark: the link around it carries the name.
+// Without the file it falls back to the wordmark, so the link is never empty.
 // Decorative inside a link that is named on its own (the header's "Paulex Edu, página inicial"); in the
 // footer it is the brand's name, read as text.
 import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
 
-interface Props { size?: 'header' | 'footer' }
-const { size = 'header' } = Astro.props;
+interface Props { size?: 'header' | 'footer'; iconOnly?: boolean }
+const { size = 'header', iconOnly = false } = Astro.props;
 const found = import.meta.glob<{ default: ImageMetadata }>('../assets/brand/paulex-mascot.{svg,png}', { eager: true });
 const mascot = Object.values(found)[0]?.default;
 const px = size === 'footer' ? 44 : 40;
 ---
 <span class:list={['wordmark', `is-${size}`]} data-wordmark translate="no">
-  {mascot && <Image class="mascot" src={mascot} alt="" width={px} height={px} densities={[1, 2, 3]} data-mascot />}
-  <span class="name"><span class="paulex">Paulex</span><span class="edu">Edu</span></span>
+  {mascot && <Image class="mascot" src={mascot} alt="" width={px} height={px} loading={size === 'header' ? 'eager' : 'lazy'} densities={[1, 2, 3]} data-mascot />}
+  {!(iconOnly && mascot) && <span class="name"><span class="paulex">Paulex</span><span class="edu">Edu</span></span>}
 </span>
 
 <style>

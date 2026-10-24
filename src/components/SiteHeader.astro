@@ -1,5 +1,5 @@
 ---
-// The header (Global Navigation V1.2, Paulex Edu): frosted white glass, with a hairline under it. The brand on the left,
+// The header (Global Navigation V1.2, Paulex Edu): frosted white glass, with a hairline under it. The mascot on the left,
 // the six paths in the owner's order (Fundamental, Médio, Pré-Militar, Vestibular, Superior, Tecnologia) in the
 // centre, and search on the right, as a magnifying glass with its name for assistive tech. Dark grey at rest,
 // the primary blue for every interaction, and a blue hairline under the current path.
@@ -14,7 +14,7 @@
 // them, search and one "Menu" button, whose sheet holds the six paths as an accordion of native <details>
 // (one open at a time), then the two libraries. The cost of the sheet, accepted: it closes by its own
 // button or by choosing a link, not by Escape or a tap outside.
-// The brand is the official mascot and the wordmark (BrandMark.astro).
+// The brand is the official mascot alone (BrandMark.astro, iconOnly), a link named "Paulex Edu, página inicial".
 import BrandMark from './BrandMark.astro';
 import ClipboardIcon from './icons/radix/ClipboardIcon.astro';
 import MagnifyingGlassIcon from './icons/radix/MagnifyingGlassIcon.astro';
@@ -34,7 +34,7 @@ const n = t.nav;
 <header class="site-header">
   <div class="wrap bar">
     <a class="brand" href={routes.home} aria-label={n.home} aria-current={current(routes.home)} data-brand>
-      <BrandMark />
+      <BrandMark iconOnly />
     </a>
 
     <!-- From 1024px, with popovers: the six paths and search on one line. -->
@@ -184,7 +184,8 @@ const n = t.nav;
     min-height: 64px;
     padding-inline: max(var(--gutter), env(safe-area-inset-left)) max(var(--gutter), env(safe-area-inset-right));
   }
-  .brand { display: flex; align-items: center; flex: none; min-height: 44px; padding-block: 10px; text-decoration: none; }
+  /* The 40px mascot in a 44px target: the focus ring stays inside the 64px bar. */
+  .brand { display: flex; align-items: center; flex: none; min-height: 44px; padding-block: 2px; border-radius: var(--radius); text-decoration: none; }
   .brand:hover { color: inherit; }
 
   /* One line from 1024px, where popovers exist; below it, or without them, search and the Menu button. A
