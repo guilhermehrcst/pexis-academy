@@ -23,7 +23,7 @@ const areas = AREA_ORDER.map((id) => ({ id, label: AREAS[id].label }));
           <Image src={areaImages[area.id].src} alt="" widths={[420, 640, 860]} sizes="(min-width: 1152px) 372px, (min-width: 640px) 33vw, 70vw" loading="lazy" decoding="async" style={`object-fit: ${areaImages[area.id].fit}; object-position: ${areaImages[area.id].position}`} data-area-image />
         </div>
         <div class="panel">
-          <h3 class="name"><a href={`${routes.subjectIndex}#area-${area.id}`}>{area.label}</a></h3>
+          <h3 class="name"><a href={area.id === 'tecnologia' ? routes.subject('tecnologia') : `${routes.subjectIndex}#area-${area.id}`}>{area.label}</a></h3>
         </div>
       </article>
     </li>
