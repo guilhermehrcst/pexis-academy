@@ -23,7 +23,6 @@ if (!photo) throw new Error('HomeHero: one hero course');
 <header class="hero">
   <div class="wrap grid">
     <div class="copy">
-      <p class="eyebrow">{h.eyebrow}</p>
       <h1><span class="h-serif">{h.headingLead}</span> <span class="h-strong">{h.headingStrong}</span></h1>
       <p class="lead">{h.lead}</p>
       <form class="search" action={routes.search} method="get" role="search" data-home-search>
@@ -61,7 +60,6 @@ if (!photo) throw new Error('HomeHero: one hero course');
   }
 
   /* The promise: the serif line, then the bold sans line, at one size (the McGill pairing). */
-  .eyebrow { margin-bottom: var(--space-4); }
   /* The two faces at one size: the serif line a touch looser, the sans line set tighter and a step lighter
      than bold, so the pair reads as one title rather than two weights fighting. */
   h1 { font-size: clamp(var(--fs-hero), 14vw, 4.75rem); line-height: 1; }

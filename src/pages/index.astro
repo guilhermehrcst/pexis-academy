@@ -3,8 +3,7 @@
 // the content (a sample of the course library, the areas), how do I start (ready paths); then who publishes
 // it and what the Paulex Edu promises. Order: hero, paths, featured courses, ready paths, areas, institutions,
 // commitments, questions. The Home lists courses only in #cursos, a small editorial sample from the published
-// library (src/lib/home-featured.ts), never a copy. Each section opens with the same head: a blue eyebrow,
-// the serif title and one line of what follows.
+// library (src/lib/home-featured.ts), never a copy. Each section opens with a serif title and supporting text.
 import Base from '../layouts/Base.astro';
 import HomeHero from '../components/HomeHero.astro';
 import HomePaths from '../components/HomePaths.astro';
@@ -29,7 +28,7 @@ const featured = featuredCourses().map((r) => cards.find((card) => card.resource
 
   <section class="wrap block" id="objetivo" aria-labelledby="objetivo-title">
     <div class="head head-stack">
-      <div><p class="kicker">{t.home.objectives.eyebrow}</p><h2 id="objetivo-title">{t.home.objectives.heading}</h2></div>
+      <div><h2 id="objetivo-title">{t.home.objectives.heading}</h2></div>
       <p class="lead">{t.home.objectives.lead}</p>
     </div>
     <HomePaths />
@@ -38,7 +37,7 @@ const featured = featuredCourses().map((r) => cards.find((card) => card.resource
   <section class="block band" id="cursos" aria-labelledby="cursos-title">
     <div class="wrap">
       <div class="head head-art">
-        <div><p class="kicker">{t.home.courses.eyebrow}</p><h2 id="cursos-title">{t.home.courses.heading}</h2><p class="lead">{t.home.courses.lead}</p></div>
+        <div><h2 id="cursos-title">{t.home.courses.heading}</h2><p class="lead">{t.home.courses.lead}</p></div>
         <a class="all" href={routes.courses}>{t.home.courses.all}{' '}<span aria-hidden="true">→</span></a>
       </div>
       <ul class="courses" role="list" data-resource-list>
@@ -50,7 +49,7 @@ const featured = featuredCourses().map((r) => cards.find((card) => card.resource
 
   <section class="wrap block" id="trilhas" aria-labelledby="trilhas-title">
     <div class="head">
-      <div><p class="kicker">{t.home.tracks.eyebrow}</p><h2 id="trilhas-title">{t.home.tracks.heading}</h2></div>
+      <div><h2 id="trilhas-title">{t.home.tracks.heading}</h2></div>
       <p class="lead">{t.home.tracks.lead}</p>
     </div>
     <FeaturedPaths />
@@ -58,7 +57,7 @@ const featured = featuredCourses().map((r) => cards.find((card) => card.resource
 
   <section class="wrap block" id="areas" aria-labelledby="areas-title">
     <div class="head">
-      <div><p class="kicker">{t.home.areas.eyebrow}</p><h2 id="areas-title">{t.home.areas.heading}</h2></div>
+      <div><h2 id="areas-title">{t.home.areas.heading}</h2></div>
       <p class="lead">{t.home.areas.lead}</p>
     </div>
     <HomeAreas />
@@ -66,7 +65,7 @@ const featured = featuredCourses().map((r) => cards.find((card) => card.resource
 
   <section class="wrap block" id="fontes" aria-labelledby="fontes-title">
     <div class="head head-center">
-      <div><p class="kicker">{t.home.sources.eyebrow}</p><h2 id="fontes-title">{t.home.sources.heading}</h2></div>
+      <div><h2 id="fontes-title">{t.home.sources.heading}</h2></div>
       <p class="lead">{t.home.sources.lead}</p>
     </div>
     <OfficialSources />
@@ -74,7 +73,7 @@ const featured = featuredCourses().map((r) => cards.find((card) => card.resource
 
   <section class="wrap block" id="curadoria" aria-labelledby="curadoria-title">
     <div class="head">
-      <div><p class="kicker">{cur.eyebrow}</p><h2 id="curadoria-title">{cur.heading}</h2></div>
+      <div><h2 id="curadoria-title">{cur.heading}</h2></div>
       <p class="lead">{cur.lead}</p>
     </div>
     <ul class="commitments" role="list">
@@ -116,9 +115,8 @@ const featured = featuredCourses().map((r) => cards.find((card) => card.resource
   #curadoria::before, #perguntas::before { content: ''; position: absolute; top: 0; left: var(--gutter); right: var(--gutter); height: 1px; background: var(--rule); }
   /* The featured courses sit on a quiet band across the page: the library, opened. */
   .band { background: var(--tint-neutral); padding-block: clamp(2.25rem, 1.5rem + 2.8vw, 3.75rem); }
-  /* A section's head: the eyebrow and the title, and beside them on a wide screen, one line of what follows. */
+  /* A section's head: the title and supporting text, side by side on wide screens. */
   .head { display: grid; gap: var(--space-3) var(--space-7); margin-bottom: var(--space-6); }
-  .kicker { margin-bottom: var(--space-2); font-size: 0.75rem; font-weight: 650; letter-spacing: 0.1em; text-transform: uppercase; color: var(--action); }
   .head h2 { font-size: clamp(2rem, 1.5rem + 1.8vw, 3rem); font-weight: 420; line-height: 1.02; letter-spacing: -0.03em; max-width: 18ch; }
   .head .lead { max-width: 44ch; color: var(--muted); }
   .side { display: grid; gap: var(--space-3); justify-items: start; }

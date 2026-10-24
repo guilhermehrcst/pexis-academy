@@ -144,15 +144,6 @@ a:hover { color: var(--action); }
 /* The page column: content never touches the window edge, and never exceeds the page width. */
 .wrap { width: 100%; max-width: calc(var(--page) + 2 * var(--gutter)); margin-inline: auto; padding-inline: var(--gutter); }
 
-/* Small uppercase labels: only for one or two words (eyebrows, list captions). */
-.eyebrow {
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
