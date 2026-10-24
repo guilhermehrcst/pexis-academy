@@ -644,7 +644,7 @@ function checkAbout(path, html) {
   if (!footerDate || pageDate !== footerDate) fail(path, `verification date ${pageDate} must match the footer's ${footerDate}`);
   // Moved from the footer (V1.1): who runs Paulex Edu, and that quoting Apple implies no tie.
   const main = /<main\b[\s\S]*<\/main>/.exec(html)?.[0] ?? '';
-  if (!/plataforma de educação gratuita da Paulex, empresa fundada em 1984 no Rio de Janeiro/.test(main)) fail(path, 'the about page says what Paulex Edu is');
+  if (!/plataforma gratuita de curadoria educacional da Paulex, empresa fundada em 1984 no Rio de Janeiro/.test(main)) fail(path, 'the about page says that Paulex Edu is a free-to-use curation service');
   const independence = sectionOf(html, /<section\b[^>]*\sid="afiliacao"/) ?? '';
   if (!/Apple em 1977/.test(independence) || !/não indica vínculo nem apoio/.test(independence)) fail(path, 'the about page says the footer quotation implies no tie');
 }
