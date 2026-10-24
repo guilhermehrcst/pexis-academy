@@ -97,7 +97,7 @@ Its lists (routes, redirects, hosts) are written by hand on purpose: they are an
 
 **Fonts.** Two typefaces are self-hosted, both under the SIL OFL 1.1: Newsreader (`@fontsource-variable/newsreader`) for headings and Google Sans Flex (`@fontsource-variable/google-sans-flex`) for text. Their licences are published at `/licenses/`.
 
-**Identity.** The brand is the Paulex Edu wordmark, set in Google Sans Flex (`src/components/BrandMark.astro`). The official Paulex mascot has not been supplied yet: it is never drawn here, and it appears beside the wordmark as soon as its file is added to `src/assets/brand/` as paulex-mascot.svg (or .png). Until then the icons are a provisional typographic stand-in, recorded as such in `src/assets/brand/manifest.json` and checked by `tests/brand.test.ts`. The former Pexis Academy artwork and its rules (`docs/superpowers/brand/2026-10-11-pexis-academy-identity.md`) are history.
+**Identity.** The brand is the Paulex Edu wordmark, set in Google Sans Flex (`src/components/BrandMark.astro`). The official Paulex mascot is the owner's file as supplied (`src/assets/brand/paulex-mascot.png`); it is never redrawn, only scaled. The header shows the mascot alone, as a link named "Paulex Edu, página inicial"; the footer shows it beside the wordmark. The icons are derived from it; every brand file is recorded with its hash in `src/assets/brand/manifest.json` and checked by `tests/brand.test.ts`. The former Pexis Academy artwork and its rules (`docs/superpowers/brand/2026-10-11-pexis-academy-identity.md`) are history.
 
 **Motion.** Motion is limited to small hover and focus transitions and is off under `prefers-reduced-motion`.
 

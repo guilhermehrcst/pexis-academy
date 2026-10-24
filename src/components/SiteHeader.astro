@@ -1,5 +1,5 @@
 ---
-// The header (Global Navigation V1, Paulex Edu): white, with a hairline under it. The wordmark on the left,
+// The header (Global Navigation V1.2, Paulex Edu): frosted white glass, with a hairline under it. The mascot on the left,
 // the six paths in the owner's order (Fundamental, Médio, Pré-Militar, Vestibular, Superior, Tecnologia) in the
 // centre, and search on the right, as a magnifying glass with its name for assistive tech. Dark grey at rest,
 // the primary blue for every interaction, and a blue hairline under the current path.
@@ -14,7 +14,7 @@
 // them, search and one "Menu" button, whose sheet holds the six paths as an accordion of native <details>
 // (one open at a time), then the two libraries. The cost of the sheet, accepted: it closes by its own
 // button or by choosing a link, not by Escape or a tap outside.
-// The brand is the wordmark (BrandMark.astro): type, with the official mascot beside it once supplied.
+// The brand is the official mascot alone (BrandMark.astro, iconOnly), a link named "Paulex Edu, página inicial".
 import BrandMark from './BrandMark.astro';
 import ClipboardIcon from './icons/radix/ClipboardIcon.astro';
 import MagnifyingGlassIcon from './icons/radix/MagnifyingGlassIcon.astro';
@@ -34,7 +34,7 @@ const n = t.nav;
 <header class="site-header">
   <div class="wrap bar">
     <a class="brand" href={routes.home} aria-label={n.home} aria-current={current(routes.home)} data-brand>
-      <BrandMark />
+      <BrandMark iconOnly />
     </a>
 
     <!-- From 1024px, with popovers: the six paths and search on one line. -->
@@ -157,6 +157,23 @@ const n = t.nav;
     color: var(--ink-soft);
     border-bottom: 1px solid var(--rule);
   }
+  /* Frosted glass where the browser can blur what scrolls beneath; solid paper elsewhere, and for anyone who
+     asks for less transparency (a browser that knows the filter but not color-mix() drops that one
+     declaration and keeps the paper too). 88% white is the floor that holds the contrast whatever passes
+     behind: over pure black the bar is still a light grey (224 of 255), where --ink-soft keeps 7:1 and the blue of the
+     wordmark 4.5:1 (tests/contrast.test.ts). The blur only mixes what is there, so it never goes darker.
+     The popover panels sit in the top layer, placed against the viewport, so the filter does not move them. */
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .site-header {
+      background: color-mix(in srgb, var(--paper) 88%, transparent);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+    }
+  }
+  /* An opt-out, never an opt-in: an engine that does not know the query must still get the glass. */
+  @media (prefers-reduced-transparency: reduce) {
+    .site-header { background: var(--paper); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  }
   /* The bar keeps clear of a notch when a phone is held sideways (the page covers the whole screen). */
   .bar {
     position: relative;
@@ -167,7 +184,8 @@ const n = t.nav;
     min-height: 64px;
     padding-inline: max(var(--gutter), env(safe-area-inset-left)) max(var(--gutter), env(safe-area-inset-right));
   }
-  .brand { display: flex; align-items: center; flex: none; min-height: 44px; padding-block: 10px; text-decoration: none; }
+  /* The 40px mascot in a 44px target: the focus ring stays inside the 64px bar. */
+  .brand { display: flex; align-items: center; flex: none; min-height: 44px; padding-block: 2px; border-radius: var(--radius); text-decoration: none; }
   .brand:hover { color: inherit; }
 
   /* One line from 1024px, where popovers exist; below it, or without them, search and the Menu button. A
@@ -183,7 +201,8 @@ const n = t.nav;
          columns share what is left (each at least its content), and the line takes the middle ones as a
          subgrid, so search, the last item of the same list, reaches the last column. */
       .bar { display: grid; grid-template-columns: minmax(max-content, 1fr) repeat(6, auto) minmax(max-content, 1fr); column-gap: 0; }
-      .brand { justify-self: start; }
+      /* The brand keeps clear of the first path even where its column shrinks to its content (1024px). */
+      .brand { justify-self: start; margin-inline-end: var(--space-5); }
       .desktop { grid-column: 2 / -1; }
       @supports (grid-template-columns: subgrid) {
         .desktop, .top { display: grid; grid-template-columns: subgrid; grid-column: 2 / -1; }

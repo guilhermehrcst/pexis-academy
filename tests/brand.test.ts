@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 
-// The Paulex Edu identity (src/assets/brand/manifest.json). The wordmark is type; the official mascot is
-// pending and is never drawn here; the icons are a provisional typographic stand-in, recorded as such, and
-// checked against the manifest so a hand-edited or stale file fails here even if it looks right.
+// The Paulex Edu identity (src/assets/brand/manifest.json). The wordmark is type; the official mascot is the
+// owner's file, never drawn here; the icons are derived from it. Every file is checked against the manifest
+// so a hand-edited or stale file fails here even if it looks right.
 const root = new URL('../', import.meta.url);
 const read = (path: string) => readFileSync(new URL(path, root));
 const manifest = JSON.parse(read('src/assets/brand/manifest.json').toString()) as {
@@ -18,7 +18,7 @@ const manifest = JSON.parse(read('src/assets/brand/manifest.json').toString()) a
 };
 
 test('every brand file is exactly the one recorded in the manifest', () => {
-  assert.deepEqual(Object.keys(manifest.sha256).sort(), ['public/apple-touch-icon.png', 'public/favicon-32.png', 'public/icon-192.png']);
+  assert.deepEqual(Object.keys(manifest.sha256).sort(), ['public/apple-touch-icon.png', 'public/favicon-32.png', 'public/icon-192.png', 'src/assets/brand/paulex-mascot.png']);
   for (const [path, hash] of Object.entries(manifest.sha256)) {
     assert.ok(existsSync(new URL(path, root)), `${path} exists`);
     assert.equal(createHash('sha256').update(read(path)).digest('hex'), hash, `${path} matches the manifest`);

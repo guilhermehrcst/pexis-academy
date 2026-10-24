@@ -299,12 +299,14 @@ function checkShell(path, html) {
   // An id names one element: a second one makes anchors and aria references ambiguous.
   const ids = attrs(html.replace(/<(script|style)\b[\s\S]*?<\/\1>/g, ''), /<[a-z][^>]*\sid="([^"]+)"/g);
   for (const id of new Set(ids.filter((id, i) => ids.indexOf(id) !== i))) fail(path, `duplicate id "${id}"`);
-  // The brand is the Paulex Edu wordmark in every header (a link home, named by its label) and footer, and
+  // The brand is the official mascot alone in every header (a link home, named by its label: the image is
+  // decorative), the Paulex Edu wordmark in every footer, and
   // the icons are the recorded ones (src/assets/brand/manifest.json). The mascot appears only from its file.
   const header = /<header class="site-header"[\s\S]*?<\/header>/.exec(html)?.[0] ?? '';
   const brandLink = /<a\b[^>]*\sdata-brand[^>]*>([\s\S]*?)<\/a>/.exec(header);
   const wordmark = (fragment) => /\sdata-wordmark[\s>][\s\S]*?>Paulex<\/span>\s*<span class="edu[^"]*"[^>]*>Edu<\/span>/.test(fragment);
-  if (!brandLink || !/href="\/"/.test(brandLink[0]) || !/aria-label="Paulex Edu, página inicial"/.test(brandLink[0]) || !wordmark(brandLink[1])) fail(path, 'the header shows the wordmark, linked home');
+  const headerMascot = brandLink && /<img\b[^>]*\sdata-mascot[^>]*>/.exec(brandLink[1])?.[0];
+  if (!brandLink || !/href="\/"/.test(brandLink[0]) || !/aria-label="Paulex Edu, página inicial"/.test(brandLink[0]) || !headerMascot || !/\salt(=""|[\s>])/.test(headerMascot) || /Paulex<\/span>/.test(brandLink[1])) fail(path, 'the header shows the mascot alone, linked home and named');
   for (const img of html.match(/<img\b[^>]*\sdata-mascot[^>]*>/g) ?? []) if (!/\ssrc="\/_astro\/paulex-mascot\./.test(img)) fail(path, 'a mascot shown is the official file');
   if (/sig-a|sig-b/.test(html)) fail(path, 'the temporary typographic signature is gone');
   for (const icon of ['/favicon-32.png', '/icon-192.png', '/apple-touch-icon.png']) {
