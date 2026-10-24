@@ -15,9 +15,10 @@ const byId = (id: string): PublishedLearningResource => {
 test('frontend: a free-account requirement is visible before opening a course', () => {
   const facts = resourceDisplayFacts(byId('kultivi-math-enem'), pt.resource);
   assert.deepEqual(facts.overview.slice(0, 2), ['Curso', 'Em português']);
-  assert.ok(facts.access.includes('Conta gratuita necessária'));
+  assert.ok(facts.access.includes('Conta necessária no provedor'));
+  assert.ok(facts.access.includes('Gratuito'));
   assert.ok(facts.access.includes('Certificado disponível'));
-  assert.ok(!facts.overview.includes('Conta gratuita necessária'));
+  assert.ok(!facts.overview.includes('Conta necessária no provedor'));
 });
 
 test('frontend: access requirements stay separate from format, language and duration', () => {
@@ -25,16 +26,16 @@ test('frontend: access requirements stay separate from format, language and dura
   const facts = resourceDisplayFacts(inep, pt.resource);
   assert.ok(facts.overview.includes('Prática'));
   assert.ok(facts.overview.includes('Em português'));
-  assert.deepEqual(facts.access, ['Sem cadastro']);
+  assert.deepEqual(facts.access, ['Gratuito', 'Sem cadastro']);
 });
 
 test('frontend: unconfirmed access and certificate are never shown as facts', () => {
   const source = byId('kultivi-math-enem');
   const unknown: PublishedLearningResource = { ...source, registration: 'unconfirmed', certificate: 'unconfirmed' };
   const result = resourceDisplayFacts(unknown, pt.resource);
-  assert.deepEqual(result.access, []);
+  assert.deepEqual(result.access, ['Gratuito']);
   const none: PublishedLearningResource = { ...source, registration: 'not-required', certificate: 'none' };
-  assert.deepEqual(resourceDisplayFacts(none, pt.resource).access, ['Sem cadastro']);
+  assert.deepEqual(resourceDisplayFacts(none, pt.resource).access, ['Gratuito', 'Sem cadastro']);
 });
 
 test('frontend: compact rows preserve the provider name without adding extra access claims', () => {
