@@ -62,3 +62,17 @@ unreachable. Both methods failed with `000` / `ENOTFOUND`:
 
 The status above is unchanged. Six brands are still pending and none is shown on the Home. The
 section shows the institutions already verified in the catalogue.
+
+## The Home's row of six technology companies (2026-10-24)
+
+The six marks (Anthropic, Google, OpenAI, NVIDIA, Apple, Meta) are now shown on the Home's row, supplied by the
+owner as raster PNGs (`src/assets/providers/brands.json`). What that does and does not establish:
+
+- Nothing is published for any of them: they have no link and no count, and the heading says the courses are being
+  checked. The courses staged by the PR that prepares them are candidates, not published ones.
+- The files carry no metadata, so their origin as the companies' official files is not verified, and the companies'
+  brand guidelines for showing a mark on a page like this one were not consulted (no network access to their sites). Both
+  are recorded in the manifest as not confirmed, and are the owner's to confirm before the site is published.
+- The mark of a company is not a partnership, a sponsorship or an endorsement: the note under the row says so, and
+  verify-dist rejects any claim of association.
+

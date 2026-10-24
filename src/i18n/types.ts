@@ -149,10 +149,10 @@ export interface Dict {
       countAreas: (resources: number, areas: readonly string[]) => string;
       exams: string;
       examLinks: { enem: string; uerj: string };
-      /** Whose the names and marks are, and where a card leads (inside this site, never to the provider's page). */
+      /** What the heading and the line say while none of the companies in the row has a published course. */
+      pending: { heading: string; lead: string };
+      /** Whose the names and marks are, and that showing a mark is no tie with the Paulex Edu. */
       note: string;
-      /** The visible cue under the sideways row (phone, tablet). */
-      swipe: string;
     };
     /** swipe: the visible cue under a sideways row (phone, tablet), so the row never depends on a hidden gesture. */
     courses: { eyebrow: string; heading: string; lead: string; all: string; swipe: string };

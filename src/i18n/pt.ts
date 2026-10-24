@@ -355,8 +355,11 @@ export const pt: Dict = {
       eyebrow: 'Instituições e fontes',
       heading: 'Conheça as fontes dos nossos cursos',
       lead: 'Explore conteúdos gratuitos publicados por instituições de ensino e tecnologia.',
-      note: 'Os nomes e as marcas pertencem às instituições, e a indicação não significa vínculo com a Paulex Edu. Cada card abre, aqui no site, os cursos dela que indicamos.',
-      swipe: 'Deslize para ver todas as fontes',
+      pending: {
+        heading: 'Fontes que estamos conferindo',
+        lead: 'Estamos avaliando cursos gratuitos de empresas de tecnologia. Eles só entram no catálogo depois de conferidos na página de quem os publica.',
+      },
+      note: 'Os nomes e as marcas pertencem às respectivas empresas, e a presença de um logotipo não significa vínculo com a Paulex Edu.',
       count: (resources, page) => `${resources} ${resources === 1 ? 'curso' : 'cursos'} em ${page}`,
       countAreas: (resources, areas) => `${resources} ${resources === 1 ? 'curso' : 'cursos'} em ${areas.length > 1 ? `${areas.slice(0, -1).join(', ')} e ${areas.at(-1)}` : areas[0]}`,
       exams: 'Para as provas, a fonte é quem as aplica:',

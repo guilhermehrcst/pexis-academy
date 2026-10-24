@@ -1,46 +1,51 @@
 ---
-// The institutions whose free courses the Academy points to (Home V2.4: the body of "Instituições e fontes", whose
-// heading the page sets), as one row of equal cards after the Cursor reference, in the Paulex Edu's own light
-// system: each institution's own supplied mark (ProviderMark, unmodified, in its own colours: nothing filters,
-// fades or covers it), centred in a slot of one height for all, and under it the real count of its courses.
-// A card leads to its courses on this site: the track that holds its first course, or, when its courses span pages,
-// the search filtered by that institution (homeSources). Only providers with published, verified resources appear
-// (institutions()); the brands still being verified are recorded in docs/superpowers/research/2026-10-11-official-brands.md
-// and are not shown. These are the sources of the courses, never partners or sponsors: the note under the row says
-// the names and marks are theirs and that the card opens the courses here, and verify-dist rejects any claim of
-// association.
-// One row from 1024px (as many equal cards as there are institutions, never wider than 12rem). Below it, a sideways
-// row of cards (native scroll, snapping to a card), the next one always showing a little so the row reads as
-// continuing, with the cue under it. No script, no auto-advance: every card is a link that takes focus, and focus
-// scrolls the row to it.
+// The Home's row of technology companies (V2.5: the body of "Instituições e fontes", whose heading the page sets): their
+// marks and nothing else, straight on the page's white, in the owner's order (lib/home-brands.ts). No card, no border,
+// no shadow, no rounded box, no background, no panel; and nothing on a mark: each is the supplied file in its own
+// colours (ProviderMark, unmodified), with no filter, fade or layer over it.
+// A company that has published courses (read from the catalogue by lib/home-brands.ts, never typed) is a link to them,
+// the track that holds its first course or the search filtered by it, with the real count of its courses under the
+// mark. A company with none published is its mark alone: no link, no count, nothing that suggests a resource is
+// available; the page's heading and line say they are being checked (while none has a course) and the note says a mark
+// is no tie with the Paulex Edu. These are sources, never partners or sponsors, and verify-dist rejects any claim of
+// association. The institutions that publish today stay in the catalogue and on their pages; this row is not their
+// list.
+// One row from 1024px. Below it the same marks wrap (three a row on a tablet, two on a phone) instead of scrolling or
+// shrinking: nothing is hidden, a mark is never smaller than its slot allows, and no scrolling region without anything to
+// focus is left to a keyboard. Only a link takes focus, and its ring is the site's own.
 import ProviderMark from './ProviderMark.astro';
-import { homeSources } from '../lib/home-sources';
-import { publishedResources } from '../lib/learning-resources';
-import { providerMarks } from '../lib/providers';
+import type { HomeBrandCell } from '../lib/home-brands';
+import { brandMarks } from '../lib/providers';
 import { routes } from '../lib/routes';
-import { publishedTracks } from '../lib/tech-tracks';
 import { pt as t } from '../i18n/pt';
 
+interface Props { brands: HomeBrandCell[] }
+const { brands } = Astro.props;
 const s = t.home.sources;
-// One page: the track that holds the first course. Several pages: the search filtered by the institution.
-const list = homeSources(Object.keys(providerMarks), publishedResources, publishedTracks()).map((source) => ({
-  ...source,
-  joint: (providerMarks[source.provider]?.length ?? 0) > 1,
-  label: source.areas.length === 1 ? s.count(source.count, source.areas[0]!) : s.countAreas(source.count, source.areas),
-}));
+// A company without its mark would be a blank in the row: fail the build instead.
+const markOf = (id: string) => {
+  const found = brandMarks[id];
+  if (!found) throw new Error(`OfficialSources: ${id} has no mark`);
+  return found;
+};
+const label = (source: NonNullable<HomeBrandCell['source']>) =>
+  source.areas.length === 1 ? s.count(source.count, source.areas[0]!) : s.countAreas(source.count, source.areas);
 ---
 <div class="sources">
   <ul class="marks" role="list">
-    {list.map((item) => (
-      <li data-institution={item.provider}>
-        <a href={item.href}>
-          <span class:list={['mark', item.joint && 'joint']}><ProviderMark name={item.provider} /></span>
-          <span class="count">{item.label}{' '}<span class="go" aria-hidden="true">→</span></span>
-        </a>
+    {brands.map((brand) => (
+      <li data-institution={brand.name}>
+        {brand.source ? (
+          <a href={brand.source.href}>
+            <span class="mark"><ProviderMark name={brand.name} marks={markOf(brand.id)} /></span>
+            <span class="count">{label(brand.source)}{' '}<span class="go" aria-hidden="true">→</span></span>
+          </a>
+        ) : (
+          <span class="mark"><ProviderMark name={brand.name} marks={markOf(brand.id)} /></span>
+        )}
       </li>
     ))}
   </ul>
-  <p class="swipe" aria-hidden="true">{s.swipe} <span>→</span></p>
   <p class="note">{s.note}</p>
   <p class="exams">
     {s.exams}{' '}
@@ -51,68 +56,40 @@ const list = homeSources(Object.keys(providerMarks), publishedResources, publish
 </div>
 
 <style>
-  .sources { display: grid; gap: var(--space-3); }
+  .sources { display: grid; gap: var(--space-4); }
 
-  /* A phone: a sideways row, the third card showing a little. A tablet: cards of 11rem. From 1024px: one row. */
+  /* Two a row on a phone, three on a tablet, six from 1024px, evenly spread and centred. Space, not boxes. */
   .marks {
     display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 44%;
-    gap: var(--space-3);
-    margin-inline: calc(-1 * var(--gutter));
-    /* Room for the focus ring, which an overflow container would otherwise cut. */
-    padding: 6px var(--gutter);
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: var(--gutter);
-    scrollbar-width: none;
-  }
-  .marks::-webkit-scrollbar { display: none; }
-  .marks > li { scroll-snap-align: start; }
-  @media (min-width: 600px) { .marks { grid-auto-columns: 11rem; } }
-  @media (min-width: 1024px) {
-    .marks { grid-auto-columns: minmax(0, 12rem); justify-content: center; margin-inline: 0; padding: 0; overflow: visible; }
-  }
-
-  /* One card: white, a hairline, the mark centred in a slot of one height for all, the count under it. */
-  .marks a {
-    display: grid;
-    grid-template-rows: 4.75rem auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
     justify-items: center;
-    align-content: start;
-    gap: var(--space-3);
-    height: 100%;
-    padding: var(--space-4) var(--space-3);
-    text-align: center;
-    text-decoration: none;
-    color: var(--ink);
-    background: var(--raised);
-    border: 1px solid var(--rule);
-    border-radius: var(--radius-lg);
-    transition: border-color var(--t-ui), background var(--t-ui);
+    gap: var(--space-6) var(--space-4);
+    padding-block: var(--space-4);
   }
-  .marks a:hover { border-color: var(--action); background: var(--surface); }
-  .marks a:focus-visible { outline-offset: 2px; }
-  @media (min-width: 1200px) { .marks a { padding-inline: var(--space-4); } }
+  @media (min-width: 600px) { .marks { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .marks { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--space-5) var(--space-3); } }
 
-  /* The slot: every mark is centred in it, so the counts under them start on one line. Each mark keeps the optical
-     size the catalogue gives it (providers.ts), scaled by --bs with the width of the card. */
-  .mark { display: flex; align-items: center; justify-content: center; width: 100%; min-width: 0; }
-  .mark :global(.brand) { --bs: 0.8; }
-  .mark.joint :global(.brand) { --bs: 0.7; flex-direction: column; justify-content: center; }
-  @media (min-width: 600px) { .mark :global(.brand) { --bs: 0.9; } .mark.joint :global(.brand) { --bs: 0.8; } }
-  @media (min-width: 1024px) { .mark :global(.brand) { --bs: 0.85; } .mark.joint :global(.brand) { --bs: 0.78; } }
-  @media (min-width: 1200px) { .mark :global(.brand) { --bs: 0.95; } .mark.joint :global(.brand) { --bs: 0.85; } }
+  /* One slot for every mark, so they sit on one line whatever their shape (a count under a mark hangs below the line and
+     moves nothing); --bs scales them with the width. */
+  .marks li { display: flex; justify-content: center; width: 100%; min-width: 0; }
+  .mark { display: flex; align-items: center; justify-content: center; min-height: 4.5rem; min-width: 0; }
+  .mark :global(.brand) { --bs: 1; }
+  /* The narrowest phones (320px): two a row leave 136px, so the widest wordmark is scaled to fit its cell. */
+  @media (max-width: 379px) { .mark :global(.brand) { --bs: 0.85; } }
+  @media (min-width: 1024px) { .mark :global(.brand) { --bs: 0.85; } }
+  @media (min-width: 1200px) { .mark :global(.brand) { --bs: 1; } }
 
-  .count { font-size: 0.8125rem; line-height: 1.4; color: var(--muted); text-wrap: balance; }
+  /* A mark that leads to courses: the mark, the count under it, and nothing that makes a box (a colour on the count). */
+  .marks a { display: grid; justify-items: center; gap: var(--space-2); text-align: center; text-decoration: none; color: var(--ink); }
+  .marks a:focus-visible { outline-offset: 6px; }
+  .count { font-size: 0.8125rem; line-height: 1.4; color: var(--muted); text-wrap: balance; max-width: 16ch; }
   .go { display: inline-block; transition: transform var(--t-ui) var(--ease); }
   .marks a:hover .count { color: var(--action); }
   .marks a:hover .go { transform: translateX(2px); }
 
-  .swipe { display: flex; align-items: center; justify-content: center; gap: var(--space-2); font-size: 0.8125rem; font-weight: 560; color: var(--muted); }
-  @media (min-width: 1024px) { .swipe { display: none; } }
   .note, .exams { margin-inline: auto; text-align: center; font-size: var(--fs-small); color: var(--muted); text-wrap: balance; }
-  .note { max-width: 64ch; margin-top: var(--space-2); }
+  .note { max-width: 64ch; }
   .exams { max-width: 90ch; }
   .exams a { font-weight: 500; }
 </style>
