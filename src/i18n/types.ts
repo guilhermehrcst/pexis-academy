@@ -219,7 +219,7 @@ export interface Dict {
   resource: {
     openSource: string;
     accessLabel: string;
-    accessModes: Record<Exclude<LearningAccessId, 'unconfirmed'>, string>;
+    accessModes: Record<LearningAccessId, string>;
     formats: Record<LearningFormatId, string>;
     languages: Record<LearningLanguageId, string>;
     /** Only confirmed values have a label: 'unconfirmed' is never shown as a fact (V0.4 Gate B, P4). */
