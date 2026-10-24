@@ -12,7 +12,7 @@
 // declared is a problem, and a non-empty list of problems stops the build (learning-resources.ts).
 // No asset imports: this module runs under Node's test runner.
 import { DIGEST_PATTERN, digestOf } from './canonical.ts';
-import { isPublishedResource, type LearningResource, type PublishedLearningResource } from '../learning-resources.ts';
+import type { LearningResource, PublishedLearningResource } from '../learning-resources.ts';
 
 /* States and transitions ---------------------------------------------------------------------------- */
 
@@ -300,7 +300,14 @@ export interface Projection {
   problems: string[];
 }
 
-const isPublishable = isPublishedResource;
+// Keep this pure and local: importing the predicate from learning-resources.ts would create a
+// runtime initialization cycle, since that module imports projectRelease from this engine.
+const isPublishable = (r: LearningResource): r is PublishedLearningResource => {
+  if (!r.url || !r.verified) return false;
+  const mode = r.accessMode ?? 'free';
+  if (mode === 'free' || mode === 'conditional') return r.verified.freeAccess === true;
+  return (mode === 'paid' || mode === 'subscription') && r.verified.freeAccess === false;
+};
 
 export const projectRelease = (input: ReleaseInput): Projection => {
   const problems: string[] = [];
