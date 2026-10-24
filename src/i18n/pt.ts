@@ -38,10 +38,7 @@ export const pt: Dict = {
     },
     verified: (date) => `Recursos verificados em ${date}.`,
     copyright: '© 2026 Paulex Edu',
-    institution: 'A Paulex Edu é a plataforma de educação gratuita da Paulex, empresa fundada em 1984 no Rio de Janeiro.',
-    independence: 'A seleção é editorial e independente das instituições cujos materiais indica: os recursos são de terceiros, gratuitos para estudar, e cada link leva à fonte original.',
-    quoteNote: 'A frase em destaque foi usada pela Apple em 1977; citá-la não indica vínculo nem apoio.',
-    marks: 'Os nomes e as marcas das instituições citadas pertencem aos seus titulares.',
+    statement: 'Recursos gratuitos de terceiros, escolhidos com curadoria editorial independente. Nomes e marcas pertencem aos seus titulares.',
     licenses: 'Licenças',
   },
   pages: {
@@ -372,7 +369,7 @@ export const pt: Dict = {
     },
   },
   about: {
-    intro: 'A Paulex Edu é a plataforma de educação gratuita da Paulex. Ela não produz aulas: organiza, por caminho, área e matéria, materiais gratuitos de universidades, instituições públicas e plataformas educacionais, e diz por onde começar.',
+    intro: 'A Paulex Edu é a plataforma de educação gratuita da Paulex, empresa fundada em 1984 no Rio de Janeiro. Ela não produz aulas: organiza, por caminho, área e matéria, materiais gratuitos de universidades, instituições públicas e plataformas educacionais, e diz por onde começar.',
     curation: {
       heading: 'Regras de curadoria',
       rules: [
@@ -395,6 +392,7 @@ export const pt: Dict = {
       body: [
         'A Paulex Edu não tem vínculo com o INEP, com a UERJ nem com os provedores dos recursos indicados. Os nomes e as marcas pertencem aos seus titulares e aparecem apenas para identificar a origem de cada material.',
         'Não usamos links de afiliado: indicar um recurso não depende de nenhum acordo com quem o oferece.',
+        'A frase do rodapé, “A simplicidade é o último grau da sofisticação.”, foi usada pela Apple em 1977. Citá-la não indica vínculo nem apoio da Apple à Paulex Edu.',
       ],
     },
   },
