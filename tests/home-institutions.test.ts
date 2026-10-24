@@ -50,7 +50,8 @@ test('the row: one card per institution from the catalogue, each one link with i
   assert.doesNotMatch(markup, /https?:\/\//, 'no external address');
   assert.doesNotMatch(sources, /<script\b/, 'no script: native scroll only');
   assert.doesNotMatch(sources, /setInterval|autoplay|requestAnimationFrame|animation:/i, 'no auto-advance and no loop');
-  assert.match(page, /<div class="head head-center">\s*<div><p class="kicker">\{t\.home\.sources\.eyebrow\}<\/p><h2 id="fontes-title">\{t\.home\.sources\.heading\}<\/h2><\/div>/);
+  assert.match(page, /<div class="head head-center">\s*<div><h2 id="fontes-title">\{t\.home\.sources\.heading\}<\/h2><\/div>/);
+  assert.doesNotMatch(page, /<p class="kicker">/, "decorative section labels are removed");
 });
 
 test('the marks keep their own colours: no filter, blend, fade or layer over a mark', () => {
