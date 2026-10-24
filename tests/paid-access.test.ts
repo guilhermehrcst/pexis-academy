@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import { isPublishedResource, resourceProblems, type LearningResource } from '../src/lib/learning-resources.ts';
-import { projectRelease, type LotEntry, type LotManifest } from '../src/lib/release/engine.ts';
+import type { LotEntry, LotManifest } from '../src/lib/release/engine.ts';
 import { digestOf } from '../src/lib/release/canonical.ts';
 import { priceDisplay, resourceDisplayFacts } from '../src/lib/resource-display.ts';
 import { pt } from '../src/i18n/pt.ts';
