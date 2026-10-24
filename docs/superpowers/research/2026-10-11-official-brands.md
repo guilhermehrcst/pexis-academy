@@ -73,6 +73,8 @@ owner as raster PNGs (`src/assets/providers/brands.json`). What that does and do
 - The files carry no metadata, so their origin as the companies' official files is not verified, and the companies'
   brand guidelines for showing a mark on a page like this one were not consulted (no network access to their sites). Both
   are recorded in the manifest as not confirmed, and are the owner's to confirm before the site is published.
-- The mark of a company is not a partnership, a sponsorship or an endorsement: the note under the row says so, and
-  verify-dist rejects any claim of association.
+- The mark of a company is not a partnership, a sponsorship or an endorsement. The note that said so under the row was
+  taken off the Home at the owner's request (2026-10-24); the footer still says that names and marks belong to their
+  owners, the commitments say the curation does not depend on commercial partnerships, and verify-dist rejects any
+  claim of association.
 
