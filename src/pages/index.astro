@@ -65,7 +65,7 @@ const featured = featuredCourses().map((r) => cards.find((card) => card.resource
   </section>
 
   <section class="wrap block" id="fontes" aria-labelledby="fontes-title">
-    <div class="head">
+    <div class="head head-center">
       <div><p class="kicker">{t.home.sources.eyebrow}</p><h2 id="fontes-title">{t.home.sources.heading}</h2></div>
       <p class="lead">{t.home.sources.lead}</p>
     </div>
@@ -77,15 +77,15 @@ const featured = featuredCourses().map((r) => cards.find((card) => card.resource
       <div><p class="kicker">{cur.eyebrow}</p><h2 id="curadoria-title">{cur.heading}</h2></div>
       <p class="lead">{cur.lead}</p>
     </div>
-    <ol class="commitments" role="list">
-      {cur.commitments.map((item, i) => (
+    <ul class="commitments" role="list">
+      {cur.commitments.map((item) => (
         <li>
-          <span class="n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <span class="check" aria-hidden="true"></span>
           <h3>{item.title}</h3>
           <p>{item.body}</p>
         </li>
       ))}
-    </ol>
+    </ul>
     <div class="proof">
       <p class="stamp"><span class="dot" aria-hidden="true"></span><time datetime={VERIFIED_ON}>{cur.verified(formatDate(VERIFIED_ON))}</time></p>
       <p class="more"><a href={routes.about}>{cur.more}{' '}<span aria-hidden="true">→</span></a></p>
@@ -129,6 +129,10 @@ const featured = featuredCourses().map((r) => cards.find((card) => card.resource
   /* The paths' head (V2.2): the title with its line right under it, on one reading width, at every width. */
   .head.head-stack { grid-template-columns: minmax(0, 1fr); gap: var(--space-3); margin-bottom: var(--space-5); }
   .head-stack .lead { max-width: 46ch; font-size: var(--fs-lead); line-height: 1.45; }
+  /* The institutions' head (V2.4): the title and its line centred over the row of cards, at every width. */
+  .head.head-center { grid-template-columns: minmax(0, 1fr); justify-items: center; gap: var(--space-3); margin-bottom: var(--space-6); text-align: center; }
+  .head.head-center h2 { max-width: none; text-wrap: balance; }
+  .head.head-center .lead { max-width: 56ch; text-wrap: balance; }
   .head-art { grid-template-columns: minmax(0, 1fr); align-items: end; }
   .head-art .lead { margin-top: var(--space-3); }
   .head-art .all { justify-self: start; }
@@ -159,15 +163,16 @@ const featured = featuredCourses().map((r) => cards.find((card) => card.resource
   .all:hover { background: var(--action-hover); color: var(--on-action); }
   .more a { display: inline-flex; align-items: center; gap: 0.35em; min-height: 44px; font-weight: 560; }
 
-  /* Commitments: three short promises, numbered; then the date of the last verification and the rules. */
-  .commitments { display: grid; gap: var(--space-4); }
-  @media (min-width: 900px) { .commitments { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); } }
-  /* A hairline over each promise and a short wine mark at its start: the colour points, the line organises. */
-  .commitments li { position: relative; display: grid; align-content: start; gap: var(--space-3); padding-top: var(--space-5); border-top: 1px solid var(--rule-strong); }
-  .commitments li::before { content: ''; position: absolute; top: -1px; left: 0; width: 2rem; height: 2px; background: var(--action); }
-  .commitments .n { font-size: 0.75rem; font-weight: 650; font-variant-numeric: tabular-nums; letter-spacing: 0.06em; color: var(--action); }
+  /* Commitments (V2.4): three short promises, open on the page: no box and no line, a check in the tint of the menus'
+     icons (drawn in CSS, as the header's marks are), the title in the serif, the line under it. Then the date of the
+     last verification and the rules. */
+  .commitments { display: grid; gap: var(--space-6); }
+  @media (min-width: 900px) { .commitments { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-7); } }
+  .commitments li { display: grid; justify-items: start; align-content: start; gap: var(--space-3); }
+  .check { position: relative; width: 32px; height: 32px; border-radius: 50%; background: var(--tint-brand); }
+  .check::after { content: ''; position: absolute; left: 12px; top: 8px; width: 6px; height: 12px; border: solid var(--action); border-width: 0 2px 2px 0; rotate: 45deg; }
   .commitments h3 { font-family: var(--serif); font-size: clamp(1.5rem, 1.3rem + 0.5vw, 1.75rem); font-weight: 440; line-height: 1.1; letter-spacing: -0.02em; }
-  .commitments p { max-width: 42ch; font-size: 0.9375rem; line-height: 1.6; color: var(--muted); }
+  .commitments p { max-width: 38ch; font-size: 0.9375rem; line-height: 1.6; color: var(--muted); }
   .proof { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-5); margin-top: var(--space-6); }
   .stamp { display: inline-flex; align-items: center; gap: var(--space-2); font-size: 0.8125rem; color: var(--muted); }
   .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--action); }

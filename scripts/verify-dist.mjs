@@ -576,7 +576,7 @@ function checkHome(path, html, resources) {
   const claim = /parceir|patroc[ií]n|apoiad|endoss|oficial da pexis|tutor|progresso salvo|salvamos|certificado da (pexis|academy)/i.exec(plain);
   if (claim) fail(path, `the Home claims an association ("${claim[0]}")`);
   // Nor a promise the catalogue does not keep: not every course is in Portuguese, not every source is official.
-  const overclaim = /em português · fontes oficiais|todos os cursos (são|estão) em português|apenas fontes oficiais/i.exec(plain);
+  const overclaim = /em português · fontes oficiais|todos os cursos (são|estão) em português|apenas fontes oficiais|cada indicação leva à página oficial/i.exec(plain);
   if (overclaim) fail(path, `the Home overclaims ("${overclaim[0]}")`);
   // Nor a metric the Academy does not have (V2: the ART Course reference shows listeners and progress).
   const metric = /ouvintes|inscritos|matriculad|visualizaç|avaliaç|estrelas|aulas? concluíd|\d+\s*%/i.exec(plain);
