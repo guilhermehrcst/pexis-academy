@@ -49,13 +49,16 @@ test('paid and conditional access require visible terms and source evidence', ()
   assert.match(resourceProblems({ ...paid, price: { value: -10, currency: 'USD' } }, NOW).join(';'), /positive amount/);
   assert.match(resourceProblems({ ...paid, verified: { ...paid.verified!, freeAccess: true } }, NOW).join(';'), /inconsistent verified access/);
   assert.match(resourceProblems({ ...paid, verified: { ...paid.verified!, evidence: { ...paid.verified!.evidence!, checked: ['scope', 'language', 'format', 'path'] } } }, NOW).join(';'), /pricing\/access conditions not checked/);
-  assert.equal(isPublishedResource({ ...paid, accessMode: 'unconfirmed', verified: paid.verified }), false);
-  assert.equal(isPublishedResource({ ...paid, verified: undefined }), false);
+  assert.equal(isPublishedResource({ ...paid, accessMode: 'unconfirmed' }), false);
+  const withoutVerification = { ...paid };
+  delete withoutVerification.verified;
+  assert.equal(isPublishedResource(withoutVerification), false);
   const subscription = { ...paid, accessMode: 'subscription' as const, price: { value: 30, currency: 'BRL' as const, cadence: 'month' as const } };
   assert.deepEqual(resourceProblems(subscription, NOW), []);
   assert.match(priceDisplay(subscription, pt.resource), /Assinatura.*R\$.*30,00\/mês/);
-  const conditional = { ...paid, accessMode: 'conditional' as const, accessTerms: 'Parte das aulas disponível sem cobrança; certificado opcional pago.', price: undefined,
+  const conditional: LearningResource = { ...paid, accessMode: 'conditional', accessTerms: 'Parte das aulas disponível sem cobrança; certificado opcional pago.',
     verified: { ...paid.verified!, freeAccess: true, evidence: { ...paid.verified!.evidence!, checked: ['free', 'pricing', 'scope', 'language', 'format', 'path'] } } };
+  delete conditional.price;
   assert.deepEqual(resourceProblems(conditional, NOW), []);
   assert.equal(isPublishedResource(conditional), true);
 });
