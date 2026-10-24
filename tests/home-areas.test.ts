@@ -40,8 +40,8 @@ test('every area has its picture: the owner\'s file, untouched, as the manifest 
     assert.deepEqual(pngSize(bytes), [manifest.files[area]!.width, manifest.files[area]!.height], `${area} keeps its own proportions`);
   }
   // They are AI-generated, and their Content Credentials (a C2PA manifest in the PNG) say so: the manifest records
-  // what the files declare, and that publishing them is the owner's to confirm, until they do.
-  assert.equal(manifest.provenance.status, 'ai-generated-rights-unconfirmed');
+  // what the files declare, and the owner's decision to publish them (a statement, not a licence document).
+  assert.equal(manifest.provenance.status, 'ai-generated-rights-confirmed-by-owner');
   assert.match(manifest.provenance.c2pa.generator, /gpt-image/);
   assert.match(manifest.provenance.c2pa.digitalSourceType, /trainedAlgorithmicMedia$/);
   for (const area of AREA_ORDER) {
