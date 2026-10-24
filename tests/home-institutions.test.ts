@@ -39,7 +39,7 @@ test('no copy of the row presents a company as a partner, sponsor or endorser, o
 
 test('the three commitments, with the verification date and the rules kept', () => {
   assert.deepEqual(c.commitments, [
-    { title: 'Acesso transparente', body: 'Indicamos se o curso é gratuito, pago, por assinatura ou tem condições. A Paulex Edu não cobra pelo acesso ao catálogo.' }
+    { title: 'Acesso transparente', body: 'Indicamos se o curso é gratuito, pago, por assinatura ou tem condições. A Paulex Edu não cobra pelo acesso ao catálogo.' },
     { title: 'Conferido na fonte', body: 'Os materiais passam por verificação na página original do responsável pela publicação.' },
     { title: 'Independente', body: 'A curadoria não depende de parcerias comerciais ou de links de afiliados.' },
   ]);
