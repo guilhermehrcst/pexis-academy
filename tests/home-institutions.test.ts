@@ -17,10 +17,10 @@ const c = pt.home.curation;
 
 test('the heading and line: the owner\'s once a company has a published course; until then, what is true', () => {
   assert.equal(s.heading, 'Conheça as fontes dos nossos cursos');
-  assert.equal(s.lead, 'Explore conteúdos gratuitos publicados por instituições de ensino e tecnologia.');
+  assert.equal(s.lead, 'Explore cursos de diferentes instituições, com acesso gratuito ou pago informado no catálogo.');
   // None of the six has a published course today, so "the sources of our courses" would be false: the page says it is checking.
   assert.equal(s.pending.heading, 'Fontes que estamos conferindo');
-  assert.match(s.pending.lead, /^Estamos avaliando cursos gratuitos de empresas de tecnologia\. Eles só entram no catálogo depois de conferidos/);
+  assert.match(s.pending.lead, /^Estamos avaliando cursos gratuitos e pagos de empresas de tecnologia\. Eles entram no catálogo após a verificação/);
   assert.doesNotMatch(`${s.pending.heading} ${s.pending.lead}`, /nossos cursos|publicados por/, 'the pending copy claims no published course');
   // The page picks by what the catalogue publishes, never by hand.
   assert.match(page, /const brands = homeBrands\(HOME_BRANDS, publishedResources, publishedTracks\(\)\);/);
@@ -39,7 +39,7 @@ test('no copy of the row presents a company as a partner, sponsor or endorser, o
 
 test('the three commitments, with the verification date and the rules kept', () => {
   assert.deepEqual(c.commitments, [
-    { title: 'Gratuito para estudar', body: 'Os recursos indicados oferecem conteúdo gratuito para estudo. Certificados opcionais podem ter cobrança.' },
+    { title: 'Acesso transparente', body: 'Indicamos se o curso é gratuito, pago, por assinatura ou tem condições. A Paulex Edu não cobra pelo acesso ao catálogo.' }
     { title: 'Conferido na fonte', body: 'Os materiais passam por verificação na página original do responsável pela publicação.' },
     { title: 'Independente', body: 'A curadoria não depende de parcerias comerciais ou de links de afiliados.' },
   ]);
