@@ -3,17 +3,18 @@
   "navy": "#102a56",
   "primary": "#175cd3",
   "mascot": {
-    "status": "pending",
-    "expected": "src/assets/brand/paulex-mascot.svg (or .png, square, the official file as supplied)",
-    "note": "The official Paulex mascot (a minimal character in a navy circle) was not supplied to the repository. It is never drawn here: the wordmark stands alone until the file is added, and BrandMark.astro then shows it beside the wordmark."
+    "status": "supplied",
+    "file": "src/assets/brand/paulex-mascot.png",
+    "note": "The official Paulex mascot (a minimal character in a navy circle), 1254x1254 RGBA with a transparent surround, committed byte for byte as supplied by the owner. It is never redrawn or recoloured: the site only scales it (astro:assets) for the header and the footer."
   },
   "icons": {
-    "provisional": true,
-    "what": "A white capital P in Google Sans Flex (700) on the navy: a typographic stand-in, not a mark, until the official mascot exists. Generated once with the site's own font file; replace by icons derived from the mascot."
+    "provisional": false,
+    "what": "Derived from the official mascot with sharp: the circle cropped from its transparent surround (extract left 111, top 122, 1033x1033), scaled with lanczos3. favicon-32 and icon-192 keep the transparency; apple-touch-icon (180) is flattened on the white of --paper, since iOS fills a transparent icon with black."
   },
   "sha256": {
-    "public/favicon-32.png": "794d1e9aa5f091afef59f0181fe04db501880663d127aa44a3ed574b98ec702a",
-    "public/icon-192.png": "73a972e71839c15829c465fee6ae419f0aa43ebda4e810b9dfb779776cb03fb0",
-    "public/apple-touch-icon.png": "4ff3934bbf84982ea0b101d85f450587f829a4693c40ed0beaa807274328db7d"
+    "src/assets/brand/paulex-mascot.png": "cf34500a7046f6c7290d3b74be0fd919dcc52bc9090f0ccc9419b71c6aac1e3c",
+    "public/favicon-32.png": "b5d85f1ad694d113341d7198a67c100e25ed6aa9192ce47db15b6a07d4c53fd9",
+    "public/icon-192.png": "74a4ed6a781f1eb70c81800ff26c413a54c0246cd2595666b2407eada3d794dc",
+    "public/apple-touch-icon.png": "71753866f2f74d127af5be7f5496d817a93135c317ff89adc6aac4b5a0507092"
   }
 }

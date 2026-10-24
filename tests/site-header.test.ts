@@ -24,6 +24,17 @@ test('the identity: the wordmark linked home, on a white sticky bar with a hairl
   assert.doesNotMatch(css, /prefers-color-scheme|data-theme/, 'one theme');
 });
 
+test('the glass: frosted only where the blur exists, solid paper otherwise and on request', () => {
+  // The solid rule comes first and stands alone: the safe state for every engine.
+  assert.match(css, /@supports \(\(backdrop-filter: blur\(1px\)\) or \(-webkit-backdrop-filter: blur\(1px\)\)\) \{\s*\.site-header \{\s*background: color-mix\(in srgb, var\(--paper\) \d+%, transparent\);\s*-webkit-backdrop-filter: saturate\(180%\) blur\(20px\);\s*backdrop-filter: saturate\(180%\) blur\(20px\);/);
+  assert.ok(css.indexOf('background: var(--paper);') < css.indexOf('backdrop-filter'), 'the paper fallback precedes the glass');
+  // Reduced transparency is an opt-out query, never `not (...)`: an engine that does not know it keeps the glass.
+  assert.match(css, /@media \(prefers-reduced-transparency: reduce\) \{\s*\.site-header \{ background: var\(--paper\); -webkit-backdrop-filter: none; backdrop-filter: none; \}/);
+  assert.doesNotMatch(css, /@media not \(prefers-reduced-transparency/);
+  // No decoration: no gradient and no shadow on the bar.
+  assert.doesNotMatch(css, /\.site-header \{[^}]*(gradient|box-shadow)/);
+});
+
 test('six buttons open six popovers; the menus come from the catalogue model, never typed', () => {
   // The menus work natively; the one script only places them (src/scripts/menu-placement.ts, tested apart).
   assert.equal((header.match(/<script\b/g) ?? []).length, 1);

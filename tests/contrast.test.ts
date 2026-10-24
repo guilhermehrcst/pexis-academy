@@ -41,6 +41,20 @@ for (const [fg, bg, min] of pairs) {
   });
 }
 
+// The header is frosted glass: --paper at the share set in SiteHeader.astro over whatever scrolls beneath.
+// The worst backdrop is pure black (the blur only mixes what is there), so the floor is that share of white.
+test('the glass header keeps its text legible over any backdrop', () => {
+  const header = readFileSync(new URL('src/components/SiteHeader.astro', root), 'utf8');
+  const share = Number(/background: color-mix\(in srgb, var\(--paper\) (\d+)%, transparent\);/.exec(header)?.[1]);
+  assert.ok(share > 0 && share <= 100, 'the glass mixes --paper with transparency');
+  assert.equal(token('paper'), '#ffffff', 'the floor below assumes white paper');
+  const floor = `#${Math.floor(255 * share / 100).toString(16).padStart(2, '0').repeat(3)}`;
+  for (const [fg, min] of [['ink', 7], ['ink-soft', 7], ['brand', 7], ['action', 4.5], ['muted', 4.5]] as const) {
+    const ratio = contrast(token(fg), floor);
+    assert.ok(ratio >= min, `--${fg} on ${floor}: ${ratio.toFixed(2)}:1`);
+  }
+});
+
 test('no hex colour outside :root, but the theme-color meta, which equals --paper', () => {
   const walk = (dir: string): string[] => readdirSync(new URL(dir, root)).flatMap((name) => {
     const path = `${dir}/${name}`;
