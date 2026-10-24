@@ -9,7 +9,7 @@ import { AREA_ORDER } from '../src/lib/taxonomy.ts';
 // The six pictures of the Home's area cards (src/assets/areas/manifest.json): the owner's files, byte for byte, in
 // their own colours. A first version toned them to each card inside the files themselves; that was rejected, so
 // the files are held to the owner's hashes, and the card's CSS is held to touch nothing of their colour. The card
-// keeps its panel and its links, and the panel stays legible whatever the picture.
+// keeps its panel and an area-level link, and the panel stays legible whatever the picture.
 const root = new URL('../', import.meta.url);
 const read = (path: string) => readFileSync(new URL(path, root));
 const manifest = JSON.parse(read('src/assets/areas/manifest.json').toString()) as {
@@ -63,12 +63,13 @@ test('the manifest and the Home agree on the tone of every area, and every pictu
   assert.equal((lib.match(/fit: 'contain'/g) ?? []).length, grounds.length, 'only a picture with a ground is shown whole');
 });
 
-test('the card keeps its structure: a picture that is decorative, the area name, the subjects as links', () => {
+test('the card keeps its structure: a decorative picture and a linked area title, without subject labels', () => {
   // The picture: empty alt, in a field hidden from assistive tech, behind the panel in the order of the document.
   assert.match(component, /<div class="art" aria-hidden="true"[^>]*>\s*<Image src=\{areaImages\[area\.id\]\.src\} alt=""/);
   assert.ok(component.indexOf('class="art"') < component.indexOf('class="panel"'), 'the picture comes before the panel');
-  assert.match(component, /<h3 class="name">\{area\.label\}<\/h3>/);
-  assert.match(component, /area\.subjects\.map\(\(id\) => <li><a href=\{routes\.subject\(id\)\}>\{SUBJECTS\[id\]\.label\}<\/a><\/li>\)/);
+  assert.ok(component.includes('<h3 class="name"><a href={area.id === \'tecnologia\' ? routes.subject(\'tecnologia\') : `${routes.subjectIndex}#area-${area.id}`}>{area.label}</a></h3>'));
+  assert.ok(component.includes("routes.subject('tecnologia')"), 'Technology keeps the same destination across the homepage');
+  assert.doesNotMatch(component, /class="subjects"|area\.subjects\.map|routes\.subject\(id\)/);
   assert.doesNotMatch(component, /data-sign|AREA_SIGNS/, 'the typographic signs gave way to the pictures');
   // Decorative pictures are never what loads first: the section is below the fold.
   assert.match(component, /loading="lazy"/);
