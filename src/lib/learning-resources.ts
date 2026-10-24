@@ -96,6 +96,11 @@ export interface LearningResource {
   format: LearningFormatId;
   /** Conditions of study on the provider's site. Absent only for the unchanged free legacy records. */
   accessMode?: LearningAccessId;
+  /** Visible provider terms, required for paid, subscription and conditional learning.
+   * Never confuse a possible certificate fee with the course's price. */
+  accessTerms?: string;
+  /** Optional verified price quote (no guessed prices). Amount is in the currency's normal units. */
+  price?: { value: number; currency: 'BRL' | 'USD' | 'EUR'; cadence?: 'once' | 'month' | 'year' };
   /** The paths this resource serves: at least one, declared resource by resource. */
   paths: readonly [PathId, ...PathId[]];
   /** The exams it prepares for, when there is evidence. Each exam's parent path is among `paths`. */
@@ -202,6 +207,13 @@ export const resourceProblems = (resource: LearningResource, now: Date = new Dat
   if (resource.paths.includes('ensino-medio') && areaOf(resource) === 'tecnologia') fail('puts technology in Ensino Médio');
   if (resource.url && !resource.url.startsWith('https://')) fail('url must be https');
   if (resource.accessMode !== undefined && !(LEARNING_ACCESS_MODES as readonly unknown[]).includes(resource.accessMode)) fail('has an unknown access model');
+  if (['paid', 'subscription', 'conditional'].includes(resource.accessMode ?? '') && !resource.accessTerms?.trim()) fail('access terms required for non-free courses');
+  if (resource.price) {
+    if (!['paid', 'subscription', 'conditional'].includes(resource.accessMode ?? '')) fail('a free resource cannot state a paid learning price');
+    if (!Number.isFinite(resource.price.value) || resource.price.value <= 0) fail('price must be a positive amount');
+    if (!['BRL', 'USD', 'EUR'].includes(resource.price.currency)) fail('unsupported price currency');
+    if (resource.price.cadence && !['once', 'month', 'year'].includes(resource.price.cadence)) fail('unsupported billing cadence');
+  }
   if (resource.verified && !isPublishedResource(resource)) fail('has inconsistent verified access (free, paid or subscription)');
   if (!resource.url && !resource.review?.trim()) fail('is held back without a review note');
   return problems;
