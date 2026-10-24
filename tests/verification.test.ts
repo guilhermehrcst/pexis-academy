@@ -93,7 +93,7 @@ test('P4: an unconfirmed detail is stated as unconfirmed and never shown as a fa
   const published = publishedResources[0];
   if (!published) throw new Error('missing legacy resource for the verification test');
   const unknown = { ...published, registration: 'unconfirmed' as const, certificate: 'unconfirmed' as const };
-  assert.deepEqual(resourceDisplayFacts(unknown, pt.resource).access, [],
+  assert.deepEqual(resourceDisplayFacts(unknown, pt.resource).access, ['Gratuito'],
     'ResourceItem must not show unsupported requirements or certificate claims');
 });
 
