@@ -1,51 +1,58 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 
-// The official Pexis Academy artwork and what is derived from it (scripts/brand-assets.mjs). This test does
-// not run sharp: it checks the manifest the script wrote, so a hand-edited or stale file fails here even
-// if it looks right.
+// The Paulex Edu identity (src/assets/brand/manifest.json). The wordmark is type; the official mascot is
+// pending and is never drawn here; the icons are a provisional typographic stand-in, recorded as such, and
+// checked against the manifest so a hand-edited or stale file fails here even if it looks right.
 const root = new URL('../', import.meta.url);
 const read = (path: string) => readFileSync(new URL(path, root));
 const manifest = JSON.parse(read('src/assets/brand/manifest.json').toString()) as {
-  brandRed: string;
-  artwork: { box: { width: number; height: number }; symbol: { width: number; height: number } };
+  brand: string;
+  navy: string;
+  primary: string;
+  mascot: { status: 'pending' | 'supplied' };
+  icons: { provisional: boolean };
   sha256: Record<string, string>;
 };
 
-test('every brand file is exactly what the script generated from the official sources', () => {
-  assert.ok(Object.keys(manifest.sha256).length >= 7);
+test('every brand file is exactly the one recorded in the manifest', () => {
+  assert.deepEqual(Object.keys(manifest.sha256).sort(), ['public/apple-touch-icon.png', 'public/favicon-32.png', 'public/icon-192.png']);
   for (const [path, hash] of Object.entries(manifest.sha256)) {
     assert.ok(existsSync(new URL(path, root)), `${path} exists`);
     assert.equal(createHash('sha256').update(read(path)).digest('hex'), hash, `${path} matches the manifest`);
   }
 });
 
-test('the official sources are kept as supplied', () => {
-  // The hashes of the two files the owner supplied (2026-10-11): never re-saved, cropped or recoloured.
-  assert.equal(manifest.sha256['src/assets/brand/source/pexis-academy-horizontal-white.png'], '1415d3a25dd41cb0eaaedbb0f44ba667dc3e199d2820adf4c9beb7f84c840f21');
-  assert.equal(manifest.sha256['src/assets/brand/source/pexis-academy-stacked-red.png'], '868ed4a6580f95c2f9136dc908dce26a524c24227724b9d0969f4f02264036c5');
-});
-
-test('the --brand token is the red measured from the official artwork', () => {
+test('the tokens are the identity recorded in the manifest', () => {
   const css = read('src/styles/global.css').toString();
-  const brand = /--brand:\s*(#[0-9a-f]{6})/i.exec(css)?.[1]?.toLowerCase();
-  assert.equal(brand, manifest.brandRed);
-  assert.equal(manifest.brandRed, '#720111');
+  assert.equal(manifest.brand, 'Paulex Edu');
+  assert.equal(/--brand:\s*(#[0-9a-f]{6})/i.exec(css)?.[1]?.toLowerCase(), manifest.navy);
+  assert.equal(/--action:\s*(#[0-9a-f]{6})/i.exec(css)?.[1]?.toLowerCase(), manifest.primary);
 });
 
-test('the lockup keeps the artwork whole: its proportions are the original box', () => {
-  const { box, symbol } = manifest.artwork;
-  assert.deepEqual([box.width, box.height], [1481, 413]);
-  assert.deepEqual([symbol.width, symbol.height], [477, 413]);
+test('the mascot is never invented: the manifest and the files agree on whether it exists', () => {
+  const supplied = readdirSync(new URL('src/assets/brand/', root)).filter((name) => /^paulex-mascot\.(svg|png)$/.test(name));
+  assert.equal(manifest.mascot.status, supplied.length ? 'supplied' : 'pending');
+  // While it is pending, the icons say they are provisional; the day it arrives, they must be redone from it.
+  assert.equal(manifest.icons.provisional, manifest.mascot.status === 'pending');
+  const mark = read('src/components/BrandMark.astro').toString();
+  assert.match(mark, /import\.meta\.glob<[^>]+>\('\.\.\/assets\/brand\/paulex-mascot\.\{svg,png\}'/, 'the mascot slot reads the official file only');
+  assert.doesNotMatch(mark, /<svg\b|<circle\b|<path\b/, 'no drawn stand-in for the mascot');
 });
 
-test('the page shell links the generated icons, and nothing else stands for the brand', () => {
+test('the former Pexis Academy artwork is gone from the site', () => {
+  for (const gone of ['src/assets/brand/lockup-white.png', 'src/assets/brand/symbol-white.png', 'src/assets/brand/source', 'scripts/brand-assets.mjs']) {
+    assert.ok(!existsSync(new URL(gone, root)), `${gone} is gone`);
+  }
+});
+
+test('the page shell links the icons, and the header and footer carry the wordmark', () => {
   const base = read('src/layouts/Base.astro').toString();
-  assert.ok(base.includes('href="/favicon-32.png"'), 'favicon');
-  assert.ok(base.includes('href="/apple-touch-icon.png"'), 'apple touch icon');
-  assert.ok(!existsSync(new URL('public/favicon.svg', root)), 'the temporary "P" favicon is gone');
-  const header = read('src/components/SiteHeader.astro').toString();
-  assert.ok(!/sig-a|sig-b/.test(header), 'the temporary typographic signature is gone');
+  for (const icon of ['/favicon-32.png', '/icon-192.png', '/apple-touch-icon.png']) assert.ok(base.includes(`href="${icon}"`), icon);
+  assert.ok(!existsSync(new URL('public/favicon.svg', root)));
+  for (const shell of ['src/components/SiteHeader.astro', 'src/components/SiteFooter.astro']) {
+    assert.match(read(shell).toString(), /<BrandMark\b/, `${shell} shows the wordmark`);
+  }
 });

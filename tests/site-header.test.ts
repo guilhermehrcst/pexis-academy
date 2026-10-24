@@ -1,5 +1,5 @@
-// The header (Global Navigation V1), read from its source: the Home's identity kept (official lockup, brand
-// wine, sticky, sans navigation), the six paths as buttons that open native popovers, a compact Menu of native
+// The header (Global Navigation V1, Paulex Edu), read from its source: the identity (the wordmark linked home,
+// a white sticky bar with a hairline, sans navigation, the paths centred), the six paths as buttons that open native popovers, a compact Menu of native
 // <details>, search as a named icon, and one small progressive script that only places the popovers under their
 // buttons. The built HTML is checked by scripts/verify-dist.mjs.
 import { test } from 'node:test';
@@ -9,10 +9,16 @@ import { readFileSync } from 'node:fs';
 const header = readFileSync(new URL('../src/components/SiteHeader.astro', import.meta.url), 'utf8');
 const css = header.slice(header.indexOf('<style>'));
 
-test('the identity of the Home: the official white lockup linked home, on the sticky brand wine', () => {
-  assert.match(header, /import lockup from '\.\.\/assets\/brand\/lockup-white\.png'/);
-  assert.match(header, /<a class="brand" href=\{routes\.home\}[^>]*data-brand>/);
-  assert.match(css, /\.site-header \{[^}]*position: sticky;[^}]*background: var\(--brand\);/);
+test('the identity: the wordmark linked home, on a white sticky bar with a hairline; the paths centred', () => {
+  assert.match(header, /import BrandMark from '\.\/BrandMark\.astro'/);
+  assert.match(header, /<a class="brand" href=\{routes\.home\}[^>]*data-brand>\s*<BrandMark \/>/);
+  assert.doesNotMatch(header, /assets\/brand\/|lockup/, 'no former artwork');
+  assert.match(css, /\.site-header \{[^}]*position: sticky;[^}]*background: var\(--paper\);[^}]*border-bottom: 1px solid var\(--rule\);/);
+  // Wide screens: the six in the centre of the bar, search (the last item of the same list) at its right edge.
+  assert.match(css, /\.bar \{ display: grid; grid-template-columns: minmax\(max-content, 1fr\) repeat\(6, auto\) minmax\(max-content, 1fr\);/);
+  assert.match(css, /\.top > li:last-child \{ justify-self: end; \}/);
+  // Interactions are the primary blue; the current path is ink with a blue hairline.
+  assert.match(css, /\.trigger:hover, \.link:hover \{ background: var\(--tint-brand\); color: var\(--action\); \}/);
   assert.doesNotMatch(css, /#[0-9a-f]{3,8}\b/i, 'colours come from the tokens only');
   assert.doesNotMatch(css, /font-family: (?!var\()/, 'type comes from the tokens only');
   assert.doesNotMatch(css, /prefers-color-scheme|data-theme/, 'one theme');

@@ -1,69 +1,59 @@
 ---
-// The institutional footer (V0.3): the brand wine, closing every page. Institucional (the official
-// lockup, what the Academy is, when the catalogue was last verified, its independence), Formação (the six
-// paths, with Vestibular's exams under it), Matérias, Explorar (the two libraries first: since Global
-// Navigation V1 the header holds the paths, and the libraries are reached here, from the Home and from
-// search), then a bar with the real licences and the attribution of third-party names. Every link is a real page or anchor (verify-dist checks both, and that
-// the footer reaches every path, exam and subject). No legal policy is invented.
-import { Image } from 'astro:assets';
-import lockup from '../assets/brand/lockup-white.png';
+// The footer (Paulex Edu): white and wide, closing every page. On the left the wordmark and, well below it,
+// an editorial quote in the serif with its historical attribution (Apple, 1977: a source, never a sponsor;
+// the legal area says so). On the right four groups: Caminhos (the six paths, the one in preparation says
+// so), Biblioteca (the two libraries, the subjects, search), Objetivos (ENEM, UERJ, programming, Pré-Militar)
+// and Institucional (about, curation, verification, the FAQ). Then one quiet area: copyright, when the
+// catalogue was last verified, what the Paulex Edu is, its editorial independence, attributions and the real
+// licences. Every link is a real page or anchor (verify-dist checks the map, and that every anchor exists).
+// On a phone the brand and the quote come first, then the groups two by two. No legal policy is invented.
+import BrandMark from './BrandMark.astro';
 import { routes } from '../lib/routes';
-import { ACADEMIC_SUBJECTS, EXAM_ORDER, EXAM_PARENT, OBJECTIVES, PATH_ORDER, PREPARING_PATHS, SUBJECTS } from '../lib/taxonomy';
+import { OBJECTIVES, PATH_ORDER, PREPARING_PATHS } from '../lib/taxonomy';
 import { VERIFIED_ON } from '../lib/learning-resources';
 import { formatDate } from '../lib/dates';
 import { pt as t } from '../i18n/pt';
 
 const f = t.footer;
+const n = f.nav;
 const date = formatDate(VERIFIED_ON);
-const paths = PATH_ORDER.map((id) => ({
-  id,
-  label: OBJECTIVES[id].label,
-  preparing: PREPARING_PATHS.includes(id),
-  exams: EXAM_ORDER.filter((exam) => EXAM_PARENT[exam] === id).map((exam) => ({ id: exam, label: OBJECTIVES[exam].label })),
-}));
+const paths = PATH_ORDER.map((id) => ({ id, label: OBJECTIVES[id].label, preparing: PREPARING_PATHS.includes(id) }));
+const groups = [
+  { label: f.groups.library, links: [[n.courses, routes.courses], [n.materials, routes.materials], [n.subjects, routes.subjectIndex], [n.search, routes.search]] },
+  { label: f.groups.goals, links: [[n.enem, routes.objective('enem')], [n.uerj, routes.objective('uerj')], [n.programming, `${routes.objective('tecnologia')}#comecar-a-programar`], [n.military, routes.objective('pre-militar')]] },
+  { label: f.groups.institutional, links: [[n.about, routes.about], [n.curation, `${routes.about}#curadoria`], [n.verification, `${routes.about}#verificacao`], [n.faq, `${routes.home}#perguntas`]] },
+] as const;
 ---
 <footer class="site-footer">
   <div class="wrap grid">
-    <div class="about">
-      <p class="brand"><Image src={lockup} alt="Pexis Academy" height={64} densities={[1, 2, 3]} format="png" /></p>
-      <p class="lead">{f.about}</p>
-      <p class="small"><time datetime={VERIFIED_ON} data-verified-on>{f.verified(date)}</time></p>
+    <div class="identity">
+      <p class="brand"><BrandMark size="footer" /></p>
+      <figure class="quote">
+        <blockquote><p><span class="open" aria-hidden="true">“</span>{f.quote}<span aria-hidden="true">”</span></p></blockquote>
+        <figcaption>{f.quoteSource}</figcaption>
+      </figure>
     </div>
-    <nav aria-label={f.formation}>
-      <p class="label">{f.formation}</p>
+    <nav aria-label={f.groups.paths} class="group">
+      <p class="label">{f.groups.paths}</p>
       <ul role="list">
         {paths.map((p) => (
-          <li>
-            <a href={routes.objective(p.id)}>{p.label}</a>{p.preparing && <span class="state" data-path-state>{t.preparing.label}</span>}
-            {p.exams.length > 0 && (
-              <ul role="list" class="sub">
-                {p.exams.map((exam) => <li><a href={routes.objective(exam.id)}>{exam.label}</a></li>)}
-              </ul>
-            )}
-          </li>
+          <li><a href={routes.objective(p.id)}>{p.label}</a>{p.preparing && <span class="state" data-path-state>{t.preparing.label}</span>}</li>
         ))}
       </ul>
     </nav>
-    <nav aria-label={f.subjects}>
-      <p class="label">{f.subjects}</p>
-      <ul role="list" class="cols">
-        {ACADEMIC_SUBJECTS.map((id) => <li><a href={routes.subject(id)}>{SUBJECTS[id].label}</a></li>)}
-      </ul>
-    </nav>
-    <nav aria-label={f.explore}>
-      <p class="label">{f.explore}</p>
-      <ul role="list">
-        <li><a href={routes.courses}>{f.nav.courses}</a></li>
-        <li><a href={routes.materials}>{f.nav.materials}</a></li>
-        <li><a href={routes.subjectIndex}>{f.nav.explore}</a></li>
-        <li><a href={routes.search}>{f.nav.search}</a></li>
-        <li><a href={routes.about}>{f.nav.about}</a></li>
-        <li><a href={`${routes.about}#verificacao`}>{f.nav.verification}</a></li>
-      </ul>
-    </nav>
+    {groups.map((group) => (
+      <nav aria-label={group.label} class="group">
+        <p class="label">{group.label}</p>
+        <ul role="list">
+          {group.links.map(([label, href]) => <li><a href={href}>{label}</a></li>)}
+        </ul>
+      </nav>
+    ))}
   </div>
   <div class="wrap"><div class="legal">
-    <p>{f.independence} {f.marks}</p>
+    <p class="line"><span>{f.copyright}</span><time datetime={VERIFIED_ON} data-verified-on>{f.verified(date)}</time></p>
+    <p>{f.institution} {f.independence}</p>
+    <p>{f.quoteNote} {f.marks}</p>
     <p>
       {f.licenses}:{' '}<a href="/licenses/GoogleSansFlex-OFL.txt">Google Sans Flex (OFL)</a>,{' '}<a href="/licenses/Newsreader-OFL.txt">Newsreader (OFL)</a>,{' '}<a href="/licenses/RadixIcons-MIT.txt">Radix Icons (MIT)</a>.
     </p>
@@ -71,38 +61,42 @@ const paths = PATH_ORDER.map((id) => ({
 </footer>
 
 <style>
-  .site-footer { margin-top: var(--space-8); background: var(--brand); color: var(--on-brand); }
-  .site-footer :global(:focus-visible) { outline-color: var(--on-brand); }
+  .site-footer { margin-top: var(--space-8); background: var(--paper); color: var(--ink); border-top: 1px solid var(--rule); }
   .grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-7) var(--space-6);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6) var(--space-5);
     padding-block: var(--space-8) var(--space-7);
   }
-  @media (min-width: 640px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .about { grid-column: 1 / -1; } }
+  .identity { grid-column: 1 / -1; display: grid; align-content: start; gap: var(--space-6); }
+  /* The narrowest phones: one column, so a path's name and its state keep their line. */
+  @media (max-width: 359px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+  /* A tablet: the brand on its own row, the four groups side by side under it. */
+  @media (min-width: 760px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  /* A laptop and up: the brand on the left, the four groups on the right (the reference's proportions). */
   @media (min-width: 1180px) {
-    .grid { grid-template-columns: minmax(0, 4fr) minmax(0, 2fr) minmax(0, 3fr) minmax(0, 2fr); }
-    .about { grid-column: auto; }
+    .grid { grid-template-columns: minmax(0, 5fr) repeat(4, minmax(0, 3fr)); column-gap: var(--space-6); }
+    .identity { grid-column: auto; gap: var(--space-8); }
   }
 
-  .about { display: grid; gap: var(--space-4); align-content: start; max-width: 36ch; }
-  .brand { justify-self: start; line-height: 0; }
-  .brand :global(img) { display: block; width: auto; height: 64px; }
-  .lead { color: var(--on-brand); line-height: 1.5; }
-  .small { font-size: var(--fs-small); color: var(--on-brand-muted); }
+  .brand { line-height: 0; }
+  .quote { max-width: 26ch; }
+  .quote blockquote p { font-family: var(--serif); font-size: clamp(1.1875rem, 1.1rem + 0.35vw, 1.375rem); line-height: 1.4; letter-spacing: -0.005em; color: var(--ink); }
+  /* The opening mark hangs in the margin, so the words align with the wordmark. */
+  .open { margin-left: -0.42em; }
+  .quote figcaption { margin-top: var(--space-3); font-size: var(--fs-small); color: var(--muted); }
 
-  .label { margin-bottom: var(--space-3); padding-bottom: var(--space-2); border-bottom: 1px solid var(--brand-line); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--on-brand-muted); }
+  .label { margin-bottom: var(--space-3); font-size: var(--fs-small); color: var(--muted); }
   ul { display: grid; }
-  .cols { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-5); }
+  li { display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--space-2); }
+  li a { display: inline-flex; align-items: center; min-height: 40px; color: var(--ink); font-size: 1rem; text-decoration: none; }
+  li a:hover { color: var(--action); }
   /* A path in preparation says so here too, outside the link so its name stays the path's. */
-  li:has(> .state) { display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--space-2); }
-  .state { white-space: nowrap; margin-bottom: var(--space-1); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--on-brand-muted); }
-  .sub { margin-left: var(--space-4); padding-left: var(--space-3); border-left: 1px solid var(--brand-line); }
-  li a { display: inline-flex; align-items: center; min-height: 40px; color: var(--on-brand); text-decoration: none; }
-  .sub a { min-height: 36px; color: var(--on-brand-muted); }
-  li a:hover { color: var(--on-brand); text-decoration: underline; text-underline-offset: 0.22em; text-decoration-thickness: 1px; }
+  .state { white-space: nowrap; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
 
-  .legal { display: grid; gap: var(--space-2); padding-block: var(--space-5) var(--space-6); border-top: 1px solid var(--brand-line); font-size: var(--fs-small); color: var(--on-brand-muted); }
-  .legal a { color: var(--on-brand); text-decoration: underline; text-underline-offset: 0.2em; text-decoration-color: var(--brand-line); }
-  .legal a:hover { text-decoration-color: currentColor; }
+  .legal { display: grid; gap: var(--space-2); padding-block: var(--space-5) var(--space-7); border-top: 1px solid var(--rule); font-size: var(--fs-small); line-height: 1.55; color: var(--muted); }
+  .line { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-5); margin-bottom: var(--space-2); color: var(--ink-soft); }
+  .legal p:not(.line) { max-width: 92ch; }
+  .legal a { color: var(--ink-soft); text-decoration: underline; text-underline-offset: 0.2em; text-decoration-color: var(--rule-strong); }
+  .legal a:hover { color: var(--action); text-decoration-color: currentColor; }
 </style>

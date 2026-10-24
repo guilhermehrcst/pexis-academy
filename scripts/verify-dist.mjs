@@ -110,7 +110,10 @@ const SCRIPT_PAGES = new Set(['/buscar/']);
 
 /** The former personal site must leave no trace (spec §3, §9.2). The site's own origin is allowed only
  *  inside canonical and og:url, which are stripped before this check runs. */
-const DENY = [/Guilherme/, /guilhermehrcst/, /linkedin\.com\/in\//, /instagram\.com\//, /Pexiscale/, /pexiscale\.com/, /\bLume\b/, /Pexis Machine/];
+const DENY = [/Guilherme/, /guilhermehrcst/, /linkedin\.com\/in\//, /instagram\.com\//, /Pexiscale/, /pexiscale\.com/, /\bLume\b/, /Pexis Machine/,
+  // The former brand (Paulex Edu replaces Pexis Academy): its name never reaches a built page. The base path
+  // /pexis-academy/ is lowercase and is added after this check (rebase-dist).
+  /\bPexis\b/];
 
 const SECRET_PATTERNS = [/AKIA[0-9A-Z]{16}/, /sk_(live|test)_[0-9a-zA-Z]{10,}/, /-----BEGIN [A-Z ]*PRIVATE KEY-----/, /ghp_[0-9A-Za-z]{30,}/, /eyJhbGciOi/];
 
@@ -118,13 +121,16 @@ const errors = [];
 const fail = (page, msg) => errors.push(`${page}: ${msg}`);
 const fileFor = (p) => join(DIST, p.endsWith('/') ? p + 'index.html' : p);
 const attrs = (html, re) => [...html.matchAll(re)].map((m) => m[1]);
-/** The footer is the site map: every objective, every subject, search and about (hand-written, independent of the routes module). */
+/** The footer's map (Paulex Edu): Caminhos (the six paths), Biblioteca (the two libraries, the subjects, search),
+ *  Objetivos (ENEM, UERJ, programming, Pré-Militar) and Institucional (about, curation, verification, FAQ).
+ *  Hand-written, independent of the routes module; each anchor is checked to exist like every other link.
+ *  The subjects themselves are reached from /materias/ (checked there), not listed one by one here. */
 const FOOTER_PAGES = [
-  ...PATHS, '/enem/', '/uerj/',
-  '/materias/', '/materias/matematica/', '/materias/portugues/', '/materias/redacao/', '/materias/fisica/', '/materias/quimica/',
-  '/materias/biologia/', '/materias/historia/', '/materias/geografia/', '/materias/filosofia/', '/materias/sociologia/',
-  '/materias/ingles/', '/materias/espanhol/', '/cursos/', '/materiais/', '/buscar/', '/sobre/',
+  ...PATHS, '/cursos/', '/materiais/', '/materias/', '/buscar/',
+  '/enem/', '/uerj/', '/tecnologia/#comecar-a-programar', '/pre-militar/',
+  '/sobre/', '/sobre/#curadoria', '/sobre/#verificacao', '/#perguntas',
 ];
+const BRAND = 'Paulex Edu';
 const walk = (d) => readdirSync(d).flatMap((f) => (statSync(join(d, f)).isDirectory() ? walk(join(d, f)) : [join(d, f)]));
 const meta = (html, attr, name) => new RegExp(`<meta ${attr}="${name}" content="([^"]*)"`).exec(html)?.[1];
 
@@ -258,11 +264,11 @@ function checkHead(path, html) {
   if (!html.includes('<html lang="pt-BR"')) fail(path, 'expected <html lang="pt-BR">');
   const title = /<title>([^<]*)<\/title>/.exec(html)?.[1] ?? '';
   if (title.length < 5) fail(path, 'missing <title>');
-  if (path === '/' ? !title.startsWith('Pexis Academy') : !title.endsWith('| Pexis Academy')) fail(path, `title pattern: ${title}`);
+  if (path === '/' ? !title.startsWith(BRAND) : !title.endsWith(`| ${BRAND}`)) fail(path, `title pattern: ${title}`);
   const description = meta(html, 'name', 'description') ?? '';
   if (description.length < 70 || description.length > 160) fail(path, `description must be 70-160 characters (${description.length})`);
   if (!html.includes(`<link rel="canonical" href="${SITE}${path}"`)) fail(path, 'canonical mismatch');
-  if (meta(html, 'property', 'og:site_name') !== 'Pexis Academy') fail(path, 'og:site_name must be Pexis Academy');
+  if (meta(html, 'property', 'og:site_name') !== BRAND) fail(path, `og:site_name must be ${BRAND}`);
   if (meta(html, 'property', 'og:locale') !== 'pt_BR') fail(path, 'og:locale must be pt_BR');
   if (/hreflang=/.test(html)) fail(path, 'V0.1 is Portuguese only: no hreflang');
   if (/<meta name="robots" content="[^"]*noindex/.test(html)) fail(path, 'must be indexable');
@@ -293,11 +299,13 @@ function checkShell(path, html) {
   // An id names one element: a second one makes anchors and aria references ambiguous.
   const ids = attrs(html.replace(/<(script|style)\b[\s\S]*?<\/\1>/g, ''), /<[a-z][^>]*\sid="([^"]+)"/g);
   for (const id of new Set(ids.filter((id, i) => ids.indexOf(id) !== i))) fail(path, `duplicate id "${id}"`);
-  // The brand is the official lockup in every header (a link home, named by its label) and footer, and the
-  // icons are the generated ones (scripts/brand-assets.mjs); no typographic stand-in.
+  // The brand is the Paulex Edu wordmark in every header (a link home, named by its label) and footer, and
+  // the icons are the recorded ones (src/assets/brand/manifest.json). The mascot appears only from its file.
   const header = /<header class="site-header"[\s\S]*?<\/header>/.exec(html)?.[0] ?? '';
   const brandLink = /<a\b[^>]*\sdata-brand[^>]*>([\s\S]*?)<\/a>/.exec(header);
-  if (!brandLink || !/href="\/"/.test(brandLink[0]) || !/aria-label="[^"]+"/.test(brandLink[0]) || !/<img\b[^>]*src="\/_astro\/lockup-white\.[^"]+"/.test(brandLink[1])) fail(path, 'the header shows the official lockup, linked home');
+  const wordmark = (fragment) => /\sdata-wordmark[\s>][\s\S]*?>Paulex<\/span>\s*<span class="edu[^"]*"[^>]*>Edu<\/span>/.test(fragment);
+  if (!brandLink || !/href="\/"/.test(brandLink[0]) || !/aria-label="Paulex Edu, página inicial"/.test(brandLink[0]) || !wordmark(brandLink[1])) fail(path, 'the header shows the wordmark, linked home');
+  for (const img of html.match(/<img\b[^>]*\sdata-mascot[^>]*>/g) ?? []) if (!/\ssrc="\/_astro\/paulex-mascot\./.test(img)) fail(path, 'a mascot shown is the official file');
   if (/sig-a|sig-b/.test(html)) fail(path, 'the temporary typographic signature is gone');
   for (const icon of ['/favicon-32.png', '/icon-192.png', '/apple-touch-icon.png']) {
     if (!html.includes(`href="${icon}"`)) fail(path, `the page links ${icon}`);
@@ -310,7 +318,11 @@ function checkShell(path, html) {
   for (const page of PREPARING) {
     if (!new RegExp(`href="${page}"[^>]*>[^<]*</a>\\s*<span\\b[^>]*\\sdata-path-state[^>]*>Em preparação</span>`).test(footer)) fail(path, `the footer marks ${page} as in preparation`);
   }
-  if (!/<img\b[^>]*src="\/_astro\/lockup-white\.[^"]+"[^>]*alt="Pexis Academy"|<img\b[^>]*alt="Pexis Academy"[^>]*src="\/_astro\/lockup-white\./.test(footer)) fail(path, 'the footer shows the official lockup');
+  if (!wordmark(footer)) fail(path, 'the footer shows the wordmark');
+  // The editorial quote keeps its historical attribution, and the legal area says the citation is no tie.
+  if (!/<blockquote\b[\s\S]*A simplicidade é o último grau da sofisticação\.[\s\S]*<\/blockquote>\s*<figcaption\b[^>]*>Apple, 1977<\/figcaption>/.test(footer)) fail(path, 'the footer quote and its attribution');
+  if (/Steve Jobs|Leonardo|da Vinci/.test(footer)) fail(path, 'the quote is not attributed to a person');
+  if (!/não indica vínculo nem apoio/.test(footer)) fail(path, 'the footer says the quotation implies no tie');
   // The header is the institutional wine (checked in the stylesheet below): the six paths in order, each a
   // button that opens its menu (a native popover: no JavaScript), then search; and a compact Menu (a native
   // <details>) that reaches the same places, then the two libraries.
@@ -877,7 +889,7 @@ for (const path of PREPARING) {
   if (!/\sdata-preparing[\s>=]/.test(html)) fail(path, 'a path in preparation says so ([data-preparing])');
   if (/\sdata-resource-id="/.test(html)) fail(path, 'a path in preparation lists no resource');
   if (!html.includes('<html lang="pt-BR"')) fail(path, 'expected <html lang="pt-BR">');
-  if (!/<title>[^<]*\| Pexis Academy<\/title>/.test(html)) fail(path, 'title pattern');
+  if (!new RegExp(`<title>[^<]*\\| ${BRAND}</title>`).test(html)) fail(path, 'title pattern');
   checkShell(path, html);
   checkLandmarks(path, html);
   checkImages(path, html);
@@ -1041,9 +1053,9 @@ const files = walk(DIST);
 {
   const css = files.filter((f) => f.endsWith('.css')).map((f) => readFileSync(f, 'utf8')).join('\n');
   if (!/:focus-visible\s*\{[^}]*outline:\s*2px/.test(css)) fail('css', 'a visible :focus-visible outline is required');
-  // The institutional header and footer stand on the brand wine (V0.3).
-  if (!/\.site-header\[[^\]]+\]\s*\{[^}]*background:\s*var\(--brand\)|\.site-header\s*\{[^}]*background:\s*var\(--brand\)/.test(css)) fail('css', 'the header stands on the brand wine');
-  if (!/\.site-footer\[[^\]]+\]\s*\{[^}]*background:\s*var\(--brand\)|\.site-footer\s*\{[^}]*background:\s*var\(--brand\)/.test(css)) fail('css', 'the footer stands on the brand wine');
+  // The header and the footer are white (Paulex Edu): never a coloured band.
+  if (!/\.site-header\[[^\]]+\]\s*\{[^}]*background:\s*var\(--paper\)|\.site-header\s*\{[^}]*background:\s*var\(--paper\)/.test(css)) fail('css', 'the header is white');
+  if (!/\.site-footer\[[^\]]+\]\s*\{[^}]*background:\s*var\(--paper\)|\.site-footer\s*\{[^}]*background:\s*var\(--paper\)/.test(css)) fail('css', 'the footer is white');
   if (!/@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{[^}]*transition:\s*none/.test(css)) fail('css', 'reduced motion must switch transitions off');
 }
 

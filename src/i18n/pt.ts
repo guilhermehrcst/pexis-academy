@@ -5,11 +5,11 @@ import type { Dict } from './types';
 export const pt: Dict = {
   htmlLang: 'pt-BR',
   ogLocale: 'pt_BR',
-  siteName: 'Pexis Academy',
+  siteName: 'Paulex Edu',
   skip: 'Pular para o conteúdo',
   nav: {
     label: 'Principal',
-    home: 'Pexis Academy, página inicial',
+    home: 'Paulex Edu, página inicial',
     mobile: 'Menu principal',
     menu: 'Menu',
     paths: 'Caminhos',
@@ -28,111 +28,117 @@ export const pt: Dict = {
   },
   breadcrumb: { label: 'Você está em', home: 'Início' },
   footer: {
-    subjects: 'Matérias',
+    quote: 'A simplicidade é o último grau da sofisticação.',
+    quoteSource: 'Apple, 1977',
+    groups: { paths: 'Caminhos', library: 'Biblioteca', goals: 'Objetivos', institutional: 'Institucional' },
+    nav: {
+      courses: 'Cursos', materials: 'Materiais', subjects: 'Matérias', search: 'Buscar', explore: 'Explorar',
+      enem: 'ENEM', uerj: 'UERJ', programming: 'Programação', military: 'Pré-Militar',
+      about: 'Sobre a Paulex Edu', curation: 'Nossa curadoria', verification: 'Como verificamos', faq: 'Perguntas frequentes',
+    },
     verified: (date) => `Recursos verificados em ${date}.`,
-    licenses: 'Licenças',
-    independence: 'A Pexis Academy é um produto da Pexis, independente das instituições cujos materiais indica.',
-    nav: { courses: 'Cursos', materials: 'Materiais', explore: 'Explorar', search: 'Buscar', about: 'Sobre', verification: 'Como verificamos' },
-    about: 'Uma plataforma gratuita para estudar com direção: organiza, por caminho, área e matéria, materiais gratuitos verificados na fonte.',
-    formation: 'Formação',
-    explore: 'Explorar',
+    copyright: '© 2026 Paulex Edu',
+    institution: 'A Paulex Edu é a plataforma de educação gratuita da Paulex, empresa fundada em 1984 no Rio de Janeiro.',
+    independence: 'A seleção é editorial e independente das instituições cujos materiais indica: os recursos são de terceiros, gratuitos para estudar, e cada link leva à fonte original.',
+    quoteNote: 'A frase em destaque foi usada pela Apple em 1977; citá-la não indica vínculo nem apoio.',
     marks: 'Os nomes e as marcas das instituições citadas pertencem aos seus titulares.',
+    licenses: 'Licenças',
   },
   pages: {
     home: {
-      title: 'Pexis Academy: aprenda com direção',
+      title: 'Paulex Edu: aprenda com direção',
       description: 'Estude com direção: Ensino Fundamental, Médio, Vestibular, Pré-Militar, Ensino Superior e Tecnologia, com recursos gratuitos verificados na fonte.',
       heading: 'Aprenda com direção.',
       lead: 'Escolha um objetivo e siga um caminho claro até materiais gratuitos, oficiais e verificados.',
     },
     enem: {
-      title: 'ENEM | Pexis Academy',
+      title: 'ENEM | Paulex Edu',
       description: 'Prepare-se para o ENEM: entenda a prova pelas fontes oficiais do INEP, estude por área e pratique com material oficial e gratuito.',
       eyebrow: 'Prova',
       heading: 'ENEM',
       lead: 'Um ponto de partida para a preparação: o que a prova avalia, por onde estudar cada área e onde praticar com material oficial.',
     },
     uerj: {
-      title: 'UERJ | Pexis Academy',
+      title: 'UERJ | Paulex Edu',
       description: 'Prepare-se para o Vestibular Estadual da UERJ: entenda a prova pela fonte oficial e resolva questões comentadas de edições anteriores.',
       eyebrow: 'Prova',
       heading: 'UERJ',
       lead: 'A UERJ tem um processo próprio. Comece pelas regras oficiais e faça das questões de provas anteriores a base da sua preparação.',
     },
     'ensino-medio': {
-      title: 'Ensino Médio | Pexis Academy',
+      title: 'Ensino Médio | Paulex Edu',
       description: 'Estude as matérias do Ensino Médio por área, com cursos e materiais gratuitos e verificados, de Matemática a Idiomas.',
       eyebrow: 'Caminho',
       heading: 'Ensino Médio',
       lead: 'As matérias da escola organizadas por área, cada uma com recursos gratuitos para estudar no seu ritmo.',
     },
     vestibulares: {
-      title: 'Vestibular | Pexis Academy',
+      title: 'Vestibular | Paulex Edu',
       description: 'Prepare-se para o vestibular: guias do ENEM e da UERJ com material oficial, e uma base comum de recursos gratuitos por matéria.',
       eyebrow: 'Caminho',
       heading: 'Vestibular',
       lead: 'ENEM, UERJ e uma base comum para vestibulares em geral, matéria por matéria.',
     },
     tecnologia: {
-      title: 'Tecnologia | Pexis Academy',
+      title: 'Tecnologia | Paulex Edu',
       description: 'Aprenda programação, ciência da computação, web, dados, inteligência artificial e segurança com cursos gratuitos de Harvard, MIT e outros.',
       eyebrow: 'Caminho e área',
       heading: 'Tecnologia',
       lead: 'Trilhas para começar a programar e aprofundar em computação, com cursos gratuitos de universidades e instituições reconhecidas.',
     },
     'ensino-fundamental': {
-      title: 'Ensino Fundamental | Pexis Academy',
+      title: 'Ensino Fundamental | Paulex Edu',
       eyebrow: 'Caminho',
       heading: 'Ensino Fundamental',
     },
     'pre-militar': {
-      title: 'Pré-Militar | Pexis Academy',
+      title: 'Pré-Militar | Paulex Edu',
       eyebrow: 'Caminho',
       heading: 'Pré-Militar',
     },
     'ensino-superior': {
-      title: 'Ensino Superior | Pexis Academy',
+      title: 'Ensino Superior | Paulex Edu',
       description: 'Disciplinas universitárias gratuitas, de Matemática e Computação, publicadas por universidades como o MIT e Harvard e verificadas na fonte.',
       eyebrow: 'Caminho',
       heading: 'Ensino Superior',
       lead: 'Disciplinas de cursos universitários, publicadas gratuitamente pelas próprias universidades.',
     },
     materias: {
-      title: 'Explorar | Pexis Academy',
-      description: 'Os seis caminhos da Pexis Academy e todas as matérias, por área: de Matemática a Idiomas e Tecnologia, com recursos gratuitos e verificados.',
+      title: 'Explorar | Paulex Edu',
+      description: 'Os seis caminhos da Paulex Edu e todas as matérias, por área: de Matemática a Idiomas e Tecnologia, com recursos gratuitos e verificados.',
       eyebrow: 'Explorar',
       heading: 'Explorar',
       lead: 'Comece por um caminho ou vá direto a uma matéria. Tudo com recursos gratuitos e verificados na fonte.',
     },
     cursos: {
-      title: 'Cursos | Pexis Academy',
-      description: 'Cursos gratuitos, trilhas, playlists e videoaulas selecionados pela Pexis Academy e verificados na fonte, de universidades e instituições reconhecidas.',
+      title: 'Cursos | Paulex Edu',
+      description: 'Cursos gratuitos, trilhas, playlists e videoaulas selecionados pela Paulex Edu e verificados na fonte, de universidades e instituições reconhecidas.',
       eyebrow: 'Biblioteca',
       heading: 'Cursos',
       lead: 'Cursos gratuitos, trilhas, playlists e videoaulas para estudar do começo ao fim, cada um verificado na fonte.',
     },
     materiais: {
-      title: 'Materiais | Pexis Academy',
-      description: 'Exercícios, simulados, provas anteriores e materiais de referência gratuitos selecionados pela Pexis Academy e verificados na fonte.',
+      title: 'Materiais | Paulex Edu',
+      description: 'Exercícios, simulados, provas anteriores e materiais de referência gratuitos selecionados pela Paulex Edu e verificados na fonte.',
       eyebrow: 'Biblioteca',
       heading: 'Materiais',
       lead: 'Exercícios, simulados, provas anteriores e materiais de referência para praticar e consultar, cada um verificado na fonte.',
     },
     buscar: {
-      title: 'Buscar | Pexis Academy',
-      description: 'Encontre objetivos, áreas, matérias, trilhas e recursos gratuitos da Pexis Academy em um índice completo e pesquisável.',
+      title: 'Buscar | Paulex Edu',
+      description: 'Encontre objetivos, áreas, matérias, trilhas e recursos gratuitos da Paulex Edu em um índice completo e pesquisável.',
       heading: 'Buscar',
-      lead: 'Tudo o que a Pexis Academy organiza, reunido num só índice.',
+      lead: 'Tudo o que a Paulex Edu organiza, reunido num só índice.',
     },
     sobre: {
-      title: 'Sobre | Pexis Academy',
-      description: 'Como a Pexis Academy escolhe e verifica recursos: acesso realmente gratuito, fontes primárias e data de verificação registrada.',
-      heading: 'Sobre a Pexis Academy',
+      title: 'Sobre | Paulex Edu',
+      description: 'Como a Paulex Edu escolhe e verifica recursos: acesso realmente gratuito, fontes primárias e data de verificação registrada.',
+      heading: 'Sobre a Paulex Edu',
       lead: 'Um lugar para estudar com direção, usando apenas recursos gratuitos que verificamos na fonte.',
     },
     notFound: {
-      title: 'Página não encontrada | Pexis Academy',
-      description: 'O endereço procurado não existe na Pexis Academy. Volte ao início, explore as matérias ou use a busca para continuar.',
+      title: 'Página não encontrada | Paulex Edu',
+      description: 'O endereço procurado não existe na Paulex Edu. Volte ao início, explore as matérias ou use a busca para continuar.',
       heading: 'Página não encontrada',
       lead: 'Este endereço não existe ou deixou de existir. Escolha por onde continuar.',
     },
@@ -145,7 +151,7 @@ export const pt: Dict = {
   fundamental: {
     byState: {
       preparing: {
-        description: 'Ensino Fundamental na Pexis Academy: uma área em preparação, organizada por anos e disciplinas, que só receberá recursos verificados.',
+        description: 'Ensino Fundamental na Paulex Edu: uma área em preparação, organizada por anos e disciplinas, que só receberá recursos verificados.',
         lead: 'Do 1º ao 9º ano, organizado por etapa e por disciplina. Esta área ainda não tem recursos publicados.',
         stagesTitle: 'Como esta área vai se organizar',
         stagesWhy: 'O Ensino Fundamental tem nove anos, em duas etapas. Cada etapa terá seus próprios materiais.',
@@ -153,7 +159,7 @@ export const pt: Dict = {
         subjectsWhy: 'Cada disciplina entra quando houver material gratuito, adequado à etapa e verificado na fonte.',
       },
       active: {
-        description: 'Ensino Fundamental na Pexis Academy: recursos gratuitos do 1º ao 9º ano, organizados por etapa e conferidos na página de quem os publica.',
+        description: 'Ensino Fundamental na Paulex Edu: recursos gratuitos do 1º ao 9º ano, organizados por etapa e conferidos na página de quem os publica.',
         lead: 'Do 1º ao 9º ano, organizado por etapa, com recursos gratuitos conferidos na página de quem os publica.',
         stagesTitle: 'Como esta área se organiza',
         stagesWhy: 'O Ensino Fundamental tem nove anos, em duas etapas. Cada recurso aparece na etapa que a sua fonte indica.',
@@ -170,7 +176,7 @@ export const pt: Dict = {
   preMilitar: {
     byState: {
       preparing: {
-        description: 'Pré-Militar na Pexis Academy: uma central em preparação para entender os processos seletivos de escolas e academias militares.',
+        description: 'Pré-Militar na Paulex Edu: uma central em preparação para entender os processos seletivos de escolas e academias militares.',
         lead: 'Uma central para entender os processos seletivos de escolas e academias militares, com cada detalhe conferido no edital oficial.',
         practice: {
           title: 'Estude as matérias-base',
@@ -179,7 +185,7 @@ export const pt: Dict = {
         },
       },
       active: {
-        description: 'Pré-Militar na Pexis Academy: materiais gratuitos para os processos seletivos de escolas e academias militares, conferidos na fonte oficial.',
+        description: 'Pré-Militar na Paulex Edu: materiais gratuitos para os processos seletivos de escolas e academias militares, conferidos na fonte oficial.',
         lead: 'Os processos seletivos de escolas e academias militares, com materiais gratuitos conferidos na fonte oficial. Requisitos e datas valem sempre pelo edital.',
         practice: {
           title: 'Pratique com provas oficiais',
@@ -218,7 +224,7 @@ export const pt: Dict = {
     scope: 'Esta área não oferece treinamento físico, avaliação médica nem simulados.',
   },
   explore: { paths: 'Caminhos', areas: 'Áreas e matérias' },
-  bottomNav: { label: 'Seções da Academy', home: 'Início', courses: 'Cursos', materials: 'Materiais', explore: 'Explorar', search: 'Buscar' },
+  bottomNav: { label: 'Seções da Paulex Edu', home: 'Início', courses: 'Cursos', materials: 'Materiais', explore: 'Explorar', search: 'Buscar' },
   courseLibrary: {
     catalogue: 'Catálogo de cursos',
     filterLegend: 'Filtrar por caminho',
@@ -268,22 +274,23 @@ export const pt: Dict = {
         : full;
       return {
         description: `Materiais gratuitos de nível superior em ${short}, verificados na fonte e disponibilizados pelas instituições responsáveis.`,
-        note: `As áreas com materiais gratuitos verificados no catálogo são ${full}. A Academy organiza recursos de estudo, mas não oferece matrícula ou diploma acadêmico.`,
+        note: `As áreas com materiais gratuitos verificados no catálogo são ${full}. A Paulex Edu organiza recursos de estudo, mas não oferece matrícula ou diploma acadêmico.`,
         objective: `Materiais gratuitos de nível superior em ${short}.`,
       };
     },
   },
   home: {
     hero: {
-      eyebrow: 'Gratuito para estudar · Conferido na fonte',
+      eyebrow: 'Curadoria editorial · Conferido na fonte',
       headingLead: 'Aprenda',
       headingStrong: 'com direção.',
       lead: 'Encontre cursos e materiais gratuitos para aprender no seu ritmo.',
-      searchLabel: 'Buscar na Pexis Academy',
+      searchLabel: 'Buscar na Paulex Edu',
       searchPlaceholder: 'O que você quer aprender?',
       searchSubmit: 'Buscar',
       primary: 'Explorar cursos',
       secondary: 'Escolher meu caminho',
+      facts: ['Gratuito para estudar', 'Sem cadastro na Paulex Edu', 'Seis caminhos organizados'],
       compositionCaption: 'Foto do curso',
       compositionLink: 'Ver todos os cursos',
     },
@@ -312,24 +319,24 @@ export const pt: Dict = {
     curation: {
       eyebrow: 'Compromisso',
       heading: 'Nossos compromissos',
-      lead: 'O que a Pexis Academy garante em cada indicação.',
+      lead: 'O que a Paulex Edu garante em cada indicação.',
       verified: (date) => `Catálogo verificado em ${date}`,
       commitments: [
         { title: 'Gratuito para estudar', body: 'Todo conteúdo de estudo indicado é gratuito, sem período de teste nem link de afiliado. Certificados, quando existem, são de quem publica e podem ser pagos.' },
         { title: 'Conferido na fonte', body: 'Cada recurso é conferido na página de quem o publica antes de entrar, com a data registrada.' },
-        { title: 'Independente', body: 'A Academy não produz aulas e não tem parceria com as instituições que indica. Os nomes e as marcas são delas.' },
+        { title: 'Independente', body: 'A Paulex Edu não produz aulas e não tem parceria com as instituições que indica. Os nomes e as marcas são delas.' },
       ],
       more: 'Ler as regras completas',
     },
     faq: {
       heading: 'Perguntas frequentes',
       items: [
-        { q: 'A Pexis Academy é gratuita?', a: 'Sim. A Academy não cobra nada, e todo recurso indicado pode ser estudado de graça. Certificados, quando existem, são de quem publica o curso, podem ser pagos e são sempre opcionais.' },
-        { q: 'Preciso criar uma conta?', a: 'Não na Pexis Academy: aqui não há cadastro. Alguns recursos pedem uma conta gratuita no site de quem os publica; quando conferimos essa exigência, ela aparece indicada no recurso.' },
-        { q: 'Os cursos são da Pexis?', a: 'Não. A Pexis Academy não produz aulas. Ela organiza materiais gratuitos de universidades, instituições públicas e plataformas educacionais, e leva você à página oficial de quem os publica.' },
+        { q: 'A Paulex Edu é gratuita?', a: 'Sim. A Paulex Edu não cobra nada, e todo recurso indicado pode ser estudado de graça. Certificados, quando existem, são de quem publica o curso, podem ser pagos e são sempre opcionais.' },
+        { q: 'Preciso criar uma conta?', a: 'Não na Paulex Edu: aqui não há cadastro. Alguns recursos pedem uma conta gratuita no site de quem os publica; quando conferimos essa exigência, ela aparece indicada no recurso.' },
+        { q: 'Os cursos são da Paulex?', a: 'Não. A Paulex Edu não produz aulas. Ela organiza materiais gratuitos de universidades, instituições públicas e plataformas educacionais, e leva você à página oficial de quem os publica.' },
         { q: 'Há material oficial para o ENEM?', a: 'Sim. O guia do ENEM leva às provas e aos gabaritos publicados pelo INEP e às Matrizes de Referência, que descrevem o que cada área avalia.' },
         { q: 'Como os recursos são escolhidos?', a: 'O conteúdo precisa ser gratuito de verdade, o link vai à página oficial de quem publica e cada recurso é conferido nessa página antes de entrar, com a data registrada. O que não conseguimos confirmar fica de fora até ser verificado.' },
-        { q: 'A Academy guarda o meu progresso?', a: 'Não. Como não há conta na Pexis Academy, nada é salvo aqui. Você estuda na página de quem publica, e o progresso, quando existe, fica lá.' },
+        { q: 'A Paulex Edu guarda o meu progresso?', a: 'Não. Como não há conta na Paulex Edu, nada é salvo aqui. Você estuda na página de quem publica, e o progresso, quando existe, fica lá.' },
       ],
     },
     objectives: {
@@ -365,7 +372,7 @@ export const pt: Dict = {
     },
   },
   about: {
-    intro: 'A Pexis Academy é um produto da Pexis. Ela não produz aulas: organiza, por caminho, área e matéria, materiais gratuitos de universidades, instituições públicas e plataformas educacionais, e diz por onde começar.',
+    intro: 'A Paulex Edu é a plataforma de educação gratuita da Paulex. Ela não produz aulas: organiza, por caminho, área e matéria, materiais gratuitos de universidades, instituições públicas e plataformas educacionais, e diz por onde começar.',
     curation: {
       heading: 'Regras de curadoria',
       rules: [
@@ -386,7 +393,7 @@ export const pt: Dict = {
     independence: {
       heading: 'Independência',
       body: [
-        'A Pexis Academy não tem vínculo com o INEP, com a UERJ nem com os provedores dos recursos indicados. Os nomes e as marcas pertencem aos seus titulares e aparecem apenas para identificar a origem de cada material.',
+        'A Paulex Edu não tem vínculo com o INEP, com a UERJ nem com os provedores dos recursos indicados. Os nomes e as marcas pertencem aos seus titulares e aparecem apenas para identificar a origem de cada material.',
         'Não usamos links de afiliado: indicar um recurso não depende de nenhum acordo com quem o oferece.',
       ],
     },
@@ -403,7 +410,7 @@ export const pt: Dict = {
     why: 'Uma seleção editorial para começar por este caminho, conferida na fonte. O acervo completo continua abaixo.',
   },
   search: {
-    label: 'Buscar na Pexis Academy',
+    label: 'Buscar na Paulex Edu',
     placeholder: 'Matéria, prova, trilha ou curso',
     groups: { biblioteca: 'Bibliotecas', objetivo: 'Caminhos e provas', area: 'Áreas', materia: 'Matérias', trilha: 'Trilhas de tecnologia', recurso: 'Recursos' },
     results: (n) => (n === 1 ? '1 resultado' : `${n} resultados`),
@@ -480,7 +487,7 @@ export const pt: Dict = {
     objectivesLead: (subject) => `Veja como ${subject} entra na preparação de cada objetivo.`,
   },
   subjectPage: (subject, area) => ({
-    title: `${subject} | Pexis Academy`,
+    title: `${subject} | Paulex Edu`,
     description: `Estude ${subject} com recursos gratuitos e verificados para o Ensino Médio, o ENEM e vestibulares, com links diretos para as fontes.`,
     eyebrow: area,
     heading: subject,

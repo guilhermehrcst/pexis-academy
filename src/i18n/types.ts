@@ -34,7 +34,7 @@ export type PageKey =
 export interface Dict {
   htmlLang: 'pt-BR';
   ogLocale: 'pt_BR';
-  siteName: 'Pexis Academy';
+  siteName: 'Paulex Edu';
   skip: string;
   nav: {
     label: string; home: string; mobile: string; menu: string; paths: string; search: string;
@@ -46,15 +46,22 @@ export interface Dict {
   };
   breadcrumb: { label: string; home: string };
   footer: {
-    subjects: string;
+    /** The editorial quote under the wordmark, and its historical attribution (never a person's). */
+    quote: string;
+    quoteSource: string;
+    groups: { paths: string; library: string; goals: string; institutional: string };
+    nav: {
+      courses: string; materials: string; subjects: string; search: string; explore: string;
+      enem: string; uerj: string; programming: string; military: string;
+      about: string; curation: string; verification: string; faq: string;
+    };
     verified: (date: string) => string;
-    licenses: string;
+    copyright: string;
+    institution: string;
     independence: string;
-    nav: { courses: string; materials: string; explore: string; search: string; about: string; verification: string };
-    about: string;
-    formation: string;
-    explore: string;
+    quoteNote: string;
     marks: string;
+    licenses: string;
   };
   pages: Record<Exclude<PageKey, GatedPageKey>, PageCopy> & Record<GatedPageKey, Omit<PageCopy, 'description' | 'lead'>>;
   /** Copy of a path in preparation and of the new paths (V0.3). */
@@ -128,6 +135,9 @@ export interface Dict {
       searchSubmit: string;
       primary: string;
       secondary: string;
+      /** Three short facts true of the product as built: free to study, no account on Paulex Edu (a provider may
+       *  ask for one, and the resource says so), six paths. */
+      facts: readonly [string, string, string];
       compositionCaption: string;
       compositionLink: string;
     };

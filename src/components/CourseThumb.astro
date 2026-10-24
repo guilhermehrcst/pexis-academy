@@ -2,11 +2,10 @@
 // A course's 16:9 thumbnail (V0.7, the video library). One of the images supplied for the catalogue
 // (curated.image, src/assets/courses) when the record declares one: a photo, or a graphic about as wide as
 // the frame, fills it at its declared focal point; a graphic of another shape (a poster) is shown whole.
-// Otherwise the Academy's standard cover: light paper, the official white symbol on its brand-red plate, the
-// course's track, subject or path, and who offers it, small. A duration the source states sits in the bottom right corner, never
+// Otherwise the Paulex Edu standard cover: light paper with a pale blue light, the brand's name small in the
+// navy, the course's track, subject or path, and who offers it, small. A duration the source states sits in the bottom right corner, never
 // one that it does not. Decorative: the title beside it names the course. Local files only.
 import { Image } from 'astro:assets';
-import symbol from '../assets/brand/symbol-white.png';
 import { resourceImages } from '../lib/resource-images';
 import type { PublishedLearningResource } from '../lib/learning-resources';
 import { pt as t } from '../i18n/pt';
@@ -32,7 +31,7 @@ const duration = r.duration ? `${r.duration.value} ${t.resource.units[r.duration
       />
     ) : (
       <>
-        <span class="plate"><Image class="symbol" src={symbol} alt="" height={20} densities={[1, 2, 3]} format="png" /></span>
+        <span class="plate" translate="no">{t.siteName}</span>
         <span class="label">{label}</span>
         <span class="by" translate="no">{r.provider}</span>
       </>
@@ -49,7 +48,7 @@ const duration = r.duration ? `${r.duration.value} ${t.resource.units[r.duration
   .is-whole { background: var(--raised); box-shadow: inset 0 0 0 1px var(--rule); }
   .is-whole .art > :global(img) { object-fit: contain; }
 
-  /* The Academy's cover: paper with a quiet brand tint, the symbol on its plate, one short line, who offers it. */
+  /* The standard cover: paper with a quiet blue tint, the brand's name, one short line, who offers it. */
   .is-cover .art {
     display: grid;
     grid-template-rows: auto 1fr auto;
@@ -59,8 +58,7 @@ const duration = r.duration ? `${r.duration.value} ${t.resource.units[r.duration
     box-shadow: inset 0 0 0 1px var(--rule);
     border-radius: inherit;
   }
-  .plate { display: grid; place-items: center; width: clamp(28px, 11cqi, 40px); aspect-ratio: 1; border-radius: 22%; background: var(--brand); }
-  .plate :global(.symbol) { display: block; width: 62%; height: auto; }
+  .plate { justify-self: start; align-self: start; font-size: clamp(0.6875rem, 3.6cqi, 0.875rem); font-weight: 700; letter-spacing: -0.01em; color: var(--brand); }
   .label {
     max-width: 18ch;
     font-size: clamp(0.9375rem, 5.6cqi, 1.3125rem);
@@ -79,7 +77,7 @@ const duration = r.duration ? `${r.duration.value} ${t.resource.units[r.duration
     bottom: 8px;
     padding: 1px 5px;
     border-radius: 4px;
-    background: rgb(29 33 37 / 0.86);
+    background: rgb(16 24 40 / 0.86);
     color: var(--on-brand);
     font-size: 0.75rem;
     font-weight: 600;

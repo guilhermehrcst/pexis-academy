@@ -100,7 +100,7 @@ const TONE: Record<PathId, string> = {
     border-radius: 50%;
     background: var(--raised);
     color: var(--ink);
-    box-shadow: 0 6px 16px -8px rgb(29 33 37 / 0.45);
+    box-shadow: 0 6px 16px -8px rgb(24 34 48 / 0.45);
   }
 
   /* The words: the name leads, in the serif, large; the line under it, quiet; the label last. */
@@ -130,7 +130,7 @@ const TONE: Record<PathId, string> = {
   }
   @supports (grid-template-rows: subgrid) { .pill { margin-block-start: 16px; align-self: start; } }
   @supports not (grid-template-rows: subgrid) { .pill { margin-block-start: 16px; } }
-  .preparing .pill { border-color: var(--action); color: var(--action); }
+  .preparing .pill { border-color: var(--brand); color: var(--brand); }
 
   .card:focus-visible { outline: 3px solid var(--action); outline-offset: 3px; }
 
@@ -162,7 +162,7 @@ const TONE: Record<PathId, string> = {
     .art :global(.path-art) { transition: transform 500ms var(--ease); }
   }
   /* Hover (and focus) is discreet: the card lifts a little, the disc takes the wine, the art leans in. */
-  .card:hover { box-shadow: 0 22px 40px -30px rgb(29 33 37 / 0.5); }
+  .card:hover { box-shadow: 0 22px 40px -30px rgb(24 34 48 / 0.5); }
   .card:hover .go, .card:focus-visible .go { background: var(--action); color: var(--on-action); }
   @media (prefers-reduced-motion: no-preference) {
     .card:hover { transform: translateY(-2px); }

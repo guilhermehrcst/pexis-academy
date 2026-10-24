@@ -1,9 +1,9 @@
 ---
 // The Home (V2) answers three questions fast: what can I learn here (the search and the six paths), where is
 // the content (a sample of the course library, the areas), how do I start (ready paths); then who publishes
-// it and what the Academy promises. Order: hero, paths, featured courses, ready paths, areas, institutions,
+// it and what the Paulex Edu promises. Order: hero, paths, featured courses, ready paths, areas, institutions,
 // commitments, questions. The Home lists courses only in #cursos, a small editorial sample from the published
-// library (src/lib/home-featured.ts), never a copy. Each section opens with the same head: a wine eyebrow,
+// library (src/lib/home-featured.ts), never a copy. Each section opens with the same head: a blue eyebrow,
 // the serif title and one line of what follows.
 import Base from '../layouts/Base.astro';
 import HomeHero from '../components/HomeHero.astro';
@@ -115,7 +115,7 @@ const featured = featuredCourses().map((r) => cards.find((card) => card.resource
   .block { position: relative; padding-block: clamp(1.75rem, 1.2rem + 2.2vw, 3rem); }
   #curadoria::before, #perguntas::before { content: ''; position: absolute; top: 0; left: var(--gutter); right: var(--gutter); height: 1px; background: var(--rule); }
   /* The featured courses sit on a quiet band across the page: the library, opened. */
-  .band { background: var(--tint-sand); padding-block: clamp(2.25rem, 1.5rem + 2.8vw, 3.75rem); }
+  .band { background: var(--tint-neutral); padding-block: clamp(2.25rem, 1.5rem + 2.8vw, 3.75rem); }
   /* A section's head: the eyebrow and the title, and beside them on a wide screen, one line of what follows. */
   .head { display: grid; gap: var(--space-3) var(--space-7); margin-bottom: var(--space-6); }
   .kicker { margin-bottom: var(--space-2); font-size: 0.75rem; font-weight: 650; letter-spacing: 0.1em; text-transform: uppercase; color: var(--action); }
@@ -125,7 +125,7 @@ const featured = featuredCourses().map((r) => cards.find((card) => card.resource
   @media (min-width: 1024px) { .head { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; } }
 
   /* Featured courses (after ART Course): the title at the left, the way to all at the right; the cards in one
-     staggered row (the first and third lower, so the others read raised), sideways on a phone and a tablet. */
+     aligned row on a wide screen (Paulex Edu: one top line, one bottom line), sideways on a phone and a tablet. */
   /* The paths' head (V2.2): the title with its line right under it, on one reading width, at every width. */
   .head.head-stack { grid-template-columns: minmax(0, 1fr); gap: var(--space-3); margin-bottom: var(--space-5); }
   .head-stack .lead { max-width: 46ch; font-size: var(--fs-lead); line-height: 1.45; }
@@ -138,8 +138,7 @@ const featured = featuredCourses().map((r) => cards.find((card) => card.resource
   .courses > :global(li) { scroll-snap-align: start; }
   @media (min-width: 600px) { .courses { grid-auto-columns: 42%; gap: var(--space-5); } }
   @media (min-width: 1100px) {
-    .courses { grid-auto-flow: row; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-inline: 0; padding: 0 0 var(--space-5); overflow: visible; }
-    .courses > :global(li:nth-child(odd)) { translate: 0 var(--space-5); }
+    .courses { grid-auto-flow: row; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-inline: 0; padding: 0; overflow: visible; }
   }
   /* The cue under a sideways row: a phone and a tablet only (the row is whole on a wide screen). */
   .swipe { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-2); font-size: 0.8125rem; font-weight: 560; color: var(--muted); }

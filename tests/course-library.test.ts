@@ -77,8 +77,8 @@ test('one institutional theme: no dark mode, the bottom navigation on /cursos/ a
   for (const file of ['src/layouts/Base.astro', 'src/styles/global.css', 'src/components/SiteHeader.astro', 'src/components/SiteFooter.astro', 'src/components/BottomNav.astro', 'src/components/CourseLibrary.astro', 'src/components/CourseCard.astro', 'src/components/CourseThumb.astro', 'src/components/CourseAvatar.astro', 'src/pages/cursos/index.astro']) {
     assert.doesNotMatch(read(file), /data-theme|--video-|prefers-color-scheme:\s*dark|color-scheme:\s*dark/, file);
   }
-  assert.match(read('src/layouts/Base.astro'), /<meta name="theme-color" content="#faf8f4">/);
-  // The chosen chip is the brand red with white text; the bottom navigation marks its page in the brand red.
+  assert.match(read('src/layouts/Base.astro'), /<meta name="theme-color" content="#ffffff">/);
+  // The chosen chip is the navy with white text; the bottom navigation marks its page in the navy.
   assert.match(read('src/components/CourseLibrary.astro'), /\.chip\[data-filter='pre-militar'\] span \{ background: var\(--brand\); color: var\(--on-brand\); \}/);
   assert.match(read('src/components/BottomNav.astro'), /a\[aria-current='page'\] \{ color: var\(--brand\);/);
 });
