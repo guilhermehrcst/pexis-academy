@@ -12,7 +12,7 @@
 // declared is a problem, and a non-empty list of problems stops the build (learning-resources.ts).
 // No asset imports: this module runs under Node's test runner.
 import { DIGEST_PATTERN, digestOf } from './canonical.ts';
-import type { LearningResource, PublishedLearningResource } from '../learning-resources.ts';
+import { isPublishedResource, type LearningResource, type PublishedLearningResource } from '../learning-resources.ts';
 
 /* States and transitions ---------------------------------------------------------------------------- */
 
@@ -300,7 +300,7 @@ export interface Projection {
   problems: string[];
 }
 
-const isPublishable = (r: LearningResource): r is PublishedLearningResource => r.url !== null && r.verified?.freeAccess === true;
+const isPublishable = isPublishedResource;
 
 export const projectRelease = (input: ReleaseInput): Projection => {
   const problems: string[] = [];
@@ -471,7 +471,7 @@ export const projectRelease = (input: ReleaseInput): Projection => {
       found.push(`${at}: ${host} is not a host this lot reviewed for ${entry.institution}`);
     }
     found.push(...urlProblems(r.id, r.url), ...input.validate(r));
-    if (!isPublishable(r)) found.push(`${r.id}: approved but not publishable (no URL or free access)`);
+    if (!isPublishable(r)) found.push(`${r.id}: approved but not publishable (no URL or verified access conditions)`);
     return found;
   };
   // A recorded approval must already match its record: an authorized lot never drifts from its candidate.

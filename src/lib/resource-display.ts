@@ -5,7 +5,7 @@ import type { Dict } from '../i18n/types.ts';
 
 type ResourceLabels = Dict['resource'];
 type DisplayResource = Pick<PublishedLearningResource,
-  'provider' | 'format' | 'schoolYears' | 'language' | 'duration' | 'registration' | 'certificate'>;
+  'provider' | 'format' | 'schoolYears' | 'language' | 'duration' | 'registration' | 'certificate' | 'accessMode'>;
 
 export interface ResourceDisplayFacts {
   /** What the resource is. Always factual; provider is included for compact rows. */
@@ -27,7 +27,7 @@ export const resourceDisplayFacts = (
     resource.duration ? `${resource.duration.value} ${labels.units[resource.duration.unit]}` : null,
   ].filter((value): value is string => typeof value === 'string' && value.length > 0);
 
-  const access: string[] = [];
+  const access: string[] = [labels.accessModes[resource.accessMode ?? 'free']];
   if (resource.registration && resource.registration !== 'unconfirmed') {
     access.push(labels.registration[resource.registration]);
   }

@@ -1,5 +1,6 @@
 import type {
   LearningCertificateId,
+  LearningAccessId,
   LearningFormatId,
   LearningLanguageId,
   LearningRegistrationId,
@@ -133,7 +134,7 @@ export interface Dict {
       searchSubmit: string;
       primary: string;
       secondary: string;
-      /** Three short facts true of the product as built: free to study, no account on Paulex Edu (a provider may
+      /** Three short facts true of the product as built: transparent access, no account on Paulex Edu (a provider may
        *  ask for one, and the resource says so), six paths. */
       facts: readonly [string, string, string];
       compositionCaption: string;
@@ -218,6 +219,7 @@ export interface Dict {
   resource: {
     openSource: string;
     accessLabel: string;
+    accessModes: Record<Exclude<LearningAccessId, 'unconfirmed'>, string>;
     formats: Record<LearningFormatId, string>;
     languages: Record<LearningLanguageId, string>;
     /** Only confirmed values have a label: 'unconfirmed' is never shown as a fact (V0.4 Gate B, P4). */

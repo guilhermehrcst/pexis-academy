@@ -21,10 +21,11 @@ const page = presentationOf(r.id) ? routes.course(r.id) : null;
 const facts = [
   card.paths.map((path) => OBJECTIVES[path].label).join(', '),
   l.formats[r.format],
+  l.accessModes[r.accessMode ?? 'free'],
   r.language === 'pt' ? null : l.languages[r.language],
 ].filter((fact): fact is string => Boolean(fact));
 ---
-<li class="course" data-resource-id={r.id} data-format={r.format} data-subject={r.subject} data-paths={r.paths.join(' ')}>
+<li class="course" data-resource-id={r.id} data-format={r.format} data-subject={r.subject} data-paths={r.paths.join(' ')} data-access-mode={r.accessMode ?? 'free'}>
   <CourseThumb resource={r} label={card.thumbLabel} eager={eager} />
   <div class="details">
     <CourseAvatar provider={r.provider} />

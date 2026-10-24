@@ -500,9 +500,10 @@ export const pt: Dict = {
   resource: {
     openSource: 'Abrir na fonte',
     accessLabel: 'Acesso',
+    accessModes: { free: 'Gratuito', paid: 'Pago', subscription: 'Assinatura', conditional: 'Acesso gratuito com condições' },
     formats: { course: 'Curso', track: 'Trilha', playlist: 'Playlist', lessons: 'Aulas', lesson: 'Aula', practice: 'Prática', 'past-exam': 'Prova anterior', simulator: 'Simulado', reference: 'Material de referência' },
     languages: { pt: 'Em português', en: 'Em inglês', es: 'Em espanhol' },
-    registration: { required: 'Conta gratuita necessária', 'not-required': 'Sem cadastro' },
+    registration: { required: 'Conta necessária no provedor', 'not-required': 'Sem cadastro' },
     certificates: { none: 'Sem certificado', statement: 'Declaração de conclusão', participation: 'Declaração de participação', available: 'Certificado disponível' },
     units: { hours: 'h', weeks: 'semanas' },
     schoolYears: (years) => {
