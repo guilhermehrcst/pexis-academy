@@ -277,8 +277,6 @@ const n = t.nav;
     background: var(--action);
   }
   .chev { width: 7px; height: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform var(--t-ui) var(--ease); }
-  /* On the line, the arrow only hints at a menu: lighter than the name it follows. */
-  .trigger > .chev { opacity: 0.6; }
   details[open] > summary > .chev { transform: translateY(2px) rotate(-135deg); }
   .trigger:has(+ .panel:popover-open) > .chev { transform: translateY(2px) rotate(-135deg); }
 
