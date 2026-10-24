@@ -500,7 +500,7 @@ export const pt: Dict = {
   resource: {
     openSource: 'Abrir na fonte',
     accessLabel: 'Acesso',
-    accessModes: { free: 'Gratuito', paid: 'Pago', subscription: 'Assinatura', conditional: 'Acesso gratuito com condições' },
+    accessModes: { free: 'Gratuito', paid: 'Pago', subscription: 'Assinatura', conditional: 'Acesso gratuito com condições', unconfirmed: 'Acesso a confirmar' },
     formats: { course: 'Curso', track: 'Trilha', playlist: 'Playlist', lessons: 'Aulas', lesson: 'Aula', practice: 'Prática', 'past-exam': 'Prova anterior', simulator: 'Simulado', reference: 'Material de referência' },
     languages: { pt: 'Em português', en: 'Em inglês', es: 'Em espanhol' },
     registration: { required: 'Conta necessária no provedor', 'not-required': 'Sem cadastro' },
