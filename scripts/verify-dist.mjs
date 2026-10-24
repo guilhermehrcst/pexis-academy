@@ -627,7 +627,7 @@ function checkAreaGroups(path, fragment) {
 function checkHomeAreaCards(path, fragment) {
   const cards = [...fragment.matchAll(/<article\b[^>]*\sdata-area="([^"]+)"[^>]*>([\s\S]*?)<\/article>/g)]
     .map((m) => [m[1], hrefsIn(m[2])]);
-  const expected = AREA_GROUPS.map(([id]) => [id, [`/materias/#area-${id}`]]);
+  const expected = AREA_GROUPS.map(([id]) => [id, [id === 'tecnologia' ? '/tecnologia/' : `/materias/#area-${id}`]]);
   if (JSON.stringify(cards) !== JSON.stringify(expected)) fail(path, `area card destinations ${JSON.stringify(cards)}`);
   if (/<ul\b[^>]*\sclass="subjects"/.test(fragment)) fail(path, '#areas should not list individual subjects');
 }
