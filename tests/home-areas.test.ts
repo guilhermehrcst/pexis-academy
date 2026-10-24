@@ -14,7 +14,7 @@ const root = new URL('../', import.meta.url);
 const read = (path: string) => readFileSync(new URL(path, root));
 const manifest = JSON.parse(read('src/assets/areas/manifest.json').toString()) as {
   tones: Record<string, string>;
-  provenance: { status: string };
+  provenance: { status: string; c2pa: { generator: string; digitalSourceType: string } };
   files: Record<string, { source: string; sha256: string; width: number; height: number; ground?: { value: string } }>;
 };
 const component = read('src/components/HomeAreas.astro').toString();
@@ -39,8 +39,15 @@ test('every area has its picture: the owner\'s file, untouched, as the manifest 
     assert.equal(createHash('sha256').update(bytes).digest('hex'), manifest.files[area]!.sha256, `${area} is the file as supplied`);
     assert.deepEqual(pngSize(bytes), [manifest.files[area]!.width, manifest.files[area]!.height], `${area} keeps its own proportions`);
   }
-  // Their origin and the right to publish them are the owner's to confirm: the manifest says so until they do.
-  assert.equal(manifest.provenance.status, 'unverified');
+  // They are AI-generated, and their Content Credentials (a C2PA manifest in the PNG) say so: the manifest records
+  // what the files declare, and that publishing them is the owner's to confirm, until they do.
+  assert.equal(manifest.provenance.status, 'ai-generated-rights-unconfirmed');
+  assert.match(manifest.provenance.c2pa.generator, /gpt-image/);
+  assert.match(manifest.provenance.c2pa.digitalSourceType, /trainedAlgorithmicMedia$/);
+  for (const area of AREA_ORDER) {
+    const text = read(`src/assets/areas/${area}.png`).toString();
+    assert.ok(text.includes('caBX') && text.includes('trainedAlgorithmicMedia') && text.includes('gpt-image'), `${area} carries the credentials the manifest records`);
+  }
 });
 
 test('the manifest and the Home agree on the tone of every area, and every picture is imported with the place of its subject', () => {
@@ -75,8 +82,8 @@ test('nothing in the card touches the colour of the pictures: no filter, blend, 
   assert.match(markup, /style=\{`object-fit: \$\{areaImages\[area\.id\]\.fit\}; object-position: \$\{areaImages\[area\.id\]\.position\}`\}/);
   assert.match(markup, /style=\{areaImages\[area\.id\]\.ground \? `background: \$\{areaImages\[area\.id\]\.ground\}` : undefined\}/);
   assert.equal((markup.match(/\sstyle=/g) ?? []).length, 2);
-  // The only filter in the card is the panel's own blur of what is behind it (backdrop-filter), never a picture's.
-  assert.doesNotMatch(style, /(^|[^-])filter\s*:/m, 'no filter on a picture');
+  // No filter at all in the card, not even the panel's blur of what is behind it (backdrop-filter).
+  assert.doesNotMatch(style, /filter\s*:/, 'no filter, and no backdrop-filter over a picture');
   assert.doesNotMatch(style, /mix-blend-mode|background-blend-mode|sepia|grayscale|hue-rotate|saturate|brightness\(|contrast\(/);
   // The rules that reach the picture say nothing of opacity or of a layer over it.
   const art = style.match(/\.art[^{]*\{[^}]*\}/g) ?? [];

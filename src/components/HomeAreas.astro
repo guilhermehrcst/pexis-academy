@@ -3,7 +3,7 @@
 // tall cards, slightly turned in turn, each over the picture the owner chose for its area (src/lib/area-images.ts),
 // with a panel at its foot holding the area's name and its subjects as links to their real pages, in order.
 // The pictures show in their own colours: the files are the owner's, untouched, and nothing in this file filters,
-// blends, fades or covers them (tests/home-areas.test.ts keeps it so). What keeps the text legible, whatever the
+// blurs, blends, fades or covers them (tests/home-areas.test.ts keeps it so). What keeps the text legible, whatever the
 // picture, is the panel: near-white and almost opaque. The pictures are decorative, hidden from assistive tech. The paths above are wide cards that are links; these are
 // tall cards that hold links, so the two never read alike. /materias/ keeps its full list (AreaList.astro).
 // verify-dist reads each [data-area] element (an article): nothing inside it may be an article.
@@ -78,7 +78,7 @@ const areas = AREA_ORDER.map((id) => ({ id, label: AREAS[id].label, subjects: su
      ground of its own file. The card's ground shows only while a picture loads. */
   .art { position: absolute; inset: 0; }
   .art :global(img) { display: block; width: 100%; height: 100%; }
-  /* The frosted panel at the foot: the name, then the subjects. */
+  /* The panel at the foot: the name, then the subjects. Near-white and almost opaque, with no blur of what is behind it. */
   .panel {
     position: relative;
     display: grid;
@@ -87,8 +87,6 @@ const areas = AREA_ORDER.map((id) => ({ id, label: AREAS[id].label, subjects: su
     padding: var(--space-4) var(--space-4) var(--space-3) var(--space-5);
     border-radius: 18px;
     background: rgb(255 253 249 / 0.96);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
   }
   .name { font-family: var(--sans); font-size: 1.375rem; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
   .subjects { display: flex; flex-wrap: wrap; gap: 0 var(--space-1); margin-left: calc(-1 * var(--space-2)); }
