@@ -1,17 +1,16 @@
 ---
 // The Home's opening (V2), after the McGill reference: an editorial split. On the left the promise, set the
 // way a university sets its name: "Aprenda" in the serif, "com direção." in the sans, bold (together the
-// page's one h1, pages.home.heading); one line of what the Academy is; a search that is the site's own
+// page's one h1, pages.home.heading); one line of what the Paulex Edu is; a search that is the site's own
 // (/buscar/?q=, a native GET form: it works without JavaScript); the library as a button and the paths as a
-// large underlined link. On the right one large photograph with square corners: the supplied image of a real
-// course of the library (src/lib/home-featured.ts), named in the caption by its title and institution, so the
-// picture never stands for an institution or suggests a partnership. The brand's wine disc sits over its edge
-// (McGill's red circle; no play button: there is no video here). The picture is decorative for assistive tech.
+// large underlined link; then three short facts a student needs before anything else (free to study, no
+// account here, six organised paths), each true of the product as built. On the right one large photograph:
+// the supplied image of a real course of the library (src/lib/home-featured.ts), named in the caption by its
+// title and institution, so the picture never stands for an institution or suggests a partnership. No seal
+// sits over it (the official mascot is pending; nothing stands in for it). Decorative for assistive tech.
 // On a phone the title, the search and the actions come first; the photograph follows.
-import { Image } from 'astro:assets';
 import CourseThumb from './CourseThumb.astro';
 import MagnifyingGlassIcon from './icons/radix/MagnifyingGlassIcon.astro';
-import symbol from '../assets/brand/symbol-white.png';
 import { heroCourses } from '../lib/home-featured';
 import { thumbLabelOf } from '../lib/course-library';
 import { routes } from '../lib/routes';
@@ -31,19 +30,21 @@ if (!photo) throw new Error('HomeHero: one hero course');
         <label class="sr-only" for="home-q">{h.searchLabel}</label>
         <MagnifyingGlassIcon class="glass" width={20} height={20} />
         <input id="home-q" name="q" type="search" placeholder={h.searchPlaceholder} autocomplete="off" enterkeyhint="search" />
-        <button type="submit">{h.searchSubmit}</button>
+        <button type="submit"><MagnifyingGlassIcon class="go" width={20} height={20} /><span class="btn-label">{h.searchSubmit}</span></button>
       </form>
       <div class="actions">
         <a class="primary" href={routes.courses}>{h.primary}</a>
         <a class="secondary" href="#objetivo">{h.secondary}</a>
       </div>
+      <ul class="facts" role="list" data-hero-facts>
+        {h.facts.map((fact) => <li>{fact}</li>)}
+      </ul>
     </div>
     <figure class="composition" data-hero-courses>
       <div class="picture" aria-hidden="true">
         <div class="photo" data-demo-resource-id={photo.id}>
           <CourseThumb resource={photo} label={thumbLabelOf(photo)} priority sizes="(min-width: 1024px) 640px, 100vw" />
         </div>
-        <span class="disc"><Image class="symbol" src={symbol} alt="" width={40} densities={[1, 2]} format="png" loading="eager" /></span>
       </div>
       <figcaption><span>{h.compositionCaption} <span translate="no">{photo.curated?.plate ?? photo.title}</span>, <span translate="no">{photo.provider}</span>.</span> <a href={routes.courses}>{h.compositionLink}{' '}<span aria-hidden="true">→</span></a></figcaption>
     </figure>
@@ -84,7 +85,7 @@ if (!photo) throw new Error('HomeHero: one hero course');
     border: 1px solid var(--rule-strong);
     border-radius: 999px;
     background: var(--raised);
-    box-shadow: 0 1px 0 rgb(29 33 37 / 0.03), 0 12px 32px -24px rgb(29 33 37 / 0.35);
+    box-shadow: 0 1px 2px rgb(16 24 40 / 0.05), 0 12px 32px -24px rgb(16 24 40 / 0.3);
     transition: border-color var(--t-ui), box-shadow var(--t-ui);
   }
   .search:hover { border-color: var(--muted); }
@@ -117,12 +118,22 @@ if (!photo) throw new Error('HomeHero: one hero course');
   }
   .search button:hover { background: var(--action-hover); }
   .search button:focus-visible { outline: 2px solid var(--action); outline-offset: 3px; }
+  .search :global(.go) { display: none; }
   /* A phone: the whole question must fit in the field. */
   @media (max-width: 479px) {
     .search { gap: 6px; padding-left: 12px; }
     .search :global(.glass) { width: 18px; height: 18px; }
     .search input { font-size: 1rem; }
     .search button { padding-inline: var(--space-4); }
+  }
+  /* The narrowest phones (under 380px): the button keeps its name for assistive tech and shows the glass, so
+     the field keeps the room for the whole question. */
+  @media (max-width: 379px) {
+    .search { padding-left: 16px; }
+    .search :global(.glass) { display: none; }
+    .search button { display: grid; place-items: center; width: 48px; padding-inline: 0; }
+    .search :global(.go) { display: block; }
+    .btn-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   }
 
   .actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-6); margin-top: var(--space-5); }
@@ -132,14 +143,14 @@ if (!photo) throw new Error('HomeHero: one hero course');
     min-height: 48px;
     padding-inline: var(--space-5);
     border-radius: 999px;
-    background: var(--ink);
-    color: var(--paper);
+    background: var(--brand);
+    color: var(--on-brand);
     font-weight: 560;
     text-decoration: none;
     transition: background var(--t-ui);
   }
   .primary:hover { background: var(--action); color: var(--on-action); }
-  /* The call to a path: a large wine link with a thick underline, as McGill's "Choose your program". */
+  /* The call to a path: a large blue link with a thick underline, as McGill's "Choose your program". */
   .secondary {
     display: inline-flex;
     align-items: center;
@@ -154,31 +165,20 @@ if (!photo) throw new Error('HomeHero: one hero course');
   }
   .secondary:hover { color: var(--action-hover); text-underline-offset: 0.45em; }
 
-  /* The photograph: one large picture with square corners; the wine disc over its edge. */
+  /* Three facts, quiet: a small blue check, then the words. */
+  .facts { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); margin-top: var(--space-6); font-size: 0.9375rem; color: var(--ink-soft); }
+  .facts li { display: inline-flex; align-items: center; gap: var(--space-2); }
+  .facts li::before { content: ''; flex: none; width: 5px; height: 10px; margin: -3px 4px 0 3px; border-right: 2px solid var(--action); border-bottom: 2px solid var(--action); transform: rotate(45deg); }
+
+  /* The photograph: one large picture, its corners barely softened. */
   .composition { margin: 0; }
   .picture { position: relative; }
   /* 5:4 keeps the stage, the screen and the hall whole (the source is 3:2); a phone takes 4:3. */
-  .photo :global(.thumb) { aspect-ratio: 4 / 3; border-radius: 2px; }
+  .photo :global(.thumb) { aspect-ratio: 4 / 3; border-radius: var(--radius-lg); }
   .photo :global([data-duration]) { display: none; }
-  /* The brand's seal: small, inside the lower corner of the picture, away from what it shows and from the
-     search beside it at every width. */
-  .disc {
-    position: absolute;
-    left: var(--space-3);
-    bottom: var(--space-3);
-    display: grid;
-    place-items: center;
-    width: 56px;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: var(--brand);
-    box-shadow: 0 0 0 4px var(--paper), 0 10px 24px -14px rgb(29 33 37 / 0.6);
-  }
-  .disc :global(.symbol) { width: 54%; height: auto; }
   @media (min-width: 640px) and (max-width: 1023px) { .photo :global(.thumb) { aspect-ratio: 16 / 9; } }
   @media (min-width: 1024px) {
     .photo :global(.thumb) { aspect-ratio: 5 / 4; }
-    .disc { width: 64px; left: var(--space-4); bottom: var(--space-4); }
   }
   /* One quiet line: what the picture is, and the way to every course. */
   figcaption { display: flex; flex-wrap: wrap; gap: 0 var(--space-3); margin-top: var(--space-3); font-size: 0.8125rem; color: var(--muted); }

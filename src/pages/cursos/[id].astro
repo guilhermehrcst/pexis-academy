@@ -37,7 +37,7 @@ const target = p.video ? `https://www.youtube.com/watch?v=${p.video.youtubeId}` 
 const related = courseCards().filter((other) => other.resource.id !== r.id && other.paths.some((path) => card.paths.includes(path))).slice(0, 3);
 const description = p.summary.length > 157 ? `${p.summary.slice(0, 156).replace(/\s+\S*$/, '')}…` : p.summary;
 ---
-<Base title={`${r.title} | Pexis Academy`} description={description}>
+<Base title={`${r.title} | Paulex Edu`} description={description}>
   <PageIntro eyebrow={card.paths.map((path) => OBJECTIVES[path].label).join(' · ')} heading={r.title} lead={`${c.provider} ${r.provider}`} crumbs={[{ label: t.pages.cursos.heading, href: routes.courses }]} />
   <article class="wrap course-page" data-course-page={r.id}>
     <div class="media"><CourseThumb resource={r} label={card.thumbLabel} eager sizes="(min-width: 1100px) 680px, 92vw" /></div>

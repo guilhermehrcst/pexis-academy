@@ -20,24 +20,19 @@ test('the contrast function matches a known reference', () => {
 });
 
 const pairs: [string, string, number][] = [
-  ['ink', 'paper', 7], ['ink', 'surface', 7],
+  ['ink', 'paper', 7], ['ink', 'surface', 7], ['ink-soft', 'paper', 7],
   ['muted', 'paper', 4.5], ['muted', 'surface', 4.5],
   ['action', 'paper', 4.5], ['action', 'surface', 4.5], ['action-hover', 'paper', 4.5],
   ['on-action', 'action', 4.5], ['on-action', 'action-hover', 4.5],
   ['ink', 'raised', 7], ['muted', 'raised', 4.5], ['action', 'raised', 4.5],
-  ['ink', 'tint-brand', 7], ['muted', 'tint-brand', 4.5], ['action', 'tint-brand', 4.5],
-  // The official artwork is white on the brand red; text set on the plate uses --on-action.
-  ['on-action', 'brand', 7],
-  // The institutional header and footer (V0.3): text and secondary text on the wine, at rest and on hover.
-  ['on-brand', 'brand', 7], ['on-brand-muted', 'brand', 4.5],
-  ['on-brand', 'brand-deep', 7], ['on-brand-muted', 'brand-deep', 4.5],
-  // The menus open on paper panels under the wine header.
-  ['ink', 'raised', 7], ['action', 'raised', 4.5],
-  ['ink', 'tint-sand', 7], ['muted', 'tint-sand', 4.5],
-  // The course library (/cursos/, V0.7): chips and avatars on the surface, the chosen chip on the brand.
-  ['ink', 'surface', 7], ['muted', 'surface', 4.5], ['brand', 'raised', 7],
-  // The Home's path cards (V2): the name, its line and its count on each ground; ink on the deep tones.
-  ...(['sage', 'peach', 'sky', 'cream', 'blush', 'sand'] as const).flatMap((bg): [string, string, number][] => [['ink', bg, 7], ['muted', bg, 4.5], ['action', bg, 4.5], ['ink', `${bg}-deep`, 7]]),
+  ['ink', 'tint-brand', 7], ['muted', 'tint-brand', 4.5], ['action', 'tint-brand', 4.5], ['ink-soft', 'tint-brand', 7],
+  // The navy of the identity: the wordmark and headings on white, and text set on the navy.
+  ['brand', 'paper', 7], ['on-brand', 'brand', 7],
+  // Menus and the course library: panels, chips and avatars on the neutral grounds; the chosen chip on the navy.
+  ['ink', 'tint-neutral', 7], ['muted', 'tint-neutral', 4.5], ['brand', 'raised', 7],
+  // The Home's path cards: the name, its line and its state on each ground (navy, never the blue: the blue
+  // falls under 4.5:1 on these tones); ink on the deep tones.
+  ...(['sage', 'peach', 'sky', 'cream', 'blush', 'sand'] as const).flatMap((bg): [string, string, number][] => [['ink', bg, 7], ['muted', bg, 4.5], ['brand', bg, 7], ['ink', `${bg}-deep`, 7]]),
 ];
 for (const [fg, bg, min] of pairs) {
   test(`--${fg} on --${bg} is at least ${min}:1`, () => {
@@ -63,7 +58,9 @@ test('no hex colour outside :root, but the theme-color meta, which equals --pape
   }
 });
 
-test('one action colour, and it is the brand red (the official mark leads; no blue competes)', () => {
-  assert.equal(token('action'), token('brand'));
-  assert.ok(!/#0c5fe8/i.test(css), 'the former blue is gone');
+test('one action colour, the primary blue; the navy is the identity; the former wine is gone', () => {
+  assert.equal(token('action'), '#175cd3');
+  assert.equal(token('brand'), '#102a56');
+  assert.notEqual(token('action'), token('brand'));
+  assert.ok(!/#720111|#8c1023|#5a000d/i.test(css), 'the Pexis Academy wine is gone');
 });

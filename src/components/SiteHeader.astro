@@ -1,7 +1,8 @@
 ---
-// The institutional header (Global Navigation V1): the brand wine, the official lockup in white, the six
-// paths in the owner's order (Fundamental, Médio, Pré-Militar, Vestibular, Superior, Tecnologia) and search,
-// as a magnifying glass with its name for assistive tech.
+// The header (Global Navigation V1, Paulex Edu): white, with a hairline under it. The wordmark on the left,
+// the six paths in the owner's order (Fundamental, Médio, Pré-Militar, Vestibular, Superior, Tecnologia) in the
+// centre, and search on the right, as a magnifying glass with its name for assistive tech. Dark grey at rest,
+// the primary blue for every interaction, and a blue hairline under the current path.
 // Each path is a button that opens its menu (Cursos, Livros, Provas, then the path's own page): a native
 // popover, so a click opens it, Escape, a click outside or another menu closes it, and following a link
 // loads another document, which closes it too. All of that is native: no JavaScript is needed to use the menus.
@@ -13,10 +14,8 @@
 // them, search and one "Menu" button, whose sheet holds the six paths as an accordion of native <details>
 // (one open at a time), then the two libraries. The cost of the sheet, accepted: it closes by its own
 // button or by choosing a link, not by Escape or a tap outside.
-// The lockup is the official artwork (src/assets/brand), 46px tall: the smallest size at which "ACADEMY"
-// keeps 6px letters.
-import { Image } from 'astro:assets';
-import lockup from '../assets/brand/lockup-white.png';
+// The brand is the wordmark (BrandMark.astro): type, with the official mascot beside it once supplied.
+import BrandMark from './BrandMark.astro';
 import ClipboardIcon from './icons/radix/ClipboardIcon.astro';
 import MagnifyingGlassIcon from './icons/radix/MagnifyingGlassIcon.astro';
 import ReaderIcon from './icons/radix/ReaderIcon.astro';
@@ -35,7 +34,7 @@ const n = t.nav;
 <header class="site-header">
   <div class="wrap bar">
     <a class="brand" href={routes.home} aria-label={n.home} aria-current={current(routes.home)} data-brand>
-      <Image src={lockup} alt="" height={46} densities={[1, 2, 3]} format="png" loading="eager" fetchpriority="high" />
+      <BrandMark />
     </a>
 
     <!-- From 1024px, with popovers: the six paths and search on one line. -->
@@ -154,9 +153,9 @@ const n = t.nav;
     position: sticky;
     top: 0;
     z-index: 30;
-    background: var(--brand);
-    color: var(--on-brand);
-    border-bottom: 1px solid var(--brand-deep);
+    background: var(--paper);
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--rule);
   }
   /* The bar keeps clear of a notch when a phone is held sideways (the page covers the whole screen). */
   .bar {
@@ -168,23 +167,31 @@ const n = t.nav;
     min-height: 64px;
     padding-inline: max(var(--gutter), env(safe-area-inset-left)) max(var(--gutter), env(safe-area-inset-right));
   }
-  .brand { display: block; flex: none; padding-block: 9px; line-height: 0; }
-  .brand :global(img) { display: block; width: auto; height: 46px; }
-
-  /* Focus on the wine: the outline is white. */
-  .site-header :global(:focus-visible) { outline-color: var(--on-brand); }
+  .brand { display: flex; align-items: center; flex: none; min-height: 44px; padding-block: 10px; text-decoration: none; }
+  .brand:hover { color: inherit; }
 
   /* One line from 1024px, where popovers exist; below it, or without them, search and the Menu button. A
      browser without popovers would show every menu at once: it takes the sheet instead, which needs none. */
+  .top { display: flex; align-items: center; justify-content: flex-end; gap: 2px; }
   .desktop { display: none; }
   .compact { display: flex; align-items: center; gap: var(--space-2); }
   @media (min-width: 1024px) {
     @supports selector(:popover-open) {
       .desktop { display: block; }
       .compact { display: none; }
+      /* The paths stand in the centre of the page, search at its right edge: the bar is a grid whose outer
+         columns share what is left (each at least its content), and the line takes the middle ones as a
+         subgrid, so search, the last item of the same list, reaches the last column. */
+      .bar { display: grid; grid-template-columns: minmax(max-content, 1fr) repeat(6, auto) minmax(max-content, 1fr); column-gap: 0; }
+      .brand { justify-self: start; }
+      .desktop { grid-column: 2 / -1; }
+      @supports (grid-template-columns: subgrid) {
+        .desktop, .top { display: grid; grid-template-columns: subgrid; grid-column: 2 / -1; }
+        .desktop > .top { grid-column: 1 / -1; }
+        .top > li:last-child { justify-self: end; }
+      }
     }
   }
-  .top { display: flex; align-items: center; gap: 2px; }
   .trigger, .link, .mobile > summary {
     position: relative;
     display: inline-flex;
@@ -199,7 +206,7 @@ const n = t.nav;
     font-size: 0.9375rem;
     font-weight: 500;
     white-space: nowrap;
-    color: var(--on-brand-muted);
+    color: var(--ink-soft);
     text-decoration: none;
     cursor: pointer;
     list-style: none;
@@ -209,22 +216,23 @@ const n = t.nav;
   /* Touch answers with the menu's own states, not the browser's blue flash. */
   summary, .trigger { -webkit-tap-highlight-color: transparent; }
   .sheet-path > summary:active { background: var(--surface); }
-  .trigger:hover, .link:hover { background: var(--brand-deep); color: var(--on-brand); }
+  .trigger:hover, .link:hover { background: var(--tint-brand); color: var(--action); }
   /* Apart: a browser that does not know :popover-open drops the whole rule it is in. */
-  .trigger:has(+ .panel:popover-open) { background: var(--brand-deep); color: var(--on-brand); }
+  .trigger:has(+ .panel:popover-open) { background: var(--tint-brand); color: var(--action); }
   /* Search: a square 44px target around the glass. */
   .search { justify-content: center; min-width: 44px; padding-inline: 0; }
   .search :global(svg) { display: block; }
-  /* The current path (its page, an exam inside it, or its view of a library): white, with a hairline. */
-  .link[aria-current='page'], .in-section { color: var(--on-brand); }
+  /* The current path (its page, an exam inside it, or its view of a library): ink, with a blue hairline. */
+  .link[aria-current='page'], .in-section { color: var(--ink); }
   .link[aria-current='page']::after, .link.in-section::after, .trigger.in-section::after {
     content: '';
     position: absolute;
     left: var(--space-3);
     right: var(--space-3);
-    bottom: 6px;
+    bottom: 4px;
     height: 2px;
-    background: var(--on-brand);
+    border-radius: 2px;
+    background: var(--action);
   }
   .search[aria-current='page']::after, .search.in-section::after { left: 12px; right: 12px; }
   /* A library's view of a path marks that path too: the page is static, the view is its URL's fragment. */
@@ -233,7 +241,7 @@ const n = t.nav;
   :global(body:has([data-view-path='pre-militar']:target)) .trigger[data-path='pre-militar'],
   :global(body:has([data-view-path='vestibulares']:target)) .trigger[data-path='vestibulares'],
   :global(body:has([data-view-path='ensino-superior']:target)) .trigger[data-path='ensino-superior'],
-  :global(body:has([data-view-path='tecnologia']:target)) .trigger[data-path='tecnologia'] { color: var(--on-brand); }
+  :global(body:has([data-view-path='tecnologia']:target)) .trigger[data-path='tecnologia'] { color: var(--ink); }
   :global(body:has([data-view-path='ensino-fundamental']:target)) .trigger[data-path='ensino-fundamental']::after,
   :global(body:has([data-view-path='ensino-medio']:target)) .trigger[data-path='ensino-medio']::after,
   :global(body:has([data-view-path='pre-militar']:target)) .trigger[data-path='pre-militar']::after,
@@ -244,9 +252,10 @@ const n = t.nav;
     position: absolute;
     left: var(--space-3);
     right: var(--space-3);
-    bottom: 6px;
+    bottom: 4px;
     height: 2px;
-    background: var(--on-brand);
+    border-radius: 2px;
+    background: var(--action);
   }
   .chev { width: 7px; height: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform var(--t-ui) var(--ease); }
   details[open] > summary > .chev { transform: translateY(2px) rotate(-135deg); }
@@ -312,7 +321,7 @@ const n = t.nav;
   a.entry { transition: background var(--t-ui); }
   a.entry:hover { background: var(--surface); }
   a.entry:hover .label { color: var(--action); }
-  .icon { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: var(--tint-sand); color: var(--ink); }
+  .icon { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: var(--tint-brand); color: var(--action); }
   .icon :global(svg) { display: block; }
   .text { display: grid; gap: 1px; min-width: 0; }
   .label { font-size: 0.9375rem; font-weight: 600; line-height: 1.25; }
@@ -340,10 +349,10 @@ const n = t.nav;
   .site-header .panel :global(:focus-visible), .site-header .sheet :global(:focus-visible) { outline-color: var(--action); }
 
   /* The Menu button and its sheet under the header. */
-  .mobile > summary { color: var(--on-brand); padding-inline: var(--space-3) var(--space-4); border: 1px solid var(--brand-line); }
-  .mobile > summary:hover, .mobile[open] > summary { background: var(--brand-deep); }
+  .mobile > summary { color: var(--ink); padding-inline: var(--space-3) var(--space-4); border: 1px solid var(--rule-strong); border-radius: 999px; }
+  .mobile > summary:hover, .mobile[open] > summary { background: var(--tint-brand); border-color: var(--tint-brand); color: var(--action); }
   .burger { display: grid; gap: 5px; width: 18px; }
-  /* The narrowest phones (320px, the reflow width): the lockup keeps its size, so the button keeps only its
+  /* The narrowest phones (320px, the reflow width): the wordmark keeps its size, so the button keeps only its
      icon, a 44px square still named "Menu" for assistive tech. */
   @media (max-width: 359px) {
     .mobile > summary { justify-content: center; width: 44px; padding-inline: 0; }
@@ -401,7 +410,7 @@ const n = t.nav;
   /* The course library (/cursos/): the bar spans the page and aligns with the grid's edge. */
   :global(html[data-bottom-nav]) .bar { max-width: none; padding-inline: max(var(--library-side, var(--gutter)), env(safe-area-inset-left)) max(var(--library-side, var(--gutter)), env(safe-area-inset-right)); }
   /* With the bottom navigation (below 1024px), it already offers search and the two libraries: the header
-     keeps the lockup and the Menu, so nothing is offered twice, and the sheet stops above the bar. */
+     keeps the wordmark and the Menu, so nothing is offered twice, and the sheet stops above the bar. */
   @media (max-width: 1023px) {
     :global(html[data-bottom-nav]) .compact > .search,
     :global(html[data-bottom-nav]) .sheet-libraries { display: none; }

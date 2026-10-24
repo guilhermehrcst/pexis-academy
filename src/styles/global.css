@@ -1,33 +1,31 @@
-/* Pexis Academy: global tokens and base. Component styles live in their .astro files.
-   "Acadêmica acolhedora" (spec §6.7): warm paper, graphite ink, the brand red, hairlines and space.
+/* Paulex Edu: global tokens and base. Component styles live in their .astro files.
+   White pages, the navy of the institution, one primary blue for every action, hairlines and space.
    Hex codes live only in :root. Contrast is measured, not estimated (tests/contrast.test.ts). */
 
 :root {
-  /* Paper, ink and the brand red. --brand is measured from the official artwork (scripts/brand-assets.mjs,
-     tests/brand.test.ts); it is also the one action colour, so no second hue competes with the mark. */
-  --paper: #faf8f4;
-  --surface: #f2efe9;
-  --ink: #1d2125;
-  --muted: #565c63;
-  --rule: #e2ddd4;
-  --brand: #720111;
-  --action: #720111;
-  --action-hover: #8c1023;
-  --on-action: #faf8f4;
-  /* The institutional wine grounds (header, footer): text, secondary text, a deeper wine for hover and
-     the current item, and hairlines. Measured in tests/contrast.test.ts. */
+  /* Paper, ink and the institution. --brand is the navy of the Paulex identity (headings of the brand,
+     the wordmark, text set on the coloured path cards); --action is the one blue every action uses, on
+     white and on the light surfaces only: on the pastel grounds it falls under 4.5:1, so text there is navy. */
+  --paper: #ffffff;
+  --surface: #f8fafc;
+  --ink: #182230;
+  --ink-soft: #344054;
+  --muted: #475467;
+  --rule: #e4e7ec;
+  --brand: #102a56;
+  --action: #175cd3;
+  --action-hover: #1849a9;
+  --on-action: #ffffff;
+  /* Text on the navy and on photographs (course covers, the selected chip). */
   --on-brand: #ffffff;
-  --on-brand-muted: #e9c6cb;
-  --brand-deep: #5a000d;
-  --brand-line: #94394a;
-  /* Quiet grounds for product panels and bands: a pale brand tint and a sand, no heavy shadow. */
-  --raised: #fffdf9;
-  --tint-brand: #f6e9ea;
-  --tint-sand: #efe7da;
-  --rule-strong: #cfc8bb;
-  /* Home V2: the grounds of the path cards (after the LabAcademy reference: soft, but present), each with a
-     deeper tone used only behind an illustration or a frosted panel, never under text. The wine stays the one
-     identity colour; these never carry an action. Text on the light tones is measured. */
+  /* Quiet grounds for panels and bands: a pale blue tint and a neutral grey, no heavy shadow. */
+  --raised: #ffffff;
+  --tint-brand: #eff4ff;
+  --tint-neutral: #f2f4f7;
+  --rule-strong: #d0d5dd;
+  /* The six path tones (Home V2, kept in Paulex Edu): soft grounds, each with a deeper tone used only behind
+     an illustration, never under text. They are colours, never meanings, and never carry an action: text on
+     them is ink, muted or navy, measured. */
   --sage: #d3e5c1;
   --sage-deep: #a8c98c;
   --peach: #fbd2b6;
@@ -69,7 +67,7 @@
   --measure: 66ch;
   --radius: 6px;
   --radius-lg: 14px;
-  --shadow-panel: 0 1px 0 rgb(29 33 37 / 0.04), 0 24px 56px -28px rgb(29 33 37 / 0.30);
+  --shadow-panel: 0 1px 2px rgb(16 24 40 / 0.05), 0 16px 40px -20px rgb(16 24 40 / 0.22);
 
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --t-ui: 180ms;

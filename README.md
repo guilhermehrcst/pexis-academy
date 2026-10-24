@@ -1,6 +1,6 @@
-# Pexis Academy
+# Paulex Edu
 
-A free, Portuguese-first place to study with direction: ENEM, UERJ, Ensino Médio, vestibulares and technology. Pexis Academy does not produce lessons; it organises free resources from universities, public institutions and educational platforms by objective, area and subject, and says where to start.
+A free, Portuguese-first place to study with direction: ENEM, UERJ, Ensino Médio, vestibulares and technology. Paulex Edu (formerly Pexis Academy; the repository and its public path keep the former name for now) does not produce lessons; it organises free resources from universities, public institutions and educational platforms by objective, area and subject, and says where to start.
 
 Static output, built with [Astro](https://astro.build), TypeScript and hand-written CSS. No backend, no accounts, no analytics, no cookies, no third-party requests at runtime (fonts are self-hosted). The only JavaScript runs on `/buscar/`, and the page is complete without it.
 
@@ -91,13 +91,13 @@ Its lists (routes, redirects, hosts) are written by hand on purpose: they are an
 
 "Acadêmica acolhedora": warm paper, graphite ink, hairlines and space instead of shadows and cards.
 
-**Brand red.** The brand red `#720111` (`--brand`) is measured from the official artwork. It is also the only action colour (`--action`): links, calls to action and highlights. No second hue competes with the mark; the former blue is retired, and a test fails if it returns.
+**Colours.** White pages (`--paper`), the Paulex navy `#102a56` (`--brand`) for the identity and for text on the coloured path cards, and one primary blue `#175cd3` (`--action`) for every link, call to action and highlight on white and light surfaces. The six path tones of the Home are kept. The former wine is retired, and `tests/contrast.test.ts` fails if it returns.
 
 **Tokens.** Tokens live once, in `:root` of `src/styles/global.css`; no hex code appears elsewhere.
 
 **Fonts.** Two typefaces are self-hosted, both under the SIL OFL 1.1: Newsreader (`@fontsource-variable/newsreader`) for headings and Google Sans Flex (`@fontsource-variable/google-sans-flex`) for text. Their licences are published at `/licenses/`.
 
-**Identity.** The official Pexis Academy artwork is kept as supplied in `src/assets/brand/source`. It appears white on a plate of the brand red, never redrawn. `scripts/brand-assets.mjs` derives the lockup, the symbol and the icons, and `tests/brand.test.ts` checks them against its manifest. Rules of use: `docs/superpowers/brand/2026-10-11-pexis-academy-identity.md`.
+**Identity.** The brand is the Paulex Edu wordmark, set in Google Sans Flex (`src/components/BrandMark.astro`). The official Paulex mascot has not been supplied yet: it is never drawn here, and it appears beside the wordmark as soon as its file is added to `src/assets/brand/` as paulex-mascot.svg (or .png). Until then the icons are a provisional typographic stand-in, recorded as such in `src/assets/brand/manifest.json` and checked by `tests/brand.test.ts`. The former Pexis Academy artwork and its rules (`docs/superpowers/brand/2026-10-11-pexis-academy-identity.md`) are history.
 
 **Motion.** Motion is limited to small hover and focus transitions and is off under `prefers-reduced-motion`.
 
