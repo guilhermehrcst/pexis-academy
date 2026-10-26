@@ -128,7 +128,7 @@ test('newly approved records require explicit access mode even when the course i
     decision: 'approved', decidedBy: SIMULATED_BY, decidedOn: '2026-10-12',
   };
   const lot: LotManifest = lotOf('L003-mode-required', [entry]);
-  const attempt = project({ pool: [...POOL, r], lots: [lot], release: releaseOf([lot], inventoryWith([r.id])) });
+  const attempt = project({ pool: [...POOL, r], lots: [lot], release: releaseOf([lot], inventoryWith([r.id])), now: new Date('2026-10-26T23:59:59Z') });
   assert.match(attempt.problems.join(';'), /new approval requires explicit access mode/);
 });
 
