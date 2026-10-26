@@ -2,7 +2,7 @@
   "schema": "paulex-edu-editorial-review-packet/1",
   "createdOn": "2026-10-26",
   "suggestedLot": "L003-verified-nine-20261026",
-  "recordSnapshotCommit": "59036e27226b32a53d8a07b968c2a4b5c8d24393",
+  "recordSnapshotCommit": "e9f987e07e4846cd33a8f032d81897eacb3f6827",
   "sourceBranch": "feat/paulex-edu-recovery-36-pending-20261026",
   "status": "awaiting_explicit_human_editorial_approval",
   "approvalBy": null,
@@ -14,7 +14,7 @@
     {
       "id": "research-br1-014",
       "url": "https://www.ev.org.br/cursos/educacao-financeira",
-      "digest": "sha256:68699c754df2956b1dd744e9b630ab1329275d2a4ca3df58f170a0baf79503bc",
+      "digest": "sha256:a48e19e854378ed5fb935bc89562e83e411cc1ec8dfe075bb261cc698772c30b",
       "provider": "Fundação Bradesco (parceria Instituto Crescer)",
       "format": "course",
       "verifiedOn": "2026-10-26",
@@ -53,7 +53,7 @@
     {
       "id": "research-tec-016",
       "url": "https://www.cursoemvideo.com/curso/python-3-mundo-1/",
-      "digest": "sha256:76a0036e48ce22250bb8756d6828cf7773251353f0049842f135221974a47510",
+      "digest": "sha256:b3822ec005b9ab45ae8196605d8c457ab46609ec3ebc5aa3f049ed5d7238e60a",
       "provider": "Curso em Vídeo (Gustavo Guanabara)",
       "format": "course",
       "verifiedOn": "2026-10-26",
@@ -92,7 +92,7 @@
     {
       "id": "research-tec-041",
       "url": "https://huggingface.co/learn/agents-course/unit0/introduction",
-      "digest": "sha256:c4051ad3410395e45cec4e5646b4a50e53bd658658a9768aea3da605b599a37d",
+      "digest": "sha256:ee524f79e5f1a54da508305d022aa97c1d074e6b1d06a8e6c751059686de3d16",
       "provider": "Hugging Face",
       "format": "course",
       "verifiedOn": "2026-10-26",
@@ -118,7 +118,7 @@
     {
       "id": "research-tec-054",
       "url": "https://www.cursoemvideo.com/curso/html5-css3-modulo1/",
-      "digest": "sha256:b966d264f05265f0946858fc503662020be3b414e21225ae7fc9a19f744a491c",
+      "digest": "sha256:cbe77cb619aa968499754db0f9b9b8b9b5b7414b7cb41df6d51e8284f66d95f0",
       "provider": "Curso em Vídeo (Gustavo Guanabara)",
       "format": "course",
       "verifiedOn": "2026-10-26",
