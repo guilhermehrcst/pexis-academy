@@ -472,11 +472,10 @@ export const projectRelease = (input: ReleaseInput): Projection => {
     if (r.verified?.evidence?.url !== entry.evidence.url) found.push(`${at}: approved evidence at ${entry.evidence.url}, the record's is at ${String(r.verified?.evidence?.url)}`);
     if (r.verified?.evidence?.note !== entry.evidence.observed) found.push(`${at}: the approved observation is not the record's evidence note`);
     if (!publishes) return found;
-    // Historical simulated approvals run with an injected pre-migration 'now' (2026-10-12).
-    // Only newly processed decisions after the access-mode rollout are subject to the
-    // explicit access-mode gate; immutable historical L001/L002 are exempt.
-    if (r.accessMode === undefined && input.now >= new Date('2026-10-24T00:00:00Z') &&
-        lot.lot !== 'L001-plano-b' && lot.lot !== 'L002-ita-pre-militar') {
+    // Records verified before the access-mode migration (2026-10-24) remain valid on
+    // their historical evidence, including old staged records. New direct verifications
+    // require an explicit access model before approval, even when learning is free.
+    if (r.accessMode === undefined && (r.verified?.on ?? '') >= '2026-10-24') {
       found.push(`${at}: new approval requires explicit access mode`);
     }
     if (catalogueIds.has(r.id) && !(r.id in baseline.records)) found.push(`${at}: a held catalogue record is published only by moving it to the pool`);
