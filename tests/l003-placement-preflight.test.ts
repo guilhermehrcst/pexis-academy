@@ -28,10 +28,10 @@ test('preflight: nine exact reviewed records have real destinations under simula
   for (const r of verified) {
     const at = placementOf(r, undefined, context);
     assert.ok(at, `${r.id} has no page`);
-    assert.equal(at.page, expected[r.id], r.id);
-    assert.equal(at.anchor, `recurso-${r.id}`, r.id);
+    assert.equal(at!.page, expected[r.id], r.id);
+    assert.equal(at!.anchor, `recurso-${r.id}`, r.id);
     const home = resourceHome(r, context);
-    assert.ok(home.startsWith(at.page), `${r.id}: search index must point to the same page`);
+    assert.ok(home.startsWith(at!.page), `${r.id}: search index must point to the same page`);
   }
 });
 
