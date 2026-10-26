@@ -56,14 +56,12 @@ const paths = [
     icon: 'laptop',
     steps: resourcesByIds(publishedResources, track.resourceIds).map((r) => ({
       title: r.title,
-      note: [r.provider, r.duration && `${r.duration.value} ${t.resource.units[r.duration.unit]}`, t.resource.languages[r.language]]
-        .filter(Boolean)
-        .join(' · '),
+      by: r.provider,
+      note: [r.duration && `${r.duration.value} ${t.resource.units[r.duration.unit]}`, t.resource.languages[r.language]].filter(Boolean).join(' · '),
     })),
     href: `${routes.objective('tecnologia')}#${track.id}`,
     link: f.links.track,
     tone: 'mint',
-    noTranslate: true,
   },
 ];
 const SHOWN = 3;
@@ -93,9 +91,9 @@ const ICONS: Record<string, string[]> = {
           {path.steps.slice(0, SHOWN).map((step, i) => (
             <li>
               <span class="n" aria-hidden="true">{i + 1}</span>
-              <span class="text" translate={path.noTranslate ? 'no' : undefined}>
-                <span class="name">{step.title}</span>
-                <span class="note">{step.note}</span>
+              <span class="text">
+                <span class="name" translate={path.id === track.id ? 'no' : undefined}>{step.title}</span>
+                <span class="note">{'by' in step && <><span translate="no">{step.by}</span>{' · '}</>}{step.note}</span>
               </span>
             </li>
           ))}
