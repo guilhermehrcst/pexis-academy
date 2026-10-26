@@ -163,6 +163,8 @@ export interface Dict {
       steps: (n: number) => string;
       /** The caption over a path's first steps (V2.1). */
       first: string;
+      /** One line under each guide step, saying what the section holds (never invented: each matches its section). */
+      hints: { enem: Record<'entenda' | 'areas' | 'pratique' | 'aprofunde', string>; uerj: Record<'entenda' | 'prepare' | 'materias' | 'provas', string> };
       more: (n: number) => string;
       links: { enem: string; uerj: string; track: string };
     };

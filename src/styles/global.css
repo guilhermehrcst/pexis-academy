@@ -38,6 +38,11 @@
   --blush-deep: #e3a3a9;
   --sand: #e8dcc6;
   --sand-deep: #cdb994;
+  /* The three ready-path cards of the Home (FeaturedPaths): a pale wash, a deeper wave behind the head's text, an accent
+     (icon, first disc; white on it, measured >= 4.5:1) and the ink of the way in (>= 7:1 on its wash). */
+  --path-rose-wash: #fbe9eb; --path-rose-wave: #f6d6da; --path-rose-accent: #c8374a; --path-rose-ink: #8f1d2e;
+  --path-sand-wash: #fdf1d6; --path-sand-wave: #f9e4b0; --path-sand-accent: #a8650d; --path-sand-ink: #6f4207;
+  --path-mint-wash: #e5f3e3; --path-mint-wave: #cfe8cc; --path-mint-accent: #2a7d46; --path-mint-ink: #1c5a32;
 
   --sans: 'Google Sans Flex Variable', 'Google Sans Flex', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   /* Newsreader (OFL-1.1, self-hosted): the academic voice of the display type. Body text stays sans. */
