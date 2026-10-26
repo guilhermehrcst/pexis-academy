@@ -34,6 +34,9 @@ export const GATEB_TECH_TRACK_ASSIGNMENTS: Readonly<Record<string, TechTrackId>>
   'odin-foundations': 'desenvolvimento-web',
   'google-mlcc': 'inteligencia-artificial',
   'ms-learn-cloud-concepts': 'computacao-em-nuvem',
+};
+
+export const RECOVERY_TECH_TRACK_ASSIGNMENTS: Readonly<Record<string, TechTrackId>> = {
   // Future publication candidates: inert until the approved lot actually projects them.
   'research-tec-016': 'python',
   'research-tec-038': 'desenvolvimento-web',
@@ -57,7 +60,7 @@ export const techTracksFor = (
     ...track,
     resourceIds: [
       ...track.resourceIds.filter((id) => available.has(id)),
-      ...Object.entries(GATEB_TECH_TRACK_ASSIGNMENTS)
+      ...[...Object.entries(GATEB_TECH_TRACK_ASSIGNMENTS), ...Object.entries(RECOVERY_TECH_TRACK_ASSIGNMENTS)]
         .filter(([id, target]) => target === track.id && available.has(id))
         .map(([id]) => id),
     ],

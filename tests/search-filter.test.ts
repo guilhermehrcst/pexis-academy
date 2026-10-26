@@ -36,7 +36,8 @@ test('a resource without a subject lives on the exam page that shows it; with no
   // An exam's past papers (practice) are shown by its guide: that is where they live.
   assert.equal(si.resourceHome({ id: 'x', subject: null, format: 'past-exam', paths: ['vestibulares'], exams: ['enem'] }), '/enem/');
   assert.equal(si.resourceHome({ id: 'x', subject: null, format: 'past-exam', paths: ['vestibulares'], exams: ['uerj'] }), '/uerj/');
-  assert.throws(() => si.resourceHome({ id: 'x', subject: null, format: 'past-exam', paths: ['ensino-medio'] }), /no page shows/);
+  assert.equal(si.resourceHome({ id: 'x', subject: null, format: 'course', paths: ['ensino-medio'] }), '/ensino-medio/');
+  assert.throws(() => si.resourceHome({ id: 'x', subject: null, format: 'past-exam', paths: ['ensino-superior'] }), /no page shows/);
 });
 
 test('resource entries carry their facets; other entries carry none', () => {
