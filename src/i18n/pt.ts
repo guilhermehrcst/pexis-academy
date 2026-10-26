@@ -310,6 +310,20 @@ export const pt: Dict = {
       },
       steps: (n) => `${n} etapas`,
       first: 'Primeiros passos',
+      hints: {
+        enem: {
+          entenda: 'Conheça o formato e o que cada área avalia.',
+          areas: 'Organize seus estudos por disciplina.',
+          pratique: 'Resolva provas anteriores e confira os gabaritos.',
+          aprofunde: 'Revise o conteúdo de cada área com cursos gratuitos.',
+        },
+        uerj: {
+          entenda: 'Veja o formato e as particularidades.',
+          prepare: 'Descubra suas disciplinas e monte seu plano.',
+          materias: 'Estude cada matéria com questões da UERJ.',
+          provas: 'Resolva questões de provas anteriores.',
+        },
+      },
       more: (n) => (n === 1 ? 'e mais 1 etapa' : `e mais ${n} etapas`),
       links: { enem: 'Abrir o guia do ENEM', uerj: 'Abrir o guia da UERJ', track: 'Abrir a trilha' },
     },

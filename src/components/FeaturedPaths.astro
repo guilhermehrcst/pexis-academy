@@ -4,6 +4,9 @@
 // guides, with their own sections as steps (resolveGuide, the same data as their pages), and the first
 // technology track, with its courses in order (resourcesByIds fails the build on an unknown id).
 // Nothing is filled in for the design: a step is a section or a course that exists today.
+// V2.6: each card has its own tone (head, line icon, first disc and way in, all from the --accent / --wash pair below),
+// a line icon in a small square, and a line under every step: for a guide, what its section holds (home.tracks.hints);
+// for a course, what the catalogue states of it (provider, length, language). Nothing is counted or promised beyond that.
 import { resolveGuide } from '../lib/exam-guides';
 import { resourcesByIds } from '../lib/learning-library';
 import { publishedResources } from '../lib/learning-resources';
@@ -22,17 +25,25 @@ const paths = [
     kind: f.kinds.guide,
     title: f.titles.enem,
     why: f.why.enem,
-    steps: resolveGuide('enem').map((section) => g.enem[section.id as keyof typeof g.enem].title),
+    icon: 'book',
+    steps: resolveGuide('enem').map((section) => ({
+      title: g.enem[section.id as keyof typeof g.enem].title,
+      note: f.hints.enem[section.id as keyof typeof f.hints.enem],
+    })),
     href: routes.objective('enem'),
     link: f.links.enem,
-    tone: 'brand',
+    tone: 'rose',
   },
   {
     id: 'uerj',
     kind: f.kinds.guide,
     title: f.titles.uerj,
     why: f.why.uerj,
-    steps: resolveGuide('uerj').map((section) => g.uerj[section.id as keyof typeof g.uerj].title),
+    icon: 'cap',
+    steps: resolveGuide('uerj').map((section) => ({
+      title: g.uerj[section.id as keyof typeof g.uerj].title,
+      note: f.hints.uerj[section.id as keyof typeof f.hints.uerj],
+    })),
     href: routes.objective('uerj'),
     link: f.links.uerj,
     tone: 'sand',
@@ -42,19 +53,34 @@ const paths = [
     kind: f.kinds.track,
     title: track.label,
     why: track.why,
-    steps: resourcesByIds(publishedResources, track.resourceIds).map((r) => r.title),
+    icon: 'laptop',
+    steps: resourcesByIds(publishedResources, track.resourceIds).map((r) => ({
+      title: r.title,
+      by: r.provider,
+      note: [r.duration && `${r.duration.value} ${t.resource.units[r.duration.unit]}`, t.resource.languages[r.language]].filter(Boolean).join(' · '),
+    })),
     href: `${routes.objective('tecnologia')}#${track.id}`,
     link: f.links.track,
-    tone: 'ink',
-    noTranslate: true,
+    tone: 'mint',
   },
 ];
 const SHOWN = 3;
+// Line icons, 24x24, drawn with a 1.6 stroke in currentColor: an open book, a mortarboard and a laptop.
+const ICONS: Record<string, string[]> = {
+  book: ['M12 6.6C10.4 5.3 8.3 4.7 4.6 4.7v12.6c3.7 0 5.8.6 7.4 1.9 1.6-1.3 3.7-1.9 7.4-1.9V4.7c-3.7 0-5.8.6-7.4 1.9Z', 'M12 6.6v12.6'],
+  cap: ['M2.8 9.6 12 5l9.2 4.6-9.2 4.6-9.2-4.6Z', 'M6.6 11.9v4c0 1.3 2.4 2.6 5.4 2.6s5.4-1.3 5.4-2.6v-4', 'M21.2 9.6v5'],
+  laptop: ['M5.4 5.2h13.2c.6 0 1 .4 1 1v8.6H4.4V6.2c0-.6.4-1 1-1Z', 'M2.6 18.6h18.8'],
+};
 ---
 <div class="paths">
   {paths.map((path) => (
     <article class:list={['path', `tone-${path.tone}`]} data-featured={path.id} aria-labelledby={`trilha-${path.id}`}>
       <div class="top">
+        <span class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+            {ICONS[path.icon]!.map((d) => <path d={d} />)}
+          </svg>
+        </span>
         <p class="kind">{path.kind} · {f.steps(path.steps.length)}</p>
         <h3 id={`trilha-${path.id}`}>{path.title}</h3>
         <p class="why">{path.why}</p>
@@ -63,11 +89,17 @@ const SHOWN = 3;
         <p class="first">{f.first}</p>
         <ol class="steps" role="list">
           {path.steps.slice(0, SHOWN).map((step, i) => (
-            <li><span class="n" aria-hidden="true">{i + 1}</span><span translate={path.noTranslate ? 'no' : undefined}>{step}</span></li>
+            <li>
+              <span class="n" aria-hidden="true">{i + 1}</span>
+              <span class="text">
+                <span class="name" translate={path.id === track.id ? 'no' : undefined}>{step.title}</span>
+                <span class="note">{'by' in step && <><span translate="no">{step.by}</span>{' · '}</>}{step.note}</span>
+              </span>
+            </li>
           ))}
         </ol>
         {path.steps.length > SHOWN && <p class="more">{f.more(path.steps.length - SHOWN)}</p>}
-        <a href={path.href}>{path.link}{' '}<span aria-hidden="true">→</span></a>
+        <div class="way"><a class="cta" href={path.href}><span>{path.link}</span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" /></svg></a></div>
       </div>
     </article>
   ))}
@@ -81,7 +113,9 @@ const SHOWN = 3;
     .paths > .path { display: grid; grid-row: span 2; grid-template-rows: subgrid; }
   }
 
-  /* A ready path: a paper card; its head on the path's tint holds the objective, its body the first steps. */
+  /* A ready path: a paper card with a hairline and a very soft shadow; its head on the path's wash holds the objective,
+     its body the first steps. Each tone is four values: the head's wash and its deeper wave, the accent (icon, first
+     disc), the ink of the way in, and the wash behind it. */
   .path {
     display: flex;
     flex-direction: column;
@@ -89,28 +123,62 @@ const SHOWN = 3;
     background: var(--raised);
     border: 1px solid var(--rule);
     border-radius: var(--radius-lg);
+    box-shadow: 0 1px 2px rgb(16 24 40 / 0.04), 0 8px 24px -18px rgb(16 24 40 / 0.18);
     transition: border-color var(--t-ui), box-shadow var(--t-ui);
   }
-  .path:hover { border-color: var(--rule-strong); box-shadow: 0 16px 32px -26px rgb(24 34 48 / 0.4); }
-  .tone-brand { --head: var(--blush); }
-  .tone-sand { --head: var(--cream); }
-  .tone-ink { --head: var(--sage); }
-  .top { display: grid; gap: var(--space-2); padding: var(--space-5) var(--space-5) var(--space-4); background: var(--head); }
-  .kind { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brand); }
+  .path:hover { border-color: var(--rule-strong); box-shadow: 0 1px 2px rgb(16 24 40 / 0.05), 0 16px 32px -22px rgb(24 34 48 / 0.38); }
+  .tone-rose { --wash: var(--path-rose-wash); --wave: var(--path-rose-wave); --accent: var(--path-rose-accent); --cta-ink: var(--path-rose-ink); }
+  .tone-sand { --wash: var(--path-sand-wash); --wave: var(--path-sand-wave); --accent: var(--path-sand-accent); --cta-ink: var(--path-sand-ink); }
+  .tone-mint { --wash: var(--path-mint-wash); --wave: var(--path-mint-wave); --accent: var(--path-mint-accent); --cta-ink: var(--path-mint-ink); }
+
+  /* The head: a wash with two faint, abstract waves behind the text (never over it: the text sits above them). */
+  .top {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    align-content: start;
+    gap: var(--space-2);
+    padding: var(--space-5) var(--space-5) var(--space-5);
+    background: linear-gradient(135deg, var(--wash), color-mix(in srgb, var(--wash) 70%, var(--raised)));
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  }
+  .top::before, .top::after { content: ''; position: absolute; z-index: -1; aspect-ratio: 1; border-radius: 50%; pointer-events: none; }
+  .top::before { top: -46%; right: -16%; width: 64%; background: radial-gradient(circle, var(--wave) 55%, transparent 72%); opacity: 0.7; }
+  .top::after { top: 10%; right: -38%; width: 60%; background: radial-gradient(circle, var(--wave) 50%, transparent 70%); opacity: 0.4; }
+  .icon { display: inline-grid; place-items: center; justify-self: start; width: 3.25rem; height: 3.25rem; margin-bottom: var(--space-2); background: var(--raised); border: 1px solid color-mix(in srgb, var(--accent) 16%, var(--raised)); border-radius: 0.75rem; box-shadow: 0 1px 2px rgb(16 24 40 / 0.06), 0 6px 14px -8px rgb(16 24 40 / 0.2); color: var(--accent); }
+  .kind { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); }
   h3 { font-family: var(--serif); font-size: clamp(1.5rem, 1.3rem + 0.6vw, 1.75rem); font-weight: 440; line-height: 1.08; letter-spacing: -0.02em; }
   .why { font-size: var(--fs-small); line-height: 1.5; color: var(--muted); }
-  .body { display: flex; flex: 1; flex-direction: column; padding: var(--space-4) var(--space-5) var(--space-5); }
-  .first { margin-bottom: var(--space-3); font-size: 0.75rem; font-weight: 650; color: var(--muted); }
-  /* The steps: numbered discs joined by a short line between them, never past the last. The first is marked. */
-  .steps { display: grid; gap: var(--space-3); }
-  .steps li { position: relative; display: flex; align-items: flex-start; gap: var(--space-3); font-size: 0.9375rem; line-height: 1.4; }
-  .steps li:not(:last-child)::before { content: ''; position: absolute; left: 0.75rem; top: 1.75rem; bottom: calc(-1 * var(--space-3) + 0.25rem); width: 1px; background: var(--rule-strong); }
-  .n { flex: none; display: inline-grid; place-items: center; width: 1.5rem; height: 1.5rem; margin-top: -0.05rem; border: 1px solid var(--rule-strong); border-radius: 50%; background: var(--raised); font-size: 0.6875rem; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink); }
-  .steps li:first-child .n { border-color: var(--action); background: var(--action); color: var(--on-action); }
-  .steps li:first-child { font-weight: 560; }
-  .more { margin-top: var(--space-3); padding-left: calc(1.5rem + var(--space-3)); font-size: 0.8125rem; color: var(--muted); }
-  /* The way in, at the foot of every card, so the three line up. */
-  .body > a { display: inline-flex; align-items: center; gap: 0.35em; align-self: flex-start; min-height: 44px; margin-top: auto; padding-top: var(--space-4); font-weight: 600; }
-  .body > a span { transition: transform var(--t-ui) var(--ease); }
-  .body > a:hover span { transform: translateX(3px); }
+  .body { display: flex; flex: 1; flex-direction: column; padding: var(--space-5) var(--space-5) var(--space-5); }
+  .first { margin-bottom: var(--space-4); font-size: 0.8125rem; font-weight: 650; color: var(--muted); }
+  /* The steps: numbered discs joined by a short line between them, never past the last. The first takes the card's accent. */
+  .steps { display: grid; gap: var(--space-4); }
+  .steps li { position: relative; display: flex; align-items: flex-start; gap: var(--space-3); }
+  .steps li:not(:last-child)::before { content: ''; position: absolute; left: 1rem; top: 2.25rem; bottom: calc(-1 * var(--space-4) + 0.25rem); width: 1px; background: var(--rule-strong); }
+  .n { flex: none; display: inline-grid; place-items: center; width: 2rem; height: 2rem; border: 1px solid var(--rule-strong); border-radius: 50%; background: var(--raised); font-size: 0.8125rem; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink); }
+  .steps li:first-child .n { border-color: var(--accent); background: var(--accent); color: var(--raised); }
+  .text { display: grid; gap: 0.15rem; min-width: 0; }
+  .name { font-family: var(--serif); font-size: 1.0625rem; font-weight: 480; line-height: 1.25; color: var(--ink); overflow-wrap: anywhere; }
+  .note { font-size: 0.8125rem; line-height: 1.4; color: var(--muted); }
+  .more { margin-top: var(--space-3); padding-left: calc(2rem + var(--space-3)); font-size: 0.8125rem; color: var(--muted); }
+  /* The way in, at the foot of every card, so the three line up: the card's width, label left, arrow right. */
+  .cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    min-height: 3rem;
+    padding: 0 var(--space-4);
+    background: var(--wash);
+    border-radius: 0.75rem;
+    font-weight: 650;
+    color: var(--cta-ink);
+    text-decoration: none;
+    transition: background-color var(--t-ui), box-shadow var(--t-ui);
+  }
+  .way { margin-top: auto; padding-top: var(--space-5); }
+  .cta svg { flex: none; transition: transform var(--t-ui) var(--ease); }
+  .cta:hover { color: var(--cta-ink); background: color-mix(in srgb, var(--wash) 82%, var(--wave)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent); }
+  .cta:hover svg { transform: translateX(3px); }
+  .cta:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 0.75rem; }
 </style>
