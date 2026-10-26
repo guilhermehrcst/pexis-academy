@@ -82,9 +82,9 @@ test('editorial review packet hashes are exact, complete, and do not authorize p
     const record = verified.find((r) => r.id === entry.id);
     assert.ok(record, entry.id);
     assert.equal(entry.digest, digestOf(record), entry.id);
-    assert.equal(entry.url, record.url, entry.id);
-    assert.equal(entry.evidenceUrl, record.verified!.evidence?.url, entry.id);
-    assert.equal(entry.verifiedOn, record.verified!.on, entry.id);
-    assert.equal(entry.accessMode, record.accessMode, entry.id);
+    assert.equal(entry.url, record!.url, entry.id);
+    assert.equal(entry.evidenceUrl, record!.verified!.evidence?.url, entry.id);
+    assert.equal(entry.verifiedOn, record!.verified!.on, entry.id);
+    assert.equal(entry.accessMode, record!.accessMode, entry.id);
   }
 });
