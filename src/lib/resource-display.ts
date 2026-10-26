@@ -1,11 +1,12 @@
 // Presentation-only metadata for a published resource. This does not change verification,
 // publication, category, or destination, and never invents an unavailable attribute.
 import type { PublishedLearningResource } from './learning-resources.ts';
+import { formatDate } from './dates.ts';
 import type { Dict } from '../i18n/types.ts';
 
 type ResourceLabels = Dict['resource'];
 type DisplayResource = Pick<PublishedLearningResource,
-  'provider' | 'format' | 'schoolYears' | 'language' | 'duration' | 'registration' | 'certificate' | 'accessMode' | 'accessTerms' | 'price'>;
+  'provider' | 'format' | 'schoolYears' | 'language' | 'duration' | 'registration' | 'certificate' | 'accessMode' | 'accessTerms' | 'price'> & Partial<Pick<PublishedLearningResource, 'verified'>>;
 
 export interface ResourceDisplayFacts {
   /** What the resource is. Always factual; provider is included for compact rows. */
@@ -18,10 +19,10 @@ export interface ResourceDisplayFacts {
 export const priceDisplay = (resource: DisplayResource, labels: ResourceLabels): string => {
   const mode = resource.accessMode ?? 'free';
   const label = labels.accessModes[mode];
-  if (!resource.price) return label;
+  if (!resource.price || !resource.verified) return label;
   const formatted = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: resource.price.currency }).format(resource.price.value);
   const cadence = resource.price.cadence === 'month' ? '/mês' : resource.price.cadence === 'year' ? '/ano' : '';
-  return `${label} · ${formatted}${cadence}`;
+  return `${label} · ${formatted}${cadence} · verificado em ${formatDate(resource.verified.on)}`;
 };
 
 export const resourceDisplayFacts = (

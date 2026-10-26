@@ -40,7 +40,7 @@ test('a paid course can be verified without being misclassified as free', () => 
   assert.deepEqual(resourceProblems(paid, NOW), []);
   assert.equal(isPublishedResource(paid), true);
   const shown = resourceDisplayFacts(paid as Extract<typeof paid, { url: string }>, pt.resource);
-  assert.equal(priceDisplay(paid, pt.resource), 'Pago · US$ 90,00');
+  assert.equal(priceDisplay(paid, pt.resource), 'Pago · US$ 90,00 · verificado em 11 de outubro de 2026');
   assert.ok(shown.access.includes(paid.accessTerms!));
   assert.ok(!shown.access.includes('Gratuito'));
 });
