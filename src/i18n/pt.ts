@@ -38,15 +38,15 @@ export const pt: Dict = {
     },
     verified: (date) => `Recursos verificados em ${date}.`,
     copyright: '© 2026 Paulex Edu',
-    statement: 'Recursos gratuitos de terceiros, escolhidos com curadoria editorial independente. Nomes e marcas pertencem aos seus titulares.',
+    statement: 'Cursos gratuitos e pagos e materiais de terceiros, escolhidos com curadoria editorial independente. Nomes e marcas pertencem aos seus titulares.',
     licenses: 'Licenças',
   },
   pages: {
     home: {
       title: 'Paulex Edu: aprenda com direção',
-      description: 'Estude com direção: Ensino Fundamental, Médio, Vestibular, Pré-Militar, Ensino Superior e Tecnologia, com recursos gratuitos verificados na fonte.',
+      description: 'Descubra cursos e materiais para estudar com direção. Compare as opções e suas condições de acesso na Paulex Edu.',
       heading: 'Aprenda com direção.',
-      lead: 'Escolha um objetivo e siga um caminho claro até materiais gratuitos, oficiais e verificados.',
+      lead: 'Escolha um objetivo e encontre cursos e materiais com origem e condições de acesso conferidas.',
     },
     enem: {
       title: 'ENEM | Paulex Edu',
@@ -64,24 +64,24 @@ export const pt: Dict = {
     },
     'ensino-medio': {
       title: 'Ensino Médio | Paulex Edu',
-      description: 'Estude as matérias do Ensino Médio por área, com cursos e materiais gratuitos e verificados, de Matemática a Idiomas.',
+      description: 'Estude as matérias do Ensino Médio por área, com cursos e materiais conferidos na fonte, de Matemática a Idiomas.',
       eyebrow: 'Caminho',
       heading: 'Ensino Médio',
-      lead: 'As matérias da escola organizadas por área, cada uma com recursos gratuitos para estudar no seu ritmo.',
+      lead: 'As matérias da escola organizadas por área, cada uma com recursos selecionados para estudar no seu ritmo.',
     },
     vestibulares: {
       title: 'Vestibular | Paulex Edu',
-      description: 'Prepare-se para o vestibular: guias do ENEM e da UERJ com material oficial, e uma base comum de recursos gratuitos por matéria.',
+      description: 'Prepare-se para o vestibular: guias do ENEM e da UERJ com material oficial, e recursos organizados por matéria.',
       eyebrow: 'Caminho',
       heading: 'Vestibular',
       lead: 'ENEM, UERJ e uma base comum para vestibulares em geral, matéria por matéria.',
     },
     tecnologia: {
       title: 'Tecnologia | Paulex Edu',
-      description: 'Aprenda programação, ciência da computação, web, dados, inteligência artificial e segurança com cursos gratuitos de Harvard, MIT e outros.',
+      description: 'Explore cursos de programação, computação, web, dados, inteligência artificial e segurança de universidades e plataformas de ensino.',
       eyebrow: 'Caminho e área',
       heading: 'Tecnologia',
-      lead: 'Trilhas para começar a programar e aprofundar em computação, com cursos gratuitos de universidades e instituições reconhecidas.',
+      lead: 'Trilhas para começar a programar e aprofundar em computação, com opções e condições de acesso verificadas.',
     },
     'ensino-fundamental': {
       title: 'Ensino Fundamental | Paulex Edu',
@@ -95,24 +95,24 @@ export const pt: Dict = {
     },
     'ensino-superior': {
       title: 'Ensino Superior | Paulex Edu',
-      description: 'Disciplinas universitárias gratuitas, de Matemática e Computação, publicadas por universidades como o MIT e Harvard e verificadas na fonte.',
+      description: 'Disciplinas universitárias, de Matemática e Computação, publicadas por universidades como o MIT e Harvard e verificadas na fonte.',
       eyebrow: 'Caminho',
       heading: 'Ensino Superior',
-      lead: 'Disciplinas de cursos universitários, publicadas gratuitamente pelas próprias universidades.',
+      lead: 'Disciplinas de cursos universitários, com origem e condições de estudo informadas.',
     },
     materias: {
       title: 'Explorar | Paulex Edu',
-      description: 'Os seis caminhos da Paulex Edu e todas as matérias, por área: de Matemática a Idiomas e Tecnologia, com recursos gratuitos e verificados.',
+      description: 'Os seis caminhos da Paulex Edu e todas as matérias, por área: de Matemática a Idiomas e Tecnologia, com recursos e condições de acesso verificados.',
       eyebrow: 'Explorar',
       heading: 'Explorar',
-      lead: 'Comece por um caminho ou vá direto a uma matéria. Tudo com recursos gratuitos e verificados na fonte.',
+      lead: 'Comece por um caminho ou vá direto a uma matéria. Consulte as condições de acesso de cada recurso, conferidas na fonte.',
     },
     cursos: {
       title: 'Cursos | Paulex Edu',
-      description: 'Cursos gratuitos, trilhas, playlists e videoaulas selecionados pela Paulex Edu e verificados na fonte, de universidades e instituições reconhecidas.',
+      description: 'Explore cursos, trilhas, playlists e videoaulas de diversas instituições, com condições de acesso informadas.',
       eyebrow: 'Biblioteca',
       heading: 'Cursos',
-      lead: 'Cursos gratuitos, trilhas, playlists e videoaulas para estudar do começo ao fim, cada um verificado na fonte.',
+      lead: 'Cursos e trilhas para diferentes objetivos. Consulte a modalidade de acesso e as condições no provedor.',
     },
     materiais: {
       title: 'Materiais | Paulex Edu',
@@ -123,15 +123,15 @@ export const pt: Dict = {
     },
     buscar: {
       title: 'Buscar | Paulex Edu',
-      description: 'Encontre objetivos, áreas, matérias, trilhas e recursos gratuitos da Paulex Edu em um índice completo e pesquisável.',
+      description: 'Encontre objetivos, áreas, matérias, trilhas e recursos da Paulex Edu em um índice completo e pesquisável.',
       heading: 'Buscar',
       lead: 'Tudo o que a Paulex Edu organiza, reunido num só índice.',
     },
     sobre: {
       title: 'Sobre | Paulex Edu',
-      description: 'Como a Paulex Edu escolhe e verifica recursos: acesso realmente gratuito, fontes primárias e data de verificação registrada.',
+      description: 'Como a Paulex Edu seleciona cursos gratuitos e pagos, verifica fontes e informa condições de acesso.',
       heading: 'Sobre a Paulex Edu',
-      lead: 'Um lugar para estudar com direção, usando apenas recursos gratuitos que verificamos na fonte.',
+      lead: 'Uma curadoria de cursos e materiais com acesso informado, verificação na fonte e liberdade de escolha.',
     },
     notFound: {
       title: 'Página não encontrada | Paulex Edu',
@@ -243,7 +243,7 @@ export const pt: Dict = {
     },
   },
   library: {
-    groups: { course: 'Cursos gratuitos', track: 'Trilhas', playlist: 'Playlists', lessons: 'Séries de aulas', lesson: 'Aulas', practice: 'Exercícios e prática', simulator: 'Simulados', 'past-exam': 'Provas anteriores', reference: 'Materiais de referência' },
+    groups: { course: 'Cursos', track: 'Trilhas', playlist: 'Playlists', lessons: 'Séries de aulas', lesson: 'Aulas', practice: 'Exercícios e prática', simulator: 'Simulados', 'past-exam': 'Provas anteriores', reference: 'Materiais de referência' },
     count: (n) => (n === 1 ? '1 recurso' : `${n} recursos`),
     note: 'Cada recurso abre no site da instituição que o oferece. Para estudar com um percurso, comece por um caminho em Explorar.',
     other: {
@@ -260,7 +260,7 @@ export const pt: Dict = {
     },
   },
   superior: {
-    note: 'Por enquanto, Matemática e Computação: são as áreas em que já verificamos cursos universitários gratuitos. Outras áreas do conhecimento entram à medida que verificarmos cursos na fonte.',
+    note: 'Por enquanto, Matemática e Computação: são as áreas em que já verificamos cursos universitários. Outras áreas entram à medida que verificarmos recursos na fonte.',
     groupsTitle: 'Áreas',
     byAreas: (labels) => {
       const join = (items: readonly string[]) =>
@@ -281,13 +281,13 @@ export const pt: Dict = {
       eyebrow: 'Curadoria editorial · Conferido na fonte',
       headingLead: 'Aprenda',
       headingStrong: 'com direção.',
-      lead: 'Encontre cursos e materiais gratuitos para aprender no seu ritmo.',
+      lead: 'Encontre cursos e materiais para aprender no seu ritmo. Confira as condições de acesso de cada indicação.',
       searchLabel: 'Buscar na Paulex Edu',
       searchPlaceholder: 'O que você quer aprender?',
       searchSubmit: 'Buscar',
       primary: 'Explorar cursos',
       secondary: 'Escolher meu caminho',
-      facts: ['Gratuito para estudar', 'Sem cadastro na Paulex Edu', 'Seis caminhos organizados'],
+      facts: ['Acesso explicado em cada curso', 'Sem cadastro na Paulex Edu', 'Seis caminhos organizados'],
       compositionCaption: 'Foto do curso',
       compositionLink: 'Ver todos os cursos',
     },
@@ -333,7 +333,7 @@ export const pt: Dict = {
       lead: 'O que a Paulex Edu garante em cada indicação.',
       verified: (date) => `Catálogo verificado em ${date}`,
       commitments: [
-        { title: 'Gratuito para estudar', body: 'Os recursos indicados oferecem conteúdo gratuito para estudo. Certificados opcionais podem ter cobrança.' },
+        { title: 'Acesso transparente', body: 'Indicamos se o curso é gratuito, pago, por assinatura ou tem condições. A Paulex Edu não cobra pelo acesso ao catálogo.' },
         { title: 'Conferido na fonte', body: 'Os materiais passam por verificação na página original do responsável pela publicação.' },
         { title: 'Independente', body: 'A curadoria não depende de parcerias comerciais ou de links de afiliados.' },
       ],
@@ -342,11 +342,11 @@ export const pt: Dict = {
     faq: {
       heading: 'Perguntas frequentes',
       items: [
-        { q: 'A Paulex Edu é gratuita?', a: 'Sim. A Paulex Edu não cobra nada, e todo recurso indicado pode ser estudado de graça. Certificados, quando existem, são de quem publica o curso, podem ser pagos e são sempre opcionais.' },
-        { q: 'Preciso criar uma conta?', a: 'Não na Paulex Edu: aqui não há cadastro. Alguns recursos pedem uma conta gratuita no site de quem os publica; quando conferimos essa exigência, ela aparece indicada no recurso.' },
-        { q: 'Os cursos são da Paulex?', a: 'Não. A Paulex Edu não produz aulas. Ela organiza materiais gratuitos de universidades, instituições públicas e plataformas educacionais, e leva você à página oficial de quem os publica.' },
+        { q: 'A Paulex Edu é gratuita?', a: 'Sim. Navegar na Paulex Edu é gratuito. Os cursos indicados podem ser gratuitos, pagos ou por assinatura; o preço, quando houver, é cobrado pelo provedor. As condições aparecem antes de você abrir o curso.' },
+        { q: 'Preciso criar uma conta?', a: 'Não na Paulex Edu. Alguns provedores podem exigir cadastro, assinatura ou pagamento; essas condições devem estar informadas no recurso.' },
+        { q: 'Os cursos são da Paulex?', a: 'Não. A Paulex Edu organiza cursos e materiais de terceiros e indica a fonte original. A matrícula e eventual pagamento acontecem no site de quem oferece o curso.' },
         { q: 'Há material oficial para o ENEM?', a: 'Sim. O guia do ENEM leva às provas e aos gabaritos publicados pelo INEP e às Matrizes de Referência, que descrevem o que cada área avalia.' },
-        { q: 'Como os recursos são escolhidos?', a: 'O conteúdo precisa ser gratuito de verdade, o link vai à página oficial de quem publica e cada recurso é conferido nessa página antes de entrar, com a data registrada. O que não conseguimos confirmar fica de fora até ser verificado.' },
+        { q: 'Como os recursos são escolhidos?', a: 'Conferimos o curso na fonte, inclusive se o acesso é gratuito, pago ou por assinatura, e registramos a verificação. O que não conseguimos confirmar permanece fora do catálogo até uma nova revisão.' },
         { q: 'A Paulex Edu guarda o meu progresso?', a: 'Não. Como não há conta na Paulex Edu, nada é salvo aqui. Você estuda na página de quem publica, e o progresso, quando existe, fica lá.' },
       ],
     },
@@ -368,10 +368,10 @@ export const pt: Dict = {
     sources: {
       eyebrow: 'Instituições e fontes',
       heading: 'Conheça as fontes dos nossos cursos',
-      lead: 'Explore conteúdos gratuitos publicados por instituições de ensino e tecnologia.',
+      lead: 'Explore cursos de diferentes instituições e consulte as condições de acesso de cada opção.',
       pending: {
         heading: 'Fontes que estamos conferindo',
-        lead: 'Estamos avaliando cursos gratuitos de empresas de tecnologia. Eles só entram no catálogo depois de conferidos na página de quem os publica.',
+        lead: 'Estamos avaliando cursos gratuitos e pagos de empresas de tecnologia. Eles entram no catálogo após a verificação da fonte e das condições de acesso.',
       },
       count: (resources, page) => `${resources} ${resources === 1 ? 'curso' : 'cursos'} em ${page}`,
       countAreas: (resources, areas) => `${resources} ${resources === 1 ? 'curso' : 'cursos'} em ${areas.length > 1 ? `${areas.slice(0, -1).join(', ')} e ${areas.at(-1)}` : areas[0]}`,
@@ -379,17 +379,17 @@ export const pt: Dict = {
     courses: {
       eyebrow: 'Cursos em destaque',
       heading: 'Explore novas possibilidades.',
-      lead: 'Cursos gratuitos da biblioteca, conferidos na fonte e escolhidos pelos editores.',
+      lead: 'Cursos selecionados na fonte, com informações claras sobre as condições de acesso.',
       all: 'Explorar todos os cursos',
       swipe: 'Deslize para ver os quatro cursos',
     },
   },
   about: {
-    intro: 'A Paulex Edu é a plataforma de educação gratuita da Paulex, empresa fundada em 1984 no Rio de Janeiro. Ela não produz aulas: organiza, por caminho, área e matéria, materiais gratuitos de universidades, instituições públicas e plataformas educacionais, e diz por onde começar.',
+    intro: 'A Paulex Edu é a plataforma gratuita de curadoria educacional da Paulex, empresa fundada em 1984 no Rio de Janeiro. Ela não produz aulas nem vende cursos: organiza cursos gratuitos e pagos e materiais de instituições de ensino para ajudar você a escolher o que estudar.',
     curation: {
       heading: 'Regras de curadoria',
       rules: [
-        { title: 'Acesso realmente gratuito', body: 'O conteúdo de estudo precisa ser inteiramente gratuito. Não publicamos períodos de teste, trechos de amostra, conteúdo atrás de pagamento nem links de afiliado. Uma conta gratuita pode ser exigida; um certificado pago e opcional não impede a publicação, desde que as aulas sejam gratuitas.' },
+        { title: 'Condições de acesso claras', body: 'Informamos se as aulas são gratuitas, pagas ou por assinatura, e quando o acesso depende de condições. Cursos com teste grátis não são apresentados como gratuitos sem ressalva. A Paulex Edu não recebe pagamentos ou matrículas.' },
         { title: 'Link para a fonte primária', body: 'Cada recurso leva à página oficial do curso ou da instituição. Nunca deduzimos um endereço a partir da estrutura de um site.' },
         { title: 'Material oficial para as provas', body: 'Para ENEM e UERJ, a prática começa pelo material publicado por quem faz a prova: o INEP e o Vestibular Estadual da UERJ.' },
         { title: 'Relevância, não promessa', body: 'Marcar um recurso como útil para o ENEM ou para vestibulares é uma indicação editorial, não uma alegação de que o provedor prepara oficialmente para aquela prova.' },
@@ -398,7 +398,7 @@ export const pt: Dict = {
     verification: {
       heading: 'Como verificamos',
       body: [
-        'Antes de publicar, abrimos cada recurso na página do próprio provedor e confirmamos que o conteúdo de estudo é gratuito. Registramos a data e a forma dessa verificação junto com o recurso.',
+        'Antes de publicar, conferimos diretamente na fonte a disponibilidade, o formato e as condições de acesso. Quando há preço, registramos o valor confirmado ou explicamos onde consultar o custo atualizado; valores podem mudar.',
         'Um recurso promissor que não conseguimos confirmar fica fora do site, com uma nota explicando o motivo, até ser verificado.',
       ],
       latest: (date) => `A verificação mais recente do catálogo foi em ${date}.`,
@@ -502,18 +502,19 @@ export const pt: Dict = {
   },
   subjectPage: (subject, area) => ({
     title: `${subject} | Paulex Edu`,
-    description: `Estude ${subject} com recursos gratuitos e verificados para o Ensino Médio, o ENEM e vestibulares, com links diretos para as fontes.`,
+    description: `Estude ${subject} com recursos verificados para o Ensino Médio, o ENEM e vestibulares, com links diretos para as fontes.`,
     eyebrow: area,
     heading: subject,
-    lead: `O que estudar em ${subject} e onde encontrar material gratuito e verificado.`,
+    lead: `O que estudar em ${subject} e onde encontrar materiais e cursos verificados.`,
   }),
   notFound: { home: 'Página inicial', subjects: 'Explorar as matérias', search: 'Buscar' },
   resource: {
     openSource: 'Abrir na fonte',
     accessLabel: 'Acesso',
+    accessModes: { free: 'Gratuito', paid: 'Pago', subscription: 'Assinatura', conditional: 'Acesso gratuito com condições', unconfirmed: 'Acesso a confirmar' },
     formats: { course: 'Curso', track: 'Trilha', playlist: 'Playlist', lessons: 'Aulas', lesson: 'Aula', practice: 'Prática', 'past-exam': 'Prova anterior', simulator: 'Simulado', reference: 'Material de referência' },
     languages: { pt: 'Em português', en: 'Em inglês', es: 'Em espanhol' },
-    registration: { required: 'Conta gratuita necessária', 'not-required': 'Sem cadastro' },
+    registration: { required: 'Conta necessária no provedor', 'not-required': 'Sem cadastro' },
     certificates: { none: 'Sem certificado', statement: 'Declaração de conclusão', participation: 'Declaração de participação', available: 'Certificado disponível' },
     units: { hours: 'h', weeks: 'semanas' },
     schoolYears: (years) => {

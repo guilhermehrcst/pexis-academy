@@ -300,7 +300,14 @@ export interface Projection {
   problems: string[];
 }
 
-const isPublishable = (r: LearningResource): r is PublishedLearningResource => r.url !== null && r.verified?.freeAccess === true;
+// Keep this pure and local: importing the predicate from learning-resources.ts would create a
+// runtime initialization cycle, since that module imports projectRelease from this engine.
+const isPublishable = (r: LearningResource): r is PublishedLearningResource => {
+  if (!r.url || !r.verified) return false;
+  const mode = r.accessMode ?? 'free';
+  if (mode === 'free' || mode === 'conditional') return r.verified.freeAccess === true;
+  return (mode === 'paid' || mode === 'subscription') && r.verified.freeAccess === false;
+};
 
 export const projectRelease = (input: ReleaseInput): Projection => {
   const problems: string[] = [];
@@ -465,13 +472,19 @@ export const projectRelease = (input: ReleaseInput): Projection => {
     if (r.verified?.evidence?.url !== entry.evidence.url) found.push(`${at}: approved evidence at ${entry.evidence.url}, the record's is at ${String(r.verified?.evidence?.url)}`);
     if (r.verified?.evidence?.note !== entry.evidence.observed) found.push(`${at}: the approved observation is not the record's evidence note`);
     if (!publishes) return found;
+    // Records verified before the access-mode migration (2026-10-24) remain valid on
+    // their historical evidence, including old staged records. New direct verifications
+    // require an explicit access model before approval, even when learning is free.
+    if (r.accessMode === undefined && (r.verified?.on ?? '') >= '2026-10-24') {
+      found.push(`${at}: new approval requires explicit access mode`);
+    }
     if (catalogueIds.has(r.id) && !(r.id in baseline.records)) found.push(`${at}: a held catalogue record is published only by moving it to the pool`);
     const host = r.url ? new URL(r.url).hostname : '';
     if (!baselineHosts.has(`${host} ${entry.institution}`) && !lot.hosts.some((h) => h.host === host && h.institution === entry.institution)) {
       found.push(`${at}: ${host} is not a host this lot reviewed for ${entry.institution}`);
     }
     found.push(...urlProblems(r.id, r.url), ...input.validate(r));
-    if (!isPublishable(r)) found.push(`${r.id}: approved but not publishable (no URL or free access)`);
+    if (!isPublishable(r)) found.push(`${r.id}: approved but not publishable (no URL or verified access conditions)`);
     return found;
   };
   // A recorded approval must already match its record: an authorized lot never drifts from its candidate.

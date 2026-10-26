@@ -16,6 +16,7 @@ import { AREA_SIGNS, AREA_TONE } from '../lib/area-signs';
 import { resourceImages } from '../lib/resource-images';
 import { OBJECTIVES, SUBJECTS } from '../lib/taxonomy';
 import { pt as t } from '../i18n/pt';
+import { priceDisplay } from '../lib/resource-display';
 
 interface Props { card: CourseCardData }
 const { card } = Astro.props;
@@ -30,10 +31,11 @@ const chip = r.duration ? `${r.duration.value} ${l.units[r.duration.unit]}` : nu
 const facts = [
   card.paths.map((path) => OBJECTIVES[path].label).join(', '),
   l.formats[r.format],
+  priceDisplay(r, l),
   r.language === 'pt' ? null : l.languages[r.language],
 ].filter((fact): fact is string => Boolean(fact));
 ---
-<li class:list={['feature', image ? 'has-photo' : `cover tone-${tone}`]} data-resource-id={r.id} data-format={r.format} data-subject={r.subject} data-paths={r.paths.join(' ')}>
+<li class:list={['feature', image ? 'has-photo' : `cover tone-${tone}`]} data-resource-id={r.id} data-format={r.format} data-subject={r.subject} data-paths={r.paths.join(' ')} data-access-mode={r.accessMode ?? 'free'}>
   <div class="media" aria-hidden="true">
     {image && (
       <Image
@@ -56,6 +58,7 @@ const facts = [
     </h3>
     <p class="by"><CourseAvatar provider={r.provider} /><span translate="no">{r.provider}</span></p>
     <p class="facts">{facts.join(' · ')}</p>
+      {r.accessTerms?.trim() && <p class="facts" data-access-terms>{r.accessTerms.trim()}</p>}
   </div>
 </li>
 

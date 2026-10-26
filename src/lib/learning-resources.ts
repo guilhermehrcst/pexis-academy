@@ -1,6 +1,6 @@
-// The catalogue of free learning resources: the single source of every resource the site shows.
+// The catalogue of learning resources: free and paid courses, with explicit provider access conditions.
 // A resource is published only with a direct HTTPS URL and a verification that its learning content is
-// fully free (docs/superpowers/specs/2026-10-11-courses-learning-library-design.md). The subject is the
+// verified at its provider, including whether study is free, paid or subscription-based. The subject is the
 // only source of the area (spec §6.1). No asset imports: this module runs under Node's test runner.
 // V0.4 (spec §5.1): three separate axes, each declared on the resource and never inherited from a helper:
 // the paths it serves (who it is for), the exams it prepares for (only with evidence) and its subject.
@@ -26,6 +26,10 @@ export type LearningFormatId = (typeof LEARNING_FORMATS)[number];
 export const PRACTICE_FORMATS = ['practice', 'past-exam', 'simulator'] as const satisfies readonly LearningFormatId[];
 export const isPractice = (resource: { format: LearningFormatId }): boolean =>
   (PRACTICE_FORMATS as readonly LearningFormatId[]).includes(resource.format);
+/** Learning itself may be free, paid, subscription-based or partly available without paying.
+ * 'unconfirmed' is held in staging and can never be published. An omitted value is the legacy free baseline. */
+export const LEARNING_ACCESS_MODES = ['free', 'paid', 'subscription', 'conditional', 'unconfirmed'] as const;
+export type LearningAccessId = (typeof LEARNING_ACCESS_MODES)[number];
 export type LearningLanguageId = 'pt' | 'en' | 'es';
 /** Admission preparation is not always an academic grade or university entrance examination. */
 export type LearningLevelId = 'high-school' | 'vestibular' | 'exam-prep' | 'beginner' | 'beginner-intermediate' | 'intermediate';
@@ -58,7 +62,7 @@ export interface CourseImageDescriptor {
 }
 
 /** What a verification checked at the source (V0.4 Gate B, P3/P4): `grade` backs a school year. */
-export type EvidenceCheck = 'free' | 'scope' | 'language' | 'format' | 'path' | 'registration' | 'certificate' | 'grade';
+export type EvidenceCheck = 'free' | 'pricing' | 'scope' | 'language' | 'format' | 'path' | 'registration' | 'certificate' | 'grade';
 export interface VerificationEvidence {
   /** The official page opened for this resource (HTTPS). */
   url: string;
@@ -70,7 +74,9 @@ export interface VerificationEvidence {
 export interface ResourceVerification {
   on: string;
   by: VerificationMethod;
-  freeAccess: true;
+  /** True for verified free study (possibly limited when accessMode is conditional).
+   * False requires verified paid/subscription access; certificate fees are separate. */
+  freeAccess: boolean;
   evidence?: VerificationEvidence;
 }
 
@@ -89,6 +95,13 @@ export interface LearningResource {
   /** null for a multidisciplinary resource (a complete past exam): it has no subject, never a false one. */
   subject: LearningSubjectId | null;
   format: LearningFormatId;
+  /** Conditions of study on the provider's site. Absent only for the unchanged free legacy records. */
+  accessMode?: LearningAccessId;
+  /** Visible provider terms, required for paid, subscription and conditional learning.
+   * Never confuse a possible certificate fee with the course's price. */
+  accessTerms?: string;
+  /** Optional verified price quote (no guessed prices). Amount is in the currency's normal units. */
+  price?: { value: number; currency: 'BRL' | 'USD' | 'EUR'; cadence?: 'once' | 'month' | 'year' };
   /** The paths this resource serves: at least one, declared resource by resource. */
   paths: readonly [PathId, ...PathId[]];
   /** The exams it prepares for, when there is evidence. Each exam's parent path is among `paths`. */
@@ -113,14 +126,18 @@ export type PublishedLearningResource = LearningResource & {
   verified: ResourceVerification;
 };
 
-export const isPublishedResource = (resource: LearningResource): resource is PublishedLearningResource =>
-  resource.url !== null && resource.verified?.freeAccess === true;
+export const isPublishedResource = (resource: LearningResource): resource is PublishedLearningResource => {
+  if (resource.url === null || !resource.verified) return false;
+  const mode = resource.accessMode ?? 'free';
+  if (mode === 'free' || mode === 'conditional') return resource.verified.freeAccess === true;
+  return (mode === 'paid' || mode === 'subscription') && resource.verified.freeAccess === false;
+};
 
 /** A resource's area, derived from its subject; a multidisciplinary resource has none. */
 export const areaOf = (resource: Pick<LearningResource, 'subject'>): AreaId | null =>
   resource.subject === null ? null : SUBJECTS[resource.subject].area;
 
-const REQUIRED_CHECKS = ['free', 'scope', 'language', 'format', 'path'] as const;
+const REQUIRED_CHECKS = ['scope', 'language', 'format', 'path'] as const;
 const isDate = (on: string): boolean => {
   const date = new Date(`${on}T00:00:00Z`);
   return /^\d{4}-\d{2}-\d{2}$/.test(on) && !Number.isNaN(date.getTime()) && date.toISOString().startsWith(on);
@@ -133,11 +150,15 @@ const isDate = (on: string): boolean => {
  *  (VERIFICATION_METHODS: never a search index). Registration and certificate
  *  are always stated, never left unknown by omission. */
 export const verificationProblems = (
-  r: Pick<LearningResource, 'id' | 'url'> & { verified?: ResourceVerification | undefined; registration?: LearningRegistrationId | undefined; certificate?: LearningCertificateId | undefined },
+  r: Pick<LearningResource, 'id' | 'url' | 'accessMode' | 'accessTerms' | 'price'> & { verified?: ResourceVerification | undefined; registration?: LearningRegistrationId | undefined; certificate?: LearningCertificateId | undefined },
   now: Date = new Date(),
 ): string[] => {
   if (!r.verified) return [];
-  if (r.url !== null && LEGACY_VERIFIED[r.id] === r.url && r.verified.on === VERIFIED_ON && r.verified.by === 'official-page' && !r.verified.evidence) return [];
+  if (
+    (r.accessMode === undefined || r.accessMode === 'free') && r.verified.freeAccess === true &&
+    !r.accessTerms && !r.price && r.url !== null && LEGACY_VERIFIED[r.id] === r.url &&
+    r.verified.on === VERIFIED_ON && r.verified.by === 'official-page' && !r.verified.evidence
+  ) return [];
   const problems: string[] = [];
   // The method arrives as data: refuse a missing, unknown or indirect one, whatever the type says.
   const by: unknown = r.verified.by;
@@ -149,8 +170,9 @@ export const verificationProblems = (
   else if (new Date(`${r.verified.on}T00:00:00Z`).getTime() > now.getTime()) problems.push(`${r.id}: verified in the future (${r.verified.on})`);
   if (!ev.url.startsWith('https://')) problems.push(`${r.id}: evidence must be https`);
   else if (r.url && new URL(ev.url).hostname !== new URL(r.url).hostname) problems.push(`${r.id}: evidence is not on the resource's own host`);
-  if (!ev.checked.includes('free')) problems.push(`${r.id}: free access not checked`);
-  for (const check of REQUIRED_CHECKS.slice(1)) if (!ev.checked.includes(check)) problems.push(`${r.id}: ${check} not checked`);
+  if (r.verified.freeAccess && !ev.checked.includes('free')) problems.push(`${r.id}: free access not checked`);
+  if (r.accessMode && r.accessMode !== 'free' && !ev.checked.includes('pricing')) problems.push(`${r.id}: pricing/access conditions not checked`);
+  for (const check of REQUIRED_CHECKS) if (!ev.checked.includes(check)) problems.push(`${r.id}: ${check} not checked`);
   if (!ev.note.trim()) problems.push(`${r.id}: the evidence needs a note`);
   if (r.registration === undefined) problems.push(`${r.id}: registration not stated (use 'unconfirmed')`);
   else if (r.registration !== 'unconfirmed' && !ev.checked.includes('registration')) problems.push(`${r.id}: registration not checked`);
@@ -189,7 +211,17 @@ export const resourceProblems = (resource: LearningResource, now: Date = new Dat
   if (resource.subject === 'tecnologia' && !resource.paths.includes('tecnologia')) fail('is technology outside Tecnologia');
   if (resource.paths.includes('ensino-medio') && areaOf(resource) === 'tecnologia') fail('puts technology in Ensino Médio');
   if (resource.url && !resource.url.startsWith('https://')) fail('url must be https');
-  if (resource.verified && (!resource.url || !resource.verified.freeAccess)) fail('has invalid verification');
+  if (resource.accessMode !== undefined && !(LEARNING_ACCESS_MODES as readonly unknown[]).includes(resource.accessMode)) fail('has an unknown access model');
+  if (['paid', 'subscription', 'conditional'].includes(resource.accessMode ?? '') && !resource.accessTerms?.trim()) fail('access terms required for non-free courses');
+  if (resource.price) {
+    if (!['paid', 'subscription', 'conditional'].includes(resource.accessMode ?? '')) fail('a free resource cannot state a paid learning price');
+    if (!Number.isFinite(resource.price.value) || resource.price.value <= 0) fail('price must be a positive amount');
+    if (!['BRL', 'USD', 'EUR'].includes(resource.price.currency)) fail('unsupported price currency');
+    if (resource.price.cadence && !['once', 'month', 'year'].includes(resource.price.cadence)) fail('unsupported billing cadence');
+    if (resource.accessMode === 'subscription' && !['month', 'year'].includes(resource.price.cadence ?? '')) fail('subscription price needs a billing period');
+    if (resource.accessMode === 'paid' && resource.price.cadence && resource.price.cadence !== 'once') fail('recurring price requires subscription or conditional access');
+  }
+  if (resource.verified && !isPublishedResource(resource)) fail('has inconsistent verified access (free, paid or subscription)');
   if (!resource.url && !resource.review?.trim()) fail('is held back without a review note');
   return problems;
 };

@@ -11,6 +11,7 @@ import { presentationOf } from '../lib/course-presentations';
 import { routes } from '../lib/routes';
 import { OBJECTIVES } from '../lib/taxonomy';
 import { pt as t } from '../i18n/pt';
+import { priceDisplay } from '../lib/resource-display';
 
 interface Props { card: CourseCardData; headingLevel?: 2 | 3; eager?: boolean }
 const { card, headingLevel = 3, eager = false } = Astro.props;
@@ -21,10 +22,11 @@ const page = presentationOf(r.id) ? routes.course(r.id) : null;
 const facts = [
   card.paths.map((path) => OBJECTIVES[path].label).join(', '),
   l.formats[r.format],
+  priceDisplay(r, l),
   r.language === 'pt' ? null : l.languages[r.language],
 ].filter((fact): fact is string => Boolean(fact));
 ---
-<li class="course" data-resource-id={r.id} data-format={r.format} data-subject={r.subject} data-paths={r.paths.join(' ')}>
+<li class="course" data-resource-id={r.id} data-format={r.format} data-subject={r.subject} data-paths={r.paths.join(' ')} data-access-mode={r.accessMode ?? 'free'}>
   <CourseThumb resource={r} label={card.thumbLabel} eager={eager} />
   <div class="details">
     <CourseAvatar provider={r.provider} />
@@ -38,6 +40,7 @@ const facts = [
       </Heading>
       <p class="by" translate="no">{r.provider}</p>
       <p class="facts">{facts.join(' · ')}</p>
+      {r.accessTerms?.trim() && <p class="facts" data-access-terms>{r.accessTerms.trim()}</p>}
     </div>
   </div>
 </li>

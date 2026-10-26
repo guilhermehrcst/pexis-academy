@@ -67,7 +67,7 @@ export const anchorPlan = (
 };
 
 export const buildSearchIndex = (): SearchEntry[] => [
-  entry('biblioteca', 'cursos', 'Cursos', routes.courses, 'Biblioteca', ['cursos gratuitos', 'trilhas', 'playlists', 'videoaulas', 'aulas']),
+  entry('biblioteca', 'cursos', 'Cursos', routes.courses, 'Biblioteca', ['cursos gratuitos', 'cursos pagos', 'assinatura', 'trilhas', 'playlists', 'videoaulas', 'aulas']),
   entry('biblioteca', 'materiais', 'Materiais', routes.materials, 'Biblioteca', ['exercicios', 'simulados', 'provas anteriores', 'referencia']),
   ...PATH_ORDER.map((id) => entry('objetivo', id, OBJECTIVES[id].label, routes.objective(id), PREPARING_PATHS.includes(id) ? 'Caminho em preparação' : 'Caminho')),
   ...EXAM_ORDER.map((id) => entry('objetivo', id, OBJECTIVES[id].label, routes.objective(id), OBJECTIVES[EXAM_PARENT[id]].label, ['vestibular', 'prova'])),
