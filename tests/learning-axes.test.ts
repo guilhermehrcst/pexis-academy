@@ -124,7 +124,8 @@ test('the search index never sends a resource without a subject to a page that d
   const byId = (id: string) => all.find((r) => r.id === id)!;
   assert.equal(resourceHome(byId('kultivi-math-enem')), '/materias/matematica/');
   assert.equal(resourceHome(byId('cs50x')), '/tecnologia/#comecar-a-programar');
-  assert.throws(() => resourceHome({ id: 'x', subject: null, format: 'past-exam', paths: ['ensino-medio'] }), /no page shows/);
+  assert.equal(resourceHome({ id: 'x', subject: null, format: 'course', paths: ['ensino-medio'] }), '/ensino-medio/');
+  assert.throws(() => resourceHome({ id: 'x', subject: null, format: 'course', paths: ['ensino-superior'] }), /no page shows/);
 });
 
 test('P3: school years read as the source states them', async () => {

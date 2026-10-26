@@ -36,6 +36,16 @@ export const GATEB_TECH_TRACK_ASSIGNMENTS: Readonly<Record<string, TechTrackId>>
   'ms-learn-cloud-concepts': 'computacao-em-nuvem',
 };
 
+export const RECOVERY_TECH_TRACK_ASSIGNMENTS: Readonly<Record<string, TechTrackId>> = {
+  // Future publication candidates: inert until the approved lot actually projects them.
+  'research-tec-016': 'python',
+  'research-tec-038': 'desenvolvimento-web',
+  'research-tec-040': 'inteligencia-artificial',
+  'research-tec-041': 'inteligencia-artificial',
+  'research-tec-049': 'comecar-a-programar',
+  'research-tec-054': 'desenvolvimento-web',
+};
+
 /** Pure resolver shared by production and the private pre-release placement simulation.
  *  The base seven published tracks and the existing Git placeholder are preserved in
  *  exactly their old order and contents until a new resource is actually published. */
@@ -50,7 +60,7 @@ export const techTracksFor = (
     ...track,
     resourceIds: [
       ...track.resourceIds.filter((id) => available.has(id)),
-      ...Object.entries(GATEB_TECH_TRACK_ASSIGNMENTS)
+      ...[...Object.entries(GATEB_TECH_TRACK_ASSIGNMENTS), ...Object.entries(RECOVERY_TECH_TRACK_ASSIGNMENTS)]
         .filter(([id, target]) => target === track.id && available.has(id))
         .map(([id]) => id),
     ],

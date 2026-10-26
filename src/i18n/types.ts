@@ -184,7 +184,7 @@ export interface Dict {
   sectionNav: { areas: string; page: string };
   featured: { title: string; why: string };
   /** V0.4 Gate B: the general section of a path page (resources no subject, exam or field page shows). */
-  pathResources: { other: { title: string; why: string }; general: { title: string; why: string }; stages: Record<'anos-iniciais' | 'anos-finais' | 'none', string> };
+  pathResources: { other: { title: string; why: string }; general: { title: string; why: string }; complementary: { title: string; why: string }; stages: Record<'anos-iniciais' | 'anos-finais' | 'none', string> };
   search: {
     label: string; placeholder: string; groups: Record<'biblioteca' | 'objetivo' | 'area' | 'materia' | 'trilha' | 'recurso', string>; results: (n: number) => string; empty: string;
     /** V0.4 M4: the filters of the resources. */

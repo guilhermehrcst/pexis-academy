@@ -28,8 +28,10 @@ export interface Placement { page: string; anchor: string }
 
 /** The paths whose school subjects the subject pages serve. A Fundamental resource is not among them. */
 export const SUBJECT_PAGE_PATHS: readonly PathId[] = ['ensino-medio', 'vestibulares'];
-/** The path pages with a general section (#materiais or #outras-provas). */
-export const GENERAL_SECTION_PATHS: readonly PathId[] = ['ensino-fundamental', 'vestibulares', 'pre-militar'];
+/** The path pages with a general section (#complementares, #materiais or #outras-provas).
+ * Ensino Médio adds a complementary section only after an approved cross-disciplinary
+ * course is present; the historical subject groups and their destinations remain unchanged. */
+export const GENERAL_SECTION_PATHS: readonly PathId[] = ['ensino-fundamental', 'ensino-medio', 'vestibulares', 'pre-militar'];
 
 const currentStates = (): PathStates => PATH_STATUS;
 

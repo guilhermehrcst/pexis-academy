@@ -7,6 +7,8 @@ import PageIntro from '../../components/PageIntro.astro';
 import SectionNav from '../../components/SectionNav.astro';
 import FeaturedResources from '../../components/FeaturedResources.astro';
 import ObjectiveMap from '../../components/ObjectiveMap.astro';
+import PathResources from '../../components/PathResources.astro';
+import { placedOnPath } from '../../lib/placement';
 import { mapNavItems } from '../../lib/learning-library';
 import { featuredShown } from '../../lib/featured';
 import { pt as t } from '../../i18n/pt';
@@ -16,6 +18,7 @@ const tech = t.objectiveMap.technology;
 const nav = [
   ...(featuredShown('ensino-medio') ? [{ id: 'destaques', label: t.featured.title }] : []),
   ...mapNavItems('ensino-medio', {}, (n) => t.home.objectives.facts(n)),
+  ...(placedOnPath('ensino-medio').length ? [{ id: 'complementares', label: t.pathResources.complementary.title }] : []),
   { id: 'tecnologia', label: tech.title, why: tech.link },
 ];
 ---
@@ -24,4 +27,5 @@ const nav = [
   <SectionNav id="areas-nav" title={t.sectionNav.areas} items={nav} />
   <FeaturedResources path="ensino-medio" />
   <ObjectiveMap path="ensino-medio" />
+  <PathResources path="ensino-medio" id="complementares" title={t.pathResources.complementary.title} why={t.pathResources.complementary.why} />
 </Base>
