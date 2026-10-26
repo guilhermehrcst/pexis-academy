@@ -116,7 +116,7 @@ test('direct-link course cards expose provider conditions before the learner ope
 });
 
 test('newly approved records require explicit access mode even when the course is free', () => {
-  const r = { ...paid, verified: { ...paid.verified!, freeAccess: true,
+  const r = { ...paid, verified: { ...paid.verified!, on: '2026-10-26', freeAccess: true,
     evidence: { ...paid.verified!.evidence!, checked: ['free', 'scope', 'language', 'format', 'path'] } } };
   delete r.accessMode;
   delete r.accessTerms;
@@ -125,9 +125,9 @@ test('newly approved records require explicit access mode even when the course i
   const entry: LotEntry = {
     id: r.id, url: r.url!, digest: digestOf(r), institution: r.provider, format: r.format,
     evidence: { on: r.verified.on, version: 'fixture-v1', method: r.verified.by, url: ev.url, observed: ev.note },
-    decision: 'approved', decidedBy: SIMULATED_BY, decidedOn: '2026-10-12',
+    decision: 'approved', decidedBy: SIMULATED_BY, decidedOn: '2026-10-26',
   };
-  const lot: LotManifest = lotOf('L003-mode-required', [entry]);
+  const lot: LotManifest = lotOf('L003-mode-required', [entry], { createdOn: '2026-10-26', authorization: { by: SIMULATED_BY, on: '2026-10-26' } });
   const attempt = project({ pool: [...POOL, r], lots: [lot], release: releaseOf([lot], inventoryWith([r.id])), now: new Date('2026-10-26T23:59:59Z') });
   assert.match(attempt.problems.join(';'), /new approval requires explicit access mode/);
 });
