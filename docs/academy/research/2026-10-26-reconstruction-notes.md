@@ -42,3 +42,9 @@ Nova verificação não equivale a aprovação humana. Esses registros continuam
 - Coleções e acervos não se transformam automaticamente em cursos individuais.
 
 Esta PR registra dados e prepara staging; **não contém autorização humana**.
+
+## Pacote de revisão editorial exato (nove candidatos)
+
+`docs/academy/research/2026-10-26-l003-exact-nine-review.json` contém ID, URL, título, provedor, modalidade de acesso, evidência direta e **digest SHA-256 de cada registro tipado**, calculado pelo próprio `digestOf` nos testes da CI (run 40332212242). Os testes também prendem a versão estática do pacote ao registro atual e bloqueiam divergências. Status: **não aprovado** e **não autorizado**; não é um manifesto real de lote.
+
+A decisão humana deverá referenciar **este arquivo exato e os nove hashes individuais**, antes de preparar um manifesto de produção, para que alterações posteriores obriguem a nova aprovação.

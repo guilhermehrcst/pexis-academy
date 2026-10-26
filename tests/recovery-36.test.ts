@@ -69,3 +69,22 @@ test('a reviewable nine-item approval queue is pinned to the exact verified stag
   // precise future human-decision packet without pretending the decision exists.
   console.log('PAULEX_RECOVERY36_APPROVAL_QUEUE=' + JSON.stringify(queue));
 });
+
+test('editorial review packet hashes are exact, complete, and do not authorize publication', async () => {
+  const packet = (await import('../docs/academy/research/2026-10-26-l003-exact-nine-review.json', { with: { type: 'json' } })).default;
+  assert.equal(packet.recordCount, 9);
+  assert.equal(packet.approvalBy, null);
+  assert.equal(packet.authorization, null);
+  assert.equal(packet.status, 'awaiting_explicit_human_editorial_approval');
+  const verified = RECOVERY36_STAGING.filter((r) => r.verified);
+  assert.deepEqual(packet.entries.map((entry) => entry.id), verified.map((r) => r.id));
+  for (const entry of packet.entries) {
+    const record = verified.find((r) => r.id === entry.id);
+    assert.ok(record, entry.id);
+    assert.equal(entry.digest, digestOf(record), entry.id);
+    assert.equal(entry.url, record.url, entry.id);
+    assert.equal(entry.evidenceUrl, record.verified!.evidence?.url, entry.id);
+    assert.equal(entry.verifiedOn, record.verified!.on, entry.id);
+    assert.equal(entry.accessMode, record.accessMode, entry.id);
+  }
+});
