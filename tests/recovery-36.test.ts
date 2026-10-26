@@ -6,6 +6,7 @@ import { catalogue, publishedResources, resourceProblems, RELEASE } from '../src
 import { STAGED_RESOURCES } from '../src/lib/staging.ts';
 import { GATEB_NEW_RESOURCES } from '../src/lib/staging-gateb.ts';
 import { MILITARY_L003_CANDIDATES } from '../src/lib/staging-military.ts';
+import { digestOf } from '../src/lib/release/canonical.ts';
 
 const previous = [...catalogue, ...STAGED_RESOURCES, ...GATEB_NEW_RESOURCES, ...MILITARY_L003_CANDIDATES];
 
@@ -50,4 +51,21 @@ test('recovery data cannot mutate baseline, shadow old ids or appear on public p
     assert.ok(!oldUrls.has(r.url), `${r.id}: use existing record, don't duplicate URLs`);
     assert.ok(!publicIds.has(r.id), r.id);
   }
+});
+
+test('a reviewable nine-item approval queue is pinned to the exact verified staging records', () => {
+  const queue = RECOVERY36_STAGING.filter((r) => r.verified).map((r) => ({
+    id: r.id,
+    url: r.url,
+    digest: digestOf(r),
+    provider: r.provider,
+    format: r.format,
+    verifiedOn: r.verified!.on,
+  }));
+  assert.equal(queue.length, 9);
+  assert.equal(new Set(queue.map((e) => e.digest)).size, 9);
+  assert.ok(queue.every((e) => e.digest.startsWith('sha256:')));
+  // Review evidence only, never an approval: this output can be copied into a
+  // precise future human-decision packet without pretending the decision exists.
+  console.log('PAULEX_RECOVERY36_APPROVAL_QUEUE=' + JSON.stringify(queue));
 });
