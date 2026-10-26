@@ -11,6 +11,7 @@ import { projectRelease } from './release/engine.ts';
 import { LOT_MANIFESTS } from './release/lots.ts';
 // Typed candidates: the only records a lot may resolve an id to. Importing them publishes nothing.
 import { STAGED_RESOURCES } from './staging.ts';
+import { BIGTECH_CANDIDATES } from './staging-bigtech.ts';
 import { catalogue, LEGACY_VERIFIED, LEGACY_VERIFIED_IDS, legacyVerified, VERIFIED_ON } from './catalogue-records.ts';
 
 export { catalogue, LEGACY_VERIFIED, LEGACY_VERIFIED_IDS, legacyVerified, VERIFIED_ON };
@@ -206,7 +207,7 @@ if (new Set(catalogue.map((resource) => resource.id)).size !== catalogue.length)
  *  Any mismatch between a record and its decision fails the build (src/lib/release/engine.ts). */
 export const RELEASE = projectRelease({
   catalogue,
-  pool: [...STAGED_RESOURCES, ...GATEB_NEW_RESOURCES, ...MILITARY_L003_CANDIDATES],
+  pool: [...STAGED_RESOURCES, ...GATEB_NEW_RESOURCES, ...MILITARY_L003_CANDIDATES, ...BIGTECH_CANDIDATES],
   baseline: RELEASE_BASELINE,
   lots: LOT_MANIFESTS,
   release: RELEASE_MANIFEST,
