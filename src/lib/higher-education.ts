@@ -4,7 +4,7 @@
 // No asset imports: this module runs under Node's test runner.
 import { publishedResources, type LearningResource, type PublishedLearningResource } from './learning-resources.ts';
 
-export type HigherEducationGroupId = 'matematica' | 'computacao' | 'fisica' | 'biologia' | 'psicologia' | 'economia' | 'meio-ambiente';
+export type HigherEducationGroupId = 'matematica' | 'computacao' | 'fisica' | 'quimica' | 'biologia' | 'psicologia' | 'economia' | 'meio-ambiente';
 
 export interface HigherEducationGroup {
   id: HigherEducationGroupId;
@@ -35,6 +35,12 @@ export const HIGHER_EDUCATION_GROUP_PLAN: readonly HigherEducationGroup[] = [
     label: 'Física',
     why: 'Mecânica clássica e fundamentos de Física em aulas universitárias abertas.',
     resourceIds: ['mit-801sc'],
+  },
+  {
+    id: 'quimica',
+    label: 'Química',
+    why: 'Aulas e materiais de Química universitária publicados por instituições de ensino.',
+    resourceIds: ['research-int-002'],
   },
   {
     id: 'biologia',

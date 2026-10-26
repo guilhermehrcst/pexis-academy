@@ -34,6 +34,13 @@ export const GATEB_TECH_TRACK_ASSIGNMENTS: Readonly<Record<string, TechTrackId>>
   'odin-foundations': 'desenvolvimento-web',
   'google-mlcc': 'inteligencia-artificial',
   'ms-learn-cloud-concepts': 'computacao-em-nuvem',
+  // Future publication candidates: inert until the approved lot actually projects them.
+  'research-tec-016': 'python',
+  'research-tec-038': 'desenvolvimento-web',
+  'research-tec-040': 'inteligencia-artificial',
+  'research-tec-041': 'inteligencia-artificial',
+  'research-tec-049': 'comecar-a-programar',
+  'research-tec-054': 'desenvolvimento-web',
 };
 
 /** Pure resolver shared by production and the private pre-release placement simulation.

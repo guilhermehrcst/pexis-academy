@@ -417,6 +417,7 @@ export const pt: Dict = {
   pathResources: {
     other: { title: 'Outras provas e materiais', why: 'Provas anteriores e materiais de outros vestibulares, publicados pelas próprias instituições e conferidos na fonte.' },
     general: { title: 'Recursos', why: 'Materiais gratuitos para este caminho, conferidos na página de quem os publica.' },
+    complementary: { title: 'Cursos complementares', why: 'Outros cursos relacionados ao Ensino Médio, verificados diretamente no site da instituição que os oferece.' },
     stages: { 'anos-iniciais': 'Anos iniciais (1º ao 5º ano)', 'anos-finais': 'Anos finais (6º ao 9º ano)', none: 'Outros materiais' },
   },
   featured: {
