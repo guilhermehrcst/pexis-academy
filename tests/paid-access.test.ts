@@ -116,15 +116,15 @@ test('direct-link course cards expose provider conditions before the learner ope
 });
 
 test('newly approved records require explicit access mode even when the course is free', () => {
-  const r = { ...paid, verified: { ...paid.verified!, on: '2026-10-26', freeAccess: true,
+  const r: LearningResource = { ...paid, verified: { ...paid.verified!, on: '2026-10-26', freeAccess: true,
     evidence: { ...paid.verified!.evidence!, checked: ['free', 'scope', 'language', 'format', 'path'] } } };
   delete r.accessMode;
   delete r.accessTerms;
   delete r.price;
-  const ev = r.verified.evidence!;
+  const ev = r.verified!.evidence!;
   const entry: LotEntry = {
     id: r.id, url: r.url!, digest: digestOf(r), institution: r.provider, format: r.format,
-    evidence: { on: r.verified.on, version: 'fixture-v1', method: r.verified.by, url: ev.url, observed: ev.note },
+    evidence: { on: r.verified!.on, version: 'fixture-v1', method: r.verified!.by, url: ev.url, observed: ev.note },
     decision: 'approved', decidedBy: SIMULATED_BY, decidedOn: '2026-10-26',
   };
   const lot: LotManifest = lotOf('L003-mode-required', [entry], { createdOn: '2026-10-26', authorization: { by: SIMULATED_BY, on: '2026-10-26' } });
