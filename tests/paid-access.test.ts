@@ -62,7 +62,7 @@ test('paid and conditional access require visible terms and source evidence', ()
   delete conditional.price;
   assert.deepEqual(resourceProblems(conditional, NOW), []);
   assert.equal(isPublishedResource(conditional), true);
-  assert.equal(priceDisplay(conditional, pt.resource), 'Acesso com condições');
+  assert.equal(priceDisplay(conditional, pt.resource), 'Acesso gratuito com condições');
 });
 
 test('a paid course still needs an individually approved applied release lot', () => {
@@ -113,6 +113,23 @@ test('direct-link course cards expose provider conditions before the learner ope
     assert.match(template, /data-access-terms/);
     assert.match(template, /r\.accessTerms\?\.trim\(\)/);
   }
+});
+
+test('newly approved records require explicit access mode even when the course is free', () => {
+  const r = { ...paid, verified: { ...paid.verified!, freeAccess: true,
+    evidence: { ...paid.verified!.evidence!, checked: ['free', 'scope', 'language', 'format', 'path'] } } };
+  delete r.accessMode;
+  delete r.accessTerms;
+  delete r.price;
+  const ev = r.verified.evidence!;
+  const entry: LotEntry = {
+    id: r.id, url: r.url!, digest: digestOf(r), institution: r.provider, format: r.format,
+    evidence: { on: r.verified.on, version: 'fixture-v1', method: r.verified.by, url: ev.url, observed: ev.note },
+    decision: 'approved', decidedBy: SIMULATED_BY, decidedOn: '2026-10-12',
+  };
+  const lot: LotManifest = lotOf('L003-mode-required', [entry]);
+  const attempt = project({ pool: [...POOL, r], lots: [lot], release: releaseOf([lot], inventoryWith([r.id])) });
+  assert.match(attempt.problems.join(';'), /new approval requires explicit access mode/);
 });
 
 test('unknown prices stay omitted while the payment model and terms remain visible', () => {

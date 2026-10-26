@@ -17,7 +17,7 @@ const c = pt.home.curation;
 
 test('the heading and line: the owner\'s once a company has a published course; until then, what is true', () => {
   assert.equal(s.heading, 'Conheça as fontes dos nossos cursos');
-  assert.equal(s.lead, 'Explore cursos de diferentes instituições, com acesso gratuito ou pago informado no catálogo.');
+  assert.equal(s.lead, 'Explore cursos de diferentes instituições e consulte as condições de acesso de cada opção.');
   // None of the six has a published course today, so "the sources of our courses" would be false: the page says it is checking.
   assert.equal(s.pending.heading, 'Fontes que estamos conferindo');
   assert.match(s.pending.lead, /^Estamos avaliando cursos gratuitos e pagos de empresas de tecnologia\. Eles entram no catálogo após a verificação/);

@@ -472,6 +472,11 @@ export const projectRelease = (input: ReleaseInput): Projection => {
     if (r.verified?.evidence?.url !== entry.evidence.url) found.push(`${at}: approved evidence at ${entry.evidence.url}, the record's is at ${String(r.verified?.evidence?.url)}`);
     if (r.verified?.evidence?.note !== entry.evidence.observed) found.push(`${at}: the approved observation is not the record's evidence note`);
     if (!publishes) return found;
+    // Baseline releases L001/L002 predate accessMode. New approvals must declare it, even
+    // for a free offer: an omitted mode must not silently become "Gratuito".
+    if (r.accessMode === undefined && lot.lot !== 'L001-plano-b' && lot.lot !== 'L002-ita-pre-militar') {
+      found.push(`${at}: new approval requires explicit access mode`);
+    }
     if (catalogueIds.has(r.id) && !(r.id in baseline.records)) found.push(`${at}: a held catalogue record is published only by moving it to the pool`);
     const host = r.url ? new URL(r.url).hostname : '';
     if (!baselineHosts.has(`${host} ${entry.institution}`) && !lot.hosts.some((h) => h.host === host && h.institution === entry.institution)) {
