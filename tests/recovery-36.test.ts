@@ -24,11 +24,18 @@ test('typed staging preserves the 25 compatible routes and keeps 11 new-category
   const allowed = new Set(intake.candidates.map((r) => r.researchId.toLowerCase()));
   for (const r of RECOVERY36_STAGING) {
     assert.ok(allowed.has(r.id.replace(/^research-/, '')), r.id);
-    assert.equal(r.verified, undefined, 'research labels are not independent publication verification');
+    if (r.verified) {
+      assert.equal(r.verified.on, '2026-10-26', r.id);
+      assert.equal(r.verified.by, 'official-page', r.id);
+      assert.equal(r.verified.evidence?.url, r.url, r.id);
+      assert.ok(r.verified.evidence?.note.trim(), r.id);
+    }
     assert.deepEqual(resourceProblems(r, new Date('2026-10-26T23:59:59Z')), [], r.id);
     assert.ok(r.accessMode && r.accessMode !== 'unconfirmed', r.id);
     assert.ok(r.review?.includes('Ainda sem revalidação'), r.id);
   }
+  assert.equal(RECOVERY36_STAGING.filter((r) => r.verified !== undefined).length, 9);
+  assert.equal(RECOVERY36_STAGING.filter((r) => r.verified === undefined).length, 16);
 });
 
 test('recovery data cannot mutate baseline, shadow old ids or appear on public pages', () => {
