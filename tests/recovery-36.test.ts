@@ -32,7 +32,8 @@ test('typed staging preserves the 25 compatible routes and keeps 11 new-category
     }
     assert.deepEqual(resourceProblems(r, new Date('2026-10-26T23:59:59Z')), [], r.id);
     assert.ok(r.accessMode && r.accessMode !== 'unconfirmed', r.id);
-    assert.ok(r.review?.includes('Ainda sem revalidação'), r.id);
+    if (r.verified) assert.ok(r.review?.includes('Página oficial revalidada'), r.id);
+    else assert.ok(r.review?.includes('Ainda sem revalidação'), r.id);
   }
   assert.equal(RECOVERY36_STAGING.filter((r) => r.verified !== undefined).length, 9);
   assert.equal(RECOVERY36_STAGING.filter((r) => r.verified === undefined).length, 16);

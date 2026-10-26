@@ -97,7 +97,7 @@ url: "https://www.ev.org.br/cursos/educacao-financeira",
 accessMode: "free",
 registration: "required",
 certificate: 'unconfirmed',
-review: "Pesquisa Claude 24/10/2026, ID BR1-014. Ainda sem revalidação independente para publicação. Checar acesso na fonte, certificado e eventuais requisitos.",
+review: "Pesquisa Claude 24/10/2026, ID BR1-014. Página oficial revalidada em 26/10/2026; aguardando aprovação editorial e teste funcional de acesso. Checar acesso na fonte, certificado e eventuais requisitos.",
     verified: { on: '2026-10-26', by: 'official-page', freeAccess: true, evidence: { url: "https://www.ev.org.br/cursos/educacao-financeira", checked: ["free","scope","language","format","path","registration"], note: "Fonte oficial Escola Virtual/Fundação Bradesco: Educação Financeira, 4h, iniciante, quatro módulos, gratuito; matrícula usa conta e requer idade mínima de 14 anos. Não testada sessão autenticada." } },
     duration: {"value":4,"unit":"hours"}
   },
@@ -114,7 +114,7 @@ url: "https://www.comvest.unicamp.br/vestibulares-anteriores/1a-fase-2a-fase-com
 accessMode: "free",
 registration: 'unconfirmed',
 certificate: 'unconfirmed',
-review: "Pesquisa Claude 24/10/2026, ID BR1-016. Ainda sem revalidação independente para publicação. Checar acesso na fonte, certificado e eventuais requisitos.",
+review: "Pesquisa Claude 24/10/2026, ID BR1-016. Página oficial revalidada em 26/10/2026; aguardando aprovação editorial e teste funcional de acesso. Checar acesso na fonte, certificado e eventuais requisitos.",
     verified: { on: '2026-10-26', by: 'official-page', freeAccess: true, evidence: { url: "https://www.comvest.unicamp.br/vestibulares-anteriores/1a-fase-2a-fase-comentadas/", checked: ["free","scope","language","format","path"], note: "Fonte oficial COMVEST/Unicamp Provas Comentadas por Ano: arquivos públicos de 2026 e anos anteriores, 1ª e 2ª fases. Acervo de provas, não curso; PDFs completos não amostrados." } }
   },
   {
@@ -130,7 +130,7 @@ url: "https://ocw.mit.edu/courses/5-111sc-principles-of-chemical-science-fall-20
 accessMode: "free",
 registration: "not-required",
 certificate: "none",
-review: "Pesquisa Claude 24/10/2026, ID INT-002. Ainda sem revalidação independente para publicação. Checar acesso na fonte, certificado e eventuais requisitos.",
+review: "Pesquisa Claude 24/10/2026, ID INT-002. Página oficial revalidada em 26/10/2026; aguardando aprovação editorial e teste funcional de acesso. Checar acesso na fonte, certificado e eventuais requisitos.",
     verified: { on: '2026-10-26', by: 'official-page', freeAccess: true, evidence: { url: "https://ocw.mit.edu/courses/5-111sc-principles-of-chemical-science-fall-2014/", checked: ["free","scope","language","format","path","registration","certificate"], note: "MIT OCW 5.111SC Principles of Chemical Science (Fall 2014): curso universitário com unidades, videoaulas, provas e download. A política OCW /about/ informa acesso livre, sem cadastro e sem certificado." } }
   },
   {
@@ -221,7 +221,7 @@ url: "https://www.cursoemvideo.com/curso/python-3-mundo-1/",
 accessMode: "free",
 registration: "required",
 certificate: 'unconfirmed',
-review: "Pesquisa Claude 24/10/2026, ID TEC-016. Ainda sem revalidação independente para publicação. Checar acesso na fonte, certificado e eventuais requisitos.",
+review: "Pesquisa Claude 24/10/2026, ID TEC-016. Página oficial revalidada em 26/10/2026; aguardando aprovação editorial e teste funcional de acesso. Checar acesso na fonte, certificado e eventuais requisitos.",
     verified: { on: '2026-10-26', by: 'official-page', freeAccess: true, evidence: { url: "https://www.cursoemvideo.com/curso/python-3-mundo-1/", checked: ["free","scope","language","format","path","registration"], note: "Curso em Vídeo Python 3 Mundo 1: página oficial informa Preço Grátis, 40 horas e login para se inscrever. Em português; cobrança por certificado não revalidada." } },
     duration: {"value":40,"unit":"hours"}
   },
@@ -253,7 +253,7 @@ url: "https://www.theodinproject.com/paths/full-stack-javascript",
 accessMode: "free",
 registration: 'unconfirmed',
 certificate: 'unconfirmed',
-review: "Pesquisa Claude 24/10/2026, ID TEC-038. Ainda sem revalidação independente para publicação. Checar acesso na fonte, certificado e eventuais requisitos.",
+review: "Pesquisa Claude 24/10/2026, ID TEC-038. Página oficial revalidada em 26/10/2026; aguardando aprovação editorial e teste funcional de acesso. Checar acesso na fonte, certificado e eventuais requisitos.",
     verified: { on: '2026-10-26', by: 'official-page', freeAccess: true, evidence: { url: "https://www.theodinproject.com/paths/full-stack-javascript", checked: ["free","scope","language","format","path"], note: "The Odin Project Full Stack JavaScript é trilha com lições e projetos; a própria página oficial oferece Start learning for free now. Registro não afirma matrícula nem certificado." } }
   },
   {
@@ -269,7 +269,7 @@ url: "https://huggingface.co/learn/llm-course/chapter1/1",
 accessMode: "free",
 registration: 'unconfirmed',
 certificate: 'unconfirmed',
-review: "Pesquisa Claude 24/10/2026, ID TEC-040. Ainda sem revalidação independente para publicação. Checar acesso na fonte, certificado e eventuais requisitos.",
+review: "Pesquisa Claude 24/10/2026, ID TEC-040. Página oficial revalidada em 26/10/2026; aguardando aprovação editorial e teste funcional de acesso. Checar acesso na fonte, certificado e eventuais requisitos.",
     verified: { on: '2026-10-26', by: 'official-page', freeAccess: true, evidence: { url: "https://huggingface.co/learn/llm-course/chapter1/1", checked: ["free","scope","language","format","path"], note: "Hugging Face LLM Course, em inglês, com Transformer models, fine-tuning, exercícios; a introdução declara curso completamente gratuito e sem anúncios. Exame visível, condições de certificado não verificadas." } }
   },
   {
@@ -285,7 +285,7 @@ url: "https://huggingface.co/learn/agents-course/unit0/introduction",
 accessMode: "free",
 registration: "required",
 certificate: "available",
-review: "Pesquisa Claude 24/10/2026, ID TEC-041. Ainda sem revalidação independente para publicação. Checar acesso na fonte, certificado e eventuais requisitos.",
+review: "Pesquisa Claude 24/10/2026, ID TEC-041. Página oficial revalidada em 26/10/2026; aguardando aprovação editorial e teste funcional de acesso. Checar acesso na fonte, certificado e eventuais requisitos.",
     verified: { on: '2026-10-26', by: 'official-page', freeAccess: true, evidence: { url: "https://huggingface.co/learn/agents-course/unit0/introduction", checked: ["free","scope","language","format","path","registration","certificate"], note: "Hugging Face AI Agents Course, em inglês: unidade inicial descreve curso e certificados gratuitos, aulas e exercícios; uma conta gratuita Hugging Face é necessária para práticas. Inscrição e projeto final não executados." } }
   },
   {
@@ -301,7 +301,7 @@ url: "https://www.rocketseat.com.br/discover",
 accessMode: "free",
 registration: 'unconfirmed',
 certificate: "available",
-review: "Pesquisa Claude 24/10/2026, ID TEC-049. Ainda sem revalidação independente para publicação. Cadastro obrigatório (provável, não confirmado)",
+review: "Pesquisa Claude 24/10/2026, ID TEC-049. Página oficial revalidada em 26/10/2026; aguardando aprovação editorial e teste funcional de acesso. Cadastro obrigatório (provável, não confirmado)",
     verified: { on: '2026-10-26', by: 'official-page', freeAccess: true, evidence: { url: "https://www.rocketseat.com.br/discover", checked: ["free","scope","language","format","path","certificate"], note: "Rocketseat Discover: página oficial declara curso 100% gratuito, iniciante, 6 horas e com certificado; apresenta HTML, CSS, JavaScript e IA. Início leva ao app sem teste autenticado." } },
     duration: {"value":6,"unit":"hours"}
   },
@@ -318,7 +318,7 @@ url: "https://www.cursoemvideo.com/curso/html5-css3-modulo1/",
 accessMode: "free",
 registration: "required",
 certificate: "available",
-review: "Pesquisa Claude 24/10/2026, ID TEC-054. Ainda sem revalidação independente para publicação. Checar acesso na fonte, certificado e eventuais requisitos.",
+review: "Pesquisa Claude 24/10/2026, ID TEC-054. Página oficial revalidada em 26/10/2026; aguardando aprovação editorial e teste funcional de acesso. Checar acesso na fonte, certificado e eventuais requisitos.",
     verified: { on: '2026-10-26', by: 'official-page', freeAccess: true, evidence: { url: "https://www.cursoemvideo.com/curso/html5-css3-modulo1/", checked: ["free","scope","language","format","path","registration","certificate"], note: "Curso em Vídeo HTML5 e CSS3 Módulo 1: página oficial informa estudo gratuito, 40 horas, vídeo e PDF, login para acesso; certificado opcional mediante compra de crédito." } },
     duration: {"value":40,"unit":"hours"}
   },
