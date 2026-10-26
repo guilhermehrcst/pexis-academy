@@ -148,12 +148,8 @@ export interface Dict {
       count: (resources: number, page: string) => string;
       /** An institution whose courses span pages: every area, in catalogue order. */
       countAreas: (resources: number, areas: readonly string[]) => string;
-      exams: string;
-      examLinks: { enem: string; uerj: string };
       /** What the heading and the line say while none of the companies in the row has a published course. */
       pending: { heading: string; lead: string };
-      /** Whose the names and marks are, and that showing a mark is no tie with the Paulex Edu. */
-      note: string;
     };
     /** swipe: the visible cue under a sideways row (phone, tablet), so the row never depends on a hidden gesture. */
     courses: { eyebrow: string; heading: string; lead: string; all: string; swipe: string };

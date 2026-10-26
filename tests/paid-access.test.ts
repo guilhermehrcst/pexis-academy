@@ -1,7 +1,8 @@
 import { test } from 'node:test';
+import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
 
-import { isPublishedResource, resourceProblems, type LearningResource } from '../src/lib/learning-resources.ts';
+import { isPublishedResource, resourceProblems, publishedResources, verificationProblems, type LearningResource } from '../src/lib/learning-resources.ts';
 import type { LotEntry, LotManifest } from '../src/lib/release/engine.ts';
 import { digestOf } from '../src/lib/release/canonical.ts';
 import { priceDisplay, resourceDisplayFacts } from '../src/lib/resource-display.ts';
@@ -61,6 +62,7 @@ test('paid and conditional access require visible terms and source evidence', ()
   delete conditional.price;
   assert.deepEqual(resourceProblems(conditional, NOW), []);
   assert.equal(isPublishedResource(conditional), true);
+  assert.equal(priceDisplay(conditional, pt.resource), 'Acesso com condições');
 });
 
 test('a paid course still needs an individually approved applied release lot', () => {
@@ -90,4 +92,31 @@ test('a paid course still needs an individually approved applied release lot', (
   const changed = pool.map((r) => r.id === paid.id ? { ...paid, price: { value: 120, currency: 'USD' as const, cadence: 'once' as const } } : r);
   const mismatch = project({ pool: changed, lots: [lot], release: releaseOf([lot], inventoryWith([paid.id])) });
   assert.match(mismatch.problems.join(';'), /record changed after its approval/);
+});
+
+
+test('changing a legacy free course to a paid model requires fresh individual evidence', () => {
+  const legacy = publishedResources.find((r) => r.id === 'cs50x')!;
+  const changed = { ...legacy, accessMode: 'paid' as const, accessTerms: 'Pagamento único no provedor.',
+    verified: { ...legacy.verified, freeAccess: false } };
+  assert.match(verificationProblems(changed, NOW).join(';'), /no individual evidence/);
+});
+
+test('a subscription quote needs a verified billing period; one-time courses cannot show recurring prices', () => {
+  assert.match(resourceProblems({ ...paid, accessMode: 'subscription' }, NOW).join(';'), /subscription price needs a billing period/);
+  assert.match(resourceProblems({ ...paid, price: { value: 90, currency: 'USD', cadence: 'month' } }, NOW).join(';'), /recurring price requires subscription or conditional access/);
+});
+
+test('direct-link course cards expose provider conditions before the learner opens the source', () => {
+  for (const name of ['CourseCard', 'HomeCourseFeature']) {
+    const template = readFileSync(new URL(`../src/components/${name}.astro`, import.meta.url), 'utf8');
+    assert.match(template, /data-access-terms/);
+    assert.match(template, /r\.accessTerms\?\.trim\(\)/);
+  }
+});
+
+test('unknown prices stay omitted while the payment model and terms remain visible', () => {
+  const { price, ...withoutPrice } = paid;
+  assert.equal(priceDisplay(withoutPrice, pt.resource), 'Pago');
+  assert.deepEqual(resourceDisplayFacts(withoutPrice, pt.resource).access, ['Pago', paid.accessTerms]);
 });

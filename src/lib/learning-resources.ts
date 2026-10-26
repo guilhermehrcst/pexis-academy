@@ -74,7 +74,8 @@ export interface VerificationEvidence {
 export interface ResourceVerification {
   on: string;
   by: VerificationMethod;
-  /** Whether the course content itself can be studied for free. False requires verified paid/subscription access. */
+  /** True for verified free study (possibly limited when accessMode is conditional).
+   * False requires verified paid/subscription access; certificate fees are separate. */
   freeAccess: boolean;
   evidence?: VerificationEvidence;
 }
@@ -149,11 +150,15 @@ const isDate = (on: string): boolean => {
  *  (VERIFICATION_METHODS: never a search index). Registration and certificate
  *  are always stated, never left unknown by omission. */
 export const verificationProblems = (
-  r: Pick<LearningResource, 'id' | 'url' | 'accessMode'> & { verified?: ResourceVerification | undefined; registration?: LearningRegistrationId | undefined; certificate?: LearningCertificateId | undefined },
+  r: Pick<LearningResource, 'id' | 'url' | 'accessMode' | 'accessTerms' | 'price'> & { verified?: ResourceVerification | undefined; registration?: LearningRegistrationId | undefined; certificate?: LearningCertificateId | undefined },
   now: Date = new Date(),
 ): string[] => {
   if (!r.verified) return [];
-  if (r.url !== null && LEGACY_VERIFIED[r.id] === r.url && r.verified.on === VERIFIED_ON && r.verified.by === 'official-page' && !r.verified.evidence) return [];
+  if (
+    (r.accessMode === undefined || r.accessMode === 'free') && r.verified.freeAccess === true &&
+    !r.accessTerms && !r.price && r.url !== null && LEGACY_VERIFIED[r.id] === r.url &&
+    r.verified.on === VERIFIED_ON && r.verified.by === 'official-page' && !r.verified.evidence
+  ) return [];
   const problems: string[] = [];
   // The method arrives as data: refuse a missing, unknown or indirect one, whatever the type says.
   const by: unknown = r.verified.by;
@@ -213,6 +218,8 @@ export const resourceProblems = (resource: LearningResource, now: Date = new Dat
     if (!Number.isFinite(resource.price.value) || resource.price.value <= 0) fail('price must be a positive amount');
     if (!['BRL', 'USD', 'EUR'].includes(resource.price.currency)) fail('unsupported price currency');
     if (resource.price.cadence && !['once', 'month', 'year'].includes(resource.price.cadence)) fail('unsupported billing cadence');
+    if (resource.accessMode === 'subscription' && !['month', 'year'].includes(resource.price.cadence ?? '')) fail('subscription price needs a billing period');
+    if (resource.accessMode === 'paid' && resource.price.cadence && resource.price.cadence !== 'once') fail('recurring price requires subscription or conditional access');
   }
   if (resource.verified && !isPublishedResource(resource)) fail('has inconsistent verified access (free, paid or subscription)');
   if (!resource.url && !resource.review?.trim()) fail('is held back without a review note');

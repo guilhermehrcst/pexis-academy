@@ -62,7 +62,9 @@ test('the marks are the supplied files, untouched, and their geometry is the one
     assert.match(providers, new RegExp(`  ${brand.id}: \\[marks\\.${brand.id}\\],`), `${brand.id} is in brandMarks`);
   }
   // Apart from providerMarks on purpose: the course cards and avatars do not use them yet.
-  const providerBlock = providers.slice(providers.indexOf('export const providerMarks'), providers.indexOf('/** The marks of the Home'));
+  const start = providers.indexOf('export const providerMarks');
+  const providerBlock = providers.slice(start, providers.indexOf('\n};', start));
+  assert.ok(providerBlock.includes("'Harvard University': [marks.harvard]"), 'the block under test is providerMarks, not an empty slice');
   for (const brand of HOME_BRANDS) assert.doesNotMatch(providerBlock, new RegExp(`marks\\.${brand.id}\\b`));
   // What is not known stays recorded as not known, until the owner confirms it.
   assert.equal(manifest.provenance.status, 'owner-supplied-origin-unverified');

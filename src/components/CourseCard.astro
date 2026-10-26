@@ -40,6 +40,7 @@ const facts = [
       </Heading>
       <p class="by" translate="no">{r.provider}</p>
       <p class="facts">{facts.join(' · ')}</p>
+      {r.accessTerms?.trim() && <p class="facts" data-access-terms>{r.accessTerms.trim()}</p>}
     </div>
   </div>
 </li>

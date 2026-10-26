@@ -102,10 +102,10 @@ export const pt: Dict = {
     },
     materias: {
       title: 'Explorar | Paulex Edu',
-      description: 'Os seis caminhos da Paulex Edu e todas as matérias, por área: de Matemática a Idiomas e Tecnologia, com recursos gratuitos e verificados.',
+      description: 'Os seis caminhos da Paulex Edu e todas as matérias, por área: de Matemática a Idiomas e Tecnologia, com recursos e condições de acesso verificados.',
       eyebrow: 'Explorar',
       heading: 'Explorar',
-      lead: 'Comece por um caminho ou vá direto a uma matéria. Tudo com recursos gratuitos e verificados na fonte.',
+      lead: 'Comece por um caminho ou vá direto a uma matéria. Consulte as condições de acesso de cada recurso, conferidas na fonte.',
     },
     cursos: {
       title: 'Cursos | Paulex Edu',
@@ -123,7 +123,7 @@ export const pt: Dict = {
     },
     buscar: {
       title: 'Buscar | Paulex Edu',
-      description: 'Encontre objetivos, áreas, matérias, trilhas e recursos gratuitos da Paulex Edu em um índice completo e pesquisável.',
+      description: 'Encontre objetivos, áreas, matérias, trilhas e recursos da Paulex Edu em um índice completo e pesquisável.',
       heading: 'Buscar',
       lead: 'Tudo o que a Paulex Edu organiza, reunido num só índice.',
     },
@@ -359,11 +359,8 @@ export const pt: Dict = {
         heading: 'Fontes que estamos conferindo',
         lead: 'Estamos avaliando cursos gratuitos e pagos de empresas de tecnologia. Eles entram no catálogo após a verificação da fonte e das condições de acesso.',
       },
-      note: 'Os nomes e as marcas pertencem às respectivas empresas, e a presença de um logotipo não significa vínculo com a Paulex Edu.',
       count: (resources, page) => `${resources} ${resources === 1 ? 'curso' : 'cursos'} em ${page}`,
       countAreas: (resources, areas) => `${resources} ${resources === 1 ? 'curso' : 'cursos'} em ${areas.length > 1 ? `${areas.slice(0, -1).join(', ')} e ${areas.at(-1)}` : areas[0]}`,
-      exams: 'Para as provas, a fonte é quem as aplica:',
-      examLinks: { enem: 'INEP, no guia do ENEM', uerj: 'Vestibular Estadual UERJ, no guia da UERJ' },
     },
     courses: {
       eyebrow: 'Cursos em destaque',
@@ -500,7 +497,7 @@ export const pt: Dict = {
   resource: {
     openSource: 'Abrir na fonte',
     accessLabel: 'Acesso',
-    accessModes: { free: 'Gratuito', paid: 'Pago', subscription: 'Assinatura', conditional: 'Acesso gratuito com condições', unconfirmed: 'Acesso a confirmar' },
+    accessModes: { free: 'Gratuito', paid: 'Pago', subscription: 'Assinatura', conditional: 'Acesso com condições', unconfirmed: 'Acesso a confirmar' },
     formats: { course: 'Curso', track: 'Trilha', playlist: 'Playlist', lessons: 'Aulas', lesson: 'Aula', practice: 'Prática', 'past-exam': 'Prova anterior', simulator: 'Simulado', reference: 'Material de referência' },
     languages: { pt: 'Em português', en: 'Em inglês', es: 'Em espanhol' },
     registration: { required: 'Conta necessária no provedor', 'not-required': 'Sem cadastro' },
